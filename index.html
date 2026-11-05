@@ -50,11 +50,15 @@ body[data-tab="zuurdesem"]{--accent:var(--a-zd)}
 body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 
 /* Hero */
-.hero{position:relative;height:320px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 30%,#fffaf0 0%,#fbecd3 55%,#f4dcb6 100%)}
+.hero{position:relative;overflow:hidden;background:var(--bg)}
 .hero::before{content:"";position:absolute;left:50%;top:170px;width:300px;height:30px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(140,90,40,.28),transparent 70%)}
-.art{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:min(94vw,440px);height:238px;display:flex;align-items:center;justify-content:center}
-.art img{max-width:100%;max-height:100%;object-fit:contain;display:block;animation:artIn .45s ease both}
-@keyframes artIn{from{opacity:.001;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+.art{position:relative;height:clamp(230px,58vw,400px);background:#e9d6b8}
+.art img{width:100%;height:100%;object-fit:cover;display:block;animation:artIn .5s ease both}
+.art[data-tab="pizza"] img{object-position:42% 78%}
+.art[data-tab="bolletjes"] img{object-position:62% 55%}
+.art[data-tab="zuurdesem"] img{object-position:45% 45%}
+.art[data-tab="stokbrood"] img{object-position:58% 60%}
+@keyframes artIn{from{opacity:.001}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.art img{animation:none}}
 .mode{max-width:620px;margin:0 auto;padding-block:.8rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .mode .label{display:block;text-align:center;margin-bottom:.35rem}
@@ -66,8 +70,8 @@ body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 .switch button[aria-pressed="true"]{color:var(--bg);font-weight:500}
 .switch button:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:999px}
 @media (prefers-reduced-motion:reduce){.switch::before{transition:none}}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(252,249,243,.92) 82%,var(--bg) 100%)}
-.hero-text{position:absolute;left:0;right:0;bottom:0;text-align:center;padding-block:0 1.4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--hero-ink)}
+.hero-shade{position:absolute;left:0;right:0;top:0;height:clamp(230px,58vw,400px);background:linear-gradient(to bottom,transparent 72%,var(--bg) 100%);pointer-events:none}
+.hero-text{position:relative;margin-top:-1.4rem;text-align:center;padding-block:0 .4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--hero-ink)}
 .stripes{display:none}
 @media (max-width:420px){.tabs a{font-size:.84rem}}
 .stripes i{width:4px;height:24px;border-radius:2px}
@@ -225,7 +229,7 @@ footer a{color:inherit}
     pizza:{count:3,method:'snel',eat:'18:30'},
     bolletjes:{count:10,size:125,liq:'room',eat:'18:00'},
     zuurdesem:{count:1,method:'koel',eat:'12:00'},
-    stokbrood:{count:4,hyd:80,eat:'18:00'}};
+    stokbrood:{count:3,method:'gist',eat:'18:00'}};
   try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){if(s.mode==='bge'||s.mode==='oven')state.mode=s.mode;['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
   function save(){try{localStorage.setItem('bakboek',JSON.stringify(state))}catch(e){}}
 
@@ -348,47 +352,70 @@ footer a{color:inherit}
   };
 
   R.stokbrood={
-    title:'Frans <em>Stokbrood</em>', sub:'Poolish · krokante korst · stoom', stripes:['#3b5ba5','#f6efe0','#c8433a'],
+    title:'Frans <em>Stokbrood</em>', sub:'Krokante korst · open kruim · stoom', stripes:['#3b5ba5','#f6efe0','#c8433a'],
     cTitle:'Aantal stokbroden', min:1, max:12,
-    unit:function(st){return (st.count===1?'baguette':'baguettes')+' van ±345 g · '+(K()?'±30 cm voor de steen':'max 45 cm')},
-    toggles:[{key:'hyd',num:true,opts:[[80,'Origineel','80% vocht · open kruim'],[72,'Makkelijker','72% · beter te vormen']]}],
+    unit:function(st){return (st.count===1?'baguette':'baguettes')+' van ±'+(st.method==='zd'?300:320)+' g · ±30 cm voor je pizzasteen'},
+    toggles:[{key:'method',opts:[['gist','Met gist','1 dag · 85% vocht'],['zd','Zuurdesem','2 dagen · 74% vocht']]}],
     planQ:'Wanneer wil je eten?',
     calc:function(st){
-      var n=st.count, d1=function(x){return Math.round(x*10)/10};
-      var pF=95*n, pW=76*n, pY=d1(0.75*n);
-      var mF=95*n, mW=Math.round(190*n*st.hyd/100)-pW, salt=Math.round(3*n), mY=d1(0.375*n);
-      var per=K()?2:3, batches=Math.ceil(n/per), bake=25*batches;
-      var rows=[['grp','Poolish · avond ervoor'],['Tarwebloem',pF+' g','bakkersbloem of patentbloem'],['Water',pW+' g','kamertemperatuur'],['Instant droge gist',pY+' g',''],
-        ['grp','Hoofddeeg · bakdag'],['Tarwebloem',mF+' g',''],['Water',mW+' g',''],['Zout',salt+' g','zeezout'],['Instant droge gist',mY+' g',''],
-        ['grp','Nodig'],K()?['Plantenspuit','met water','']:['Ovenschaal of bakblik','voor de stoom',''],['Scheermesje of lame','om in te snijden','']];
-      var steps=[
-        ['Poolish','10 min + 1 uur','Roer <b>'+pF+' g bloem</b>, <b>'+pW+' g water</b> en <b>'+pY+' g gist</b> tot een dik beslag. Dek af, laat 1 uur op het aanrecht staan en zet het daarna 10 tot 17 uur in de koelkast.','De poolish geeft de typische nootachtige smaak van een echte baguette.'],
-        ['Mengen','10 min','Roer de <b>'+mW+' g water</b> door de koude poolish. Voeg <b>'+mF+' g bloem</b>, <b>'+salt+' g zout</b> en <b>'+mY+' g gist</b> toe en meng tot een ruwe, klonterige massa. Niet kneden. Dek af en laat 10 minuten rusten.'],
-        ['Vouwen','± 3 uur','Rek en vouw het deeg 2 minuten op het werkblad en leg het in een licht ingevette kom. Daarna vouw je het nog 4 keer, elke 45 minuten: trek het deeg uit tot een lap en vouw het in drieën, als een brief. De eerste keer doe je dit twee keer achter elkaar.',st.hyd===80?'Het deeg is nat en plakkerig, dat hoort zo. Met natte handen gaat het vouwen het makkelijkst.':'Met 72% vocht is het deeg steviger. De kruim wordt iets minder open, maar vormen gaat een stuk makkelijker.'],
-        ['Delen & voorvormen','25 min','Laat het deeg 10 minuten rusten op het werkblad. Verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+' van ±345 g</b>. Rek elk stuk tot een rechthoek en rol het losjes op. Laat ze 15 minuten afgedekt rusten.','Weeg de stukken af, dan worden ze even dik en even snel gaar.'],
-        ['Vormen','25 min narijzen','Druk een stuk licht plat. Vouw een derde van de lange kant naar binnen en druk aan. Herhaal dit nog twee keer en rol het daarna met platte handen uit tot een stokbrood met puntige uiteinden, <b>'+(K()?'±30 cm, zodat het op de steen past':'maximaal 45 cm')+'</b>. Leg ze in een bebloemde linnen doek met plooien ertussen en laat ze 25 minuten narijzen.','Vingertest: druk er met een bebloemde vinger in. Komt het gat half terug, dan is het goed.'],
-        ['Insnijden & bakken','25 min'+(batches>1?' per ronde':''),'Snijd elk stokbrood met een scherp mesje in, schuin onder een hoek van ±30° in de lengte. Houd de sneden in het middelste derde en laat ze een derde overlappen. '+(K()?'Besproei ze met de plantenspuit, schuif ze op bakpapier op de pizzasteen en sluit de deksel. Bak <b>20–25 minuten op 240°C</b>.':'Schuif ze in de oven, giet <b>een halve kop heet water</b> in de hete bak en sluit de deur. Bak <b>25 minuten op 240°C</b>.')+(batches>1?' Bak in <b>'+batches+' rondes</b> van maximaal '+per+'.':''),K()?'Kijk na 18 minuten. Op de steen bakt de onderkant sneller.':'Zet de deur de laatste 5 minuten op een kier, dan wordt de korst extra krokant.']];
-      var blocks=[['Poolish maken',10],['Poolish rijzen op het aanrecht',60],['Poolish in de koelkast',720],['Hoofddeeg mengen + rust',10],['Vouwen & rijzen',192],['Delen & voorvormen',25],['Vormen & narijzen',25],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',30]];
-      return {rows:rows,total:'Totaal deeg <b>± '+(345*n).toLocaleString('nl-NL')+' g</b></span><span>'+(K()?'Rondes op de steen':'Ovenrondes')+' <b>'+batches+' × (max '+per+')</b>',flour:pF+mF,steps:steps,blocks:blocks,
-        marks:[K()?['Kamado aansteken + steen opwarmen',-(30+bake+60)]:['Oven + stoombak voorverwarmen',-(30+bake+45)]],
-        foot:'Naar het recept voor <a href="https://www.weekendbakery.com/posts/recipe-for-80-hydration-baguette/" target="_blank" rel="noopener">80% hydration baguette</a> van Weekend Bakery · basis 4 baguettes'};
+      var n=st.count, f=n/3, zd=st.method==='zd', r1=function(x){return Math.round(x)};
+      var per=K()?2:3, batches=Math.ceil(n/per), bake=20*batches;
+      var rows, steps, blocks, marks, total;
+      var bakeStep=K()
+        ?['Insnijden & bakken','± 20 min'+(batches>1?' per ronde':''),'Zet de baguettes met de naad naar beneden op bakpapier op je schep. Snijd elk stokbrood in met één snelle, zekere snede onder <b>45°</b> over de lengte. Besproei ze met de plantenspuit, schuif ze op de pizzasteen en sluit de deksel. Bak <b>± 20 minuten op 240–250°C</b>.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van '+per+'.':''),'Kijk na 16 minuten. Op de steen bakt de onderkant sneller.']
+        :['Insnijden & bakken','20 min'+(batches>1?' per ronde':''),'Zet de baguettes met de naad naar beneden op bakpapier op je schep. Snijd elk stokbrood in met één snelle, zekere snede onder <b>45°</b> over de lengte. Schuif ze op de steen en giet direct <b>¾ kop kokend water</b> in de hete pan. Bak <b>10 minuten op 250°C</b> met stoom. Open de deur even om de stoom te laten ontsnappen, zet de oven op <b>230°C</b> en bak nog ±10 minuten tot ze mooi bruin zijn.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van '+per+'.':''),'Is het deeg zacht? Zet de baguettes eerst 15 minuten in de koelkast, dan snijd je ze makkelijker in.'];
+      var shape=['Vormen & narijzen',zd?'1 uur':'45 min','Leg een stuk met de onderkant naar boven en druk het plat tot een lange rechthoek. Vouw de bovenkant ⅔ naar beneden en druk stevig aan, draai 180° en herhaal. Duw het midden met je duim naar binnen, vouw het dubbel en sluit de naad met de zijkant van je hand. Rol vanuit het midden naar buiten tot <b>±30 cm</b> met taps toelopende uiteinden, met zo min mogelijk bloem. Leg ze met de naad naar beneden in de bestoven doek, met plooien als steun, en laat ze '+(zd?'1 uur':'±45 minuten')+' narijzen.','Vingertest: druk zacht met je vinger in het deeg. Blijft er een lichte deuk die langzaam terugveert, dan is het klaar.'];
+      if(!zd){
+        var fl=r1(515*f), w1=r1(350*f), w2=r1(10*f), w3=r1(80*f), salt=r1(10*f), y=Math.round(3*f*10)/10;
+        rows=[['grp','Deeg'],['Broodbloem',fl+' g','eiwitrijke bloem, bv. Manitoba'],['Water',(w1+w2+w3)+' g','verdeeld: '+w1+' + '+w2+' + '+w3+' g'],['Zout',salt+' g',''],['Instant droge gist',y+' g',''],
+          ['grp','Nodig'],['Bloem + rijstbloem','50/50, voor de doek',''],K()?['Plantenspuit','met water','']:['Gietijzeren pan','of lavastenen, voor de stoom','']];
+        steps=[
+          ['Autolyse','1 uur','Meng <b>'+fl+' g bloem</b> met <b>'+w1+' g water</b> tot er geen droge bloem meer over is. Dek af en laat 1 uur rusten.','Is je keuken warm? Zet de kom dan in de koelkast.'],
+          ['Mengen & kneden','± 10 min','Voeg <b>'+salt+' g zout</b>, <b>'+y+' g gist</b> en <b>'+w2+' g water</b> toe en meng met de deeghaak op een lage stand. Zet de KitchenAid hoger en voeg de laatste <b>'+w3+' g water</b> scheutje voor scheutje toe. Wacht steeds tot het is opgenomen. Kneed door tot het deeg glad en sterk is.','Vliestest: rek een stukje deeg uit. Kun je er licht doorheen kijken zonder dat het scheurt, dan is het goed.'],
+          ['Rijzen & vouwen','1 uur','Leg het deeg in een licht ingevette kom en laat het 30 minuten rijzen. Rek en vouw het één keer rondom, keer het om met de vouwkant naar beneden en laat het nog 30 minuten rusten.','Het deeg is erg plakkerig, dat hoort zo bij 85% vocht. Voeg geen extra bloem toe, werk met een schraper.'],
+          ['Delen & voorvormen','20 min rust','Bestuif de doek met de bloem en rijstbloem. Keer het deeg op het werkblad, druk het gelijkmatig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw de bovenkant ⅔ naar beneden en de onderkant ⅔ omhoog, vouw het dicht en sluit de naad. Laat ze 20 minuten afgedekt rusten.'],
+          shape, bakeStep];
+        blocks=[['Autolyse',60],['Mengen & kneden',15],['Rijzen & vouwen',60],['Delen & voorvormen',25],['Vormen & narijzen',50],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
+        total='Totaal deeg <b>± '+r1(968*f).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>85%</b>';
+      }else{
+        var fl2=r1(450*f), wa=r1(270*f), wb=r1(45*f), salt2=r1(9*f), lev=r1(135*f), feed=r1(55*f);
+        rows=[['grp','Levain · 4–5 uur vooraf'],['Starter',feed+' g','actief'],['Bloem',feed+' g',''],['Water',feed+' g',''],
+          ['grp','Deeg'],['Broodbloem of T65',fl2+' g',''],['Water',(wa+wb)+' g','koud, verdeeld: '+wa+' + '+wb+' g'],['Actieve levain',lev+' g','op zijn piek'],['Zout',salt2+' g',''],
+          ['grp','Nodig'],['Bloem + rijstbloem','50/50, voor de doek',''],K()?['Plantenspuit','met water','']:['Gietijzeren pan','of lavastenen, voor de stoom','']];
+        steps=[
+          ['Levain','4–5 uur','Voed je starter 1:1:1: <b>'+feed+' g starter, '+feed+' g bloem en '+feed+' g water</b>. Laat hem op kamertemperatuur op zijn piek komen: bol, vol bubbels en licht zuur van geur.','Plan het zo dat de levain piekt ongeveer 1 uur nadat je de autolyse hebt gemaakt.'],
+          ['Autolyse','1 uur','Meng <b>'+fl2+' g bloem</b> met <b>'+wa+' g koud water</b> tot er geen droge bloem meer is. Dek af en laat 1 uur rusten.'],
+          ['Mengen & kneden','± 10 min','Voeg <b>'+lev+' g levain</b> en <b>'+salt2+' g zout</b> toe. Kneed 5 minuten op een lage stand en 2 minuten op de middelste stand. Voeg de laatste <b>'+wb+' g water</b> in ±2 minuten toe. Kneed door tot het deeg glad is en de vliestest slaagt.','Mik op een deegtemperatuur van ±24°C. Dan klopt de rijstijd hieronder.'],
+          ['Bulkrijs','3–3,5 uur','Leg het deeg in een licht ingevette, rechthoekige bak, gladde kant boven. Rek en vouw het na 1,5 uur één keer. Het deeg is klaar als het ±20% gerezen is, met bubbels aan de zijkant en bovenop. Het hoeft niet te verdubbelen.'],
+          ['Koude rijs','15–17 uur','Zet de bak afgedekt in de koelkast. De lange koude rijs geeft de diepe smaak.'],
+          ['Delen & voorvormen','30 + 30 min','Laat het deeg 30 minuten op het aanrecht staan. Bestuif de doek met de bloem en rijstbloem. Keer het deeg om, druk het voorzichtig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw ze als een brief en sluit de naad. Laat ze 30 minuten afgedekt rusten.'],
+          shape, bakeStep];
+        blocks=[['Levain voeden',270],['Autolyse',60],['Mengen & kneden',15],['Bulkrijs',195],['Koude rijs (koelkast)',960],['Op het aanrecht',30],['Delen & voorvormen',40],['Vormen & narijzen',70],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
+        total='Totaal deeg <b>± '+r1(909*f).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>74%</b>';
+      }
+      marks=[K()?['Kamado aansteken + steen opwarmen',-(25+bake+60)]:['Oven + steen + pan voorverwarmen op 260°C',-(25+bake+60)]];
+      return {rows:rows,total:total+'</span><span>Rondes <b>'+batches+' × (max '+per+')</b>',flour:zd?r1(450*f):r1(515*f),steps:steps,blocks:blocks,marks:marks,
+        foot:'Naar Erin\'s Cozy Kitchen: <a href="'+(zd?'https://erinscozykitchen.com/recipe/sourdough-baguettes/':'https://erinscozykitchen.com/recipe/french-baguettes/')+'" target="_blank" rel="noopener">'+(zd?'Sourdough Baguettes':'French Baguettes')+'</a> · basis 3 baguettes'};
     },
-    oven:function(st){if(K())return HEAD()+BGE('240°','20–25','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 18 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;
-      var b=Math.ceil(st.count/3);return HEAD()+'<h4>Met stoom</h4><div class="oven"><div><strong>240°</strong><span>boven/onder</span></div><div><strong>25</strong><span>minuten</span></div><div><strong>½ kop</strong><span>heet water</span></div></div>'+
-      '<div class="tip a">Zet een metalen bak of ovenschaal onderin vóór je gaat voorverwarmen. Verwarm minstens 45 minuten voor, met de bakplaat of steen al in de oven.</div>'+
-      '<div class="tip">De stoom houdt de buitenkant zacht. Daardoor kan het brood flink rijzen en gaan de sneden mooi open. Pas op voor de hete damp als je het water erin giet.</div>'+
-      (b>1?'<div class="tip">'+b+' ovenrondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+
-      STONE('Leg de steen op het middelste rooster en verwarm hem 45 minuten mee, met de stoombak eronder. Schuif de baguettes op bakpapier op de steen. Je steen is rond, dus maak de baguettes ±30 cm of leg ze schuin.')+CARE;},
-    extra:function(){return '<div class="label">Geen linnen doek?</div><h2>Zo houd je ze in vorm</h2>'+
-      '<p>Een bakkersdoek (couche) zorgt dat de baguettes tijdens het narijzen niet uitzakken. Thuis werkt een <b>stevige, schone theedoek</b> ook. Bestuif hem goed met bloem en maak tussen elk stokbrood een plooi als steuntje.</p>'+
-      '<div class="tip">Leg de baguettes met de naad naar boven in de doek. Rol ze vlak voor het bakken voorzichtig op een plank en dan met de naad naar beneden op de bakplaat.</div>';}
+    oven:function(st){if(K())return HEAD()+BGE('250°','± 20','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 16 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;
+      var b=Math.ceil(st.count/3);return HEAD()+'<h4>Op de steen, met stoom</h4><div class="oven"><div><strong>250°</strong><span>10 min stoom</span></div><div><strong>230°</strong><span>nog ±10 min</span></div><div><strong>¾ kop</strong><span>kokend water</span></div></div>'+
+      '<div class="tip a">Verwarm de oven voor op <b>260°C</b>, met de pizzasteen op het middelste rooster en een gietijzeren pan of bak met lavastenen onderin. Hoe langer je voorverwarmt, hoe krokanter de korst.</div>'+
+      '<div class="tip">Heteluchtoven? Zet hem uit vlak voordat je de baguettes erin schuift, anders hardt de ventilator de korst te snel uit. Giet het water erin en bak 8 minuten met de oven uit. Open de deur even, zet de oven weer aan op 250°C en bak nog ±10 minuten.</div>'+
+      (b>1?'<div class="tip">'+b+' rondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+CARE;},
+    extra:function(){return '<div class="label">Tips van Erin</div><h2>Als het niet lukt</h2>'+
+      '<ol class="plain"><li><b>Kruim te dicht:</b> te kort gerezen of te weinig gekneed. Doe de vliestest en vergeet het vouwen niet.</li>'+
+      '<li><b>Kruim ongelijk:</b> meestal het vormen. Druk overal even hard en laat beide uiteinden even taps toelopen.</li>'+
+      '<li><b>Korst niet krokant:</b> te weinig stoom of de oven niet heet genoeg. Verwarm langer voor en zorg dat er in de eerste minuten echt stoom is.</li>'+
+      '<li><b>Deeg scheurt bij vormen:</b> te koud of te strak. Laat het een paar minuten langer rusten.</li></ol>'+
+      '<div class="tip">Een linnen doek met plooien houdt de baguettes in vorm. Bestuif hem met half bloem, half rijstbloem: rijstbloem plakt niet.</div>'+
+      '<div class="tip a"><b>Bewaren:</b> het lekkerst op de dag zelf, de korst wordt \'s nachts zacht. Vries afgekoelde baguettes tot 1 maand in een luchtdichte zak. Opwarmen: zonder ontdooien 10–12 minuten op 180°C.</div>';}
   };
 
   /* ---------- Hero art ---------- */
-  var ALT={pizza:'Napolitaanse pizza met tomaat, mozzarella en basilicum',bolletjes:'Drie witte bolletjes met sesam en maanzaad',zuurdesem:'Zuurdesembrood met een opengesprongen snede',stokbrood:'Twee Franse stokbroden'};
+  var ALT={pizza:'Napolitaanse pizza margherita op een terras aan de Amalfikust',bolletjes:'Mandje met witte bolletjes in een bakkerij',zuurdesem:'Zuurdesembrood met een snee op een houten plank',stokbrood:'Franse stokbroden op een houten tafel bij het raam'};
   function art(tab){
     var el=$('art'); if(el.dataset.tab===tab)return; el.dataset.tab=tab;
-    el.innerHTML='<img src="img/'+tab+'.webp" alt="'+ALT[tab]+'" width="700" height="450" decoding="async">';
+    el.innerHTML='<img src="img/'+tab+'.webp" alt="'+ALT[tab]+'" width="1400" height="782" decoding="async">';
   }
   ['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(t){var i=new Image();i.src='img/'+t+'.webp'});
 
