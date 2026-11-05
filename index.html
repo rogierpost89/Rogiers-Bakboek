@@ -228,6 +228,11 @@ footer a{color:inherit}
   /* ---------- Recepten ---------- */
   var R={};
 
+  var CARE='<div class="tip a">Leg de steen altijd koud in de oven of BGE en warm hem mee op. Een koude steen in een hete oven kan barsten. Giet nooit water op de steen.</div>';
+  var STONE=function(t){return '<h4>Met de pizzasteen in de oven</h4><p>'+t+'</p>'};
+  var BGE=function(temp,time,what,tips){return '<h4>Big Green Egg (kamado), op de pizzasteen</h4><div class="oven"><div><strong>'+temp+'</strong><span>deksel-thermometer</span></div><div><strong>'+time+'</strong><span>minuten</span></div><div><strong>indirect</strong><span>convEGGtor</span></div></div>'+
+    '<ol class="plain"><li>Plaats de <b>convEGGtor</b> (indirecte plaat) onderin</li><li>Leg het <b>rooster</b> erop</li><li>Leg de <b>pizzasteen</b> op het rooster en stook op tot '+temp+'C. Laat de temperatuur 20–30 minuten stabiel worden.</li><li>'+what+'</li></ol>'+(tips?'<div class="tip">'+tips+'</div>':'')};
+
   R.pizza={
     title:'Pizza<em> deeg</em>', sub:'Napolitaans · oven of kamado', stripes:['#4a7a5a','#efe7da','#b03a30'],
     cTitle:'Aantal pizzabollen', min:1, max:20,
@@ -258,7 +263,7 @@ footer a{color:inherit}
     },
     oven:function(st){return '<div class="label">Bakken</div><h2>Oven of kamado</h2>'+
       '<h4>Heteluchtoven</h4><div class="oven"><div><strong>250°</strong><span>maximaal</span></div><div><strong>8–10</strong><span>minuten</span></div><div><strong>steen</strong><span>mee opwarmen</span></div></div>'+
-      '<div class="tip">Zet de pizzasteen of bakplaat mee in de koude oven en laat hem minstens 30 minuten opwarmen.</div>'+
+      '<div class="tip">Leg je <b>pizzasteen</b> op het middelste rooster in de koude oven en laat hem minstens 45 minuten mee opwarmen op 250°C. Schuif de pizza met een schep met semola op de steen.</div>'+
       '<h4>Big Green Egg (kamado)</h4><div class="oven"><div><strong>350°</strong><span>stoken tot</span></div><div><strong>± 4</strong><span>minuten</span></div><div><strong>'+st.count+'</strong><span>'+(st.count===1?'pizza':'pizza\'s')+'</span></div></div>'+
       '<ol class="plain"><li>Plaats de <b>convEGGtor</b> (indirecte plaat) onderin</li><li>Leg het <b>rooster</b> erop</li><li>Leg de <b>pizzasteen</b> op het rooster en stook op tot 350°C</li></ol>';}
   };
@@ -293,10 +298,12 @@ footer a{color:inherit}
         blocks:[['Voordeeg maken',35],['Kneden',15],['Eerste rijs',90],['Vormen',15],['Tweede rijs + oven voorverwarmen',45],['Bakken'+(trays>1?' ('+trays+' platen)':''),15*trays+5]],marks:[],
         foot:'Naar het recept uit de WhatsApp-groep · basis 10 bolletjes van 125 g'};
     },
-    oven:function(){return '<div class="label">Bakken</div><h2>In de oven</h2><div class="oven"><div><strong>180°</strong><span>boven/onder</span></div><div><strong>12–15</strong><span>minuten</span></div><div><strong>midden</strong><span>richel</span></div></div>'+
+    oven:function(){return '<div class="label">Bakken</div><h2>Oven of BGE</h2><h4>In de oven, op de bakplaat</h4><div class="oven"><div><strong>180°</strong><span>boven/onder</span></div><div><strong>12–15</strong><span>minuten</span></div><div><strong>midden</strong><span>richel</span></div></div>'+
       '<div class="tip a">Rijzen ze in de oven met alleen het lampje aan? Haal ze er dan eerst uit voordat je gaat voorverwarmen.</div>'+
       '<div class="tip">Hetelucht: zet hem op ±170°C. Klaar als ze goudbruin zijn en hol klinken als je op de onderkant tikt. Kijk de eerste keer na 12 minuten.</div>'+
-      '<div class="tip">Meerdere bakplaten? Bak ze één voor één en zet de volgende plaat zolang koel weg, dan rijzen ze niet te ver door.</div>';}
+      '<div class="tip">Meerdere bakplaten? Bak ze één voor één en zet de volgende plaat zolang koel weg, dan rijzen ze niet te ver door.</div>'+
+      STONE('Verwarm de steen 45 minuten mee op 180°C. Laat de bolletjes rijzen op bakpapier en schuif ze met papier en al op de steen, met een plank of je pizzaschep. Ze krijgen meer onderwarmte, dus kijk na 10 minuten of de onderkant niet te donker wordt.')+
+      BGE('190°','15–18','Schuif de bolletjes op bakpapier op de steen en sluit de deksel. Kijk na 10 minuten naar de onderkant.','Op de ronde steen passen minder bolletjes dan op een bakplaat. Reken op een extra ronde en houd de rest zolang koel.')+CARE;}
   };
 
   R.zuurdesem={
@@ -319,12 +326,14 @@ footer a{color:inherit}
       var bake=45*n;
       var blocks=[['Mengen + rust',35],['Vouwen',10],[koel?'Koude rijs (koelkast)':'Rijzen',koel?720:180],['Vormen',10],['Rijzen in rijsmand',90],['Bakken'+(n>1?' ('+n+' broden na elkaar)':''),bake],['Afkoelen',60]];
       return {rows:rows,total:'Totaal deeg <b>± '+(933*n).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
-        marks:[['Starter voeden',-99999],['Oven + pan voorverwarmen',-(bake+60+45)]],
+        marks:[['Starter voeden',-99999],['Oven of BGE + pan voorverwarmen',-(bake+60+45)]],
         foot:'Naar het Allerhande-recept voor <a href="https://www.ah.nl/allerhande/recept/R-R1201850/biologisch-zuurdesembrood-bakken" target="_blank" rel="noopener">biologisch zuurdesembrood</a> · basis 1 brood'};
     },
-    oven:function(st){return '<div class="label">Bakken</div><h2>In de gietijzeren pan</h2><div class="oven"><div><strong>240°</strong><span>voorverwarmd</span></div><div><strong>25</strong><span>min met deksel</span></div><div><strong>15–20</strong><span>min zonder</span></div></div>'+
+    oven:function(st){return '<div class="label">Bakken</div><h2>Pan, steen of BGE</h2><h4>In de oven, in de gietijzeren pan</h4><div class="oven"><div><strong>240°</strong><span>voorverwarmd</span></div><div><strong>25</strong><span>min met deksel</span></div><div><strong>15–20</strong><span>min zonder</span></div></div>'+
       '<div class="tip a">De deksel houdt de stoom vast. Daardoor kan het brood eerst flink rijzen voordat de korst hard wordt.</div>'+
-      '<div class="tip">Gaar als het hol klinkt bij tikken op de onderkant.'+(st.count>1?' Eén pan? Bak de broden na elkaar en laat de volgende zolang in de rijsmand in de koelkast wachten.':'')+'</div>';},
+      '<div class="tip">Gaar als het hol klinkt bij tikken op de onderkant.'+(st.count>1?' Eén pan? Bak de broden na elkaar en laat de volgende zolang in de rijsmand in de koelkast wachten.':'')+'</div>'+
+      STONE('Geen gietijzeren pan? Bak het brood direct op de steen. Verwarm de steen 45 minuten mee op 240°C, met een metalen bakje onderin de oven. Leg het brood op bakpapier op de steen, giet een halve kop heet water in het bakje en bak 20 minuten. Haal het bakje eruit en bak nog 20–25 minuten.')+
+      BGE('230°','40–45','Zet de gietijzeren pan op de steen en laat hem 30 minuten mee opwarmen. Bak 25 minuten met de pandeksel erop en 15–20 minuten zonder, met de BGE-deksel steeds dicht.','Zonder pan kan het ook: leg het brood op bakpapier direct op de steen. De gesloten BGE houdt zelf veel vocht vast.')+CARE;},
     extra:function(){return '<div class="label">Nog geen starter?</div><h2>Zelf een starter maken</h2>'+
       '<p>Dit duurt ongeveer een week. Je hebt volkorenmeel en lauw water nodig.</p>'+
       '<ol class="plain"><li><b>Dag 1:</b> weeg een schone pot en noteer het gewicht. Meng 50 g volkorenmeel met 50 ml lauw water tot een glad papje. Dek losjes af en zet op een warme plek zonder tocht of zon.</li>'+
@@ -356,13 +365,15 @@ footer a{color:inherit}
         ['Insnijden & bakken','25 min'+(batches>1?' per ronde':''),'Snijd elk stokbrood met een scherp mesje in, schuin onder een hoek van ±30° in de lengte. Houd de sneden in het middelste derde en laat ze een derde overlappen. Schuif ze in de oven, giet <b>een halve kop heet water</b> in de hete bak en sluit de deur. Bak <b>25 minuten op 240°C</b>.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van maximaal 3.':''),'Zet de deur de laatste 5 minuten op een kier, dan wordt de korst extra krokant.']];
       var blocks=[['Poolish maken',10],['Poolish rijzen op het aanrecht',60],['Poolish in de koelkast',720],['Hoofddeeg mengen + rust',10],['Vouwen & rijzen',192],['Delen & voorvormen',25],['Vormen & narijzen',25],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',30]];
       return {rows:rows,total:'Totaal deeg <b>± '+(345*n).toLocaleString('nl-NL')+' g</b></span><span>Ovenrondes <b>'+batches+' × (max 3)</b>',flour:pF+mF,steps:steps,blocks:blocks,
-        marks:[['Oven + stoombak voorverwarmen',-(30+bake+45)]],
+        marks:[['Oven of BGE + steen voorverwarmen',-(30+bake+45)]],
         foot:'Naar het recept voor <a href="https://www.weekendbakery.com/posts/recipe-for-80-hydration-baguette/" target="_blank" rel="noopener">80% hydration baguette</a> van Weekend Bakery · basis 4 baguettes'};
     },
-    oven:function(st){var b=Math.ceil(st.count/3);return '<div class="label">Bakken</div><h2>In de oven, met stoom</h2><div class="oven"><div><strong>240°</strong><span>boven/onder</span></div><div><strong>25</strong><span>minuten</span></div><div><strong>½ kop</strong><span>heet water</span></div></div>'+
+    oven:function(st){var b=Math.ceil(st.count/3);return '<div class="label">Bakken</div><h2>Oven of BGE</h2><h4>In de oven, met stoom</h4><div class="oven"><div><strong>240°</strong><span>boven/onder</span></div><div><strong>25</strong><span>minuten</span></div><div><strong>½ kop</strong><span>heet water</span></div></div>'+
       '<div class="tip a">Zet een metalen bak of ovenschaal onderin vóór je gaat voorverwarmen. Verwarm minstens 45 minuten voor, met de bakplaat of steen al in de oven.</div>'+
       '<div class="tip">De stoom houdt de buitenkant zacht. Daardoor kan het brood flink rijzen en gaan de sneden mooi open. Pas op voor de hete damp als je het water erin giet.</div>'+
-      (b>1?'<div class="tip">'+b+' ovenrondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'');},
+      (b>1?'<div class="tip">'+b+' ovenrondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+
+      STONE('Leg de steen op het middelste rooster en verwarm hem 45 minuten mee, met de stoombak eronder. Schuif de baguettes op bakpapier op de steen. Je steen is rond, dus maak de baguettes ±30 cm of leg ze schuin.')+
+      BGE('240°','20–25','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 18 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;},
     extra:function(){return '<div class="label">Geen linnen doek?</div><h2>Zo houd je ze in vorm</h2>'+
       '<p>Een bakkersdoek (couche) zorgt dat de baguettes tijdens het narijzen niet uitzakken. Thuis werkt een <b>stevige, schone theedoek</b> ook. Bestuif hem goed met bloem en maak tussen elk stokbrood een plooi als steuntje.</p>'+
       '<div class="tip">Leg de baguettes met de naad naar boven in de doek. Rol ze vlak voor het bakken voorzichtig op een plank en dan met de naad naar beneden op de bakplaat.</div>';}
