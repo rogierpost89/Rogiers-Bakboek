@@ -12,6 +12,7 @@ Een kleine web-app met mijn favoriete bakrecepten. Kies hoeveel je wilt maken en
 | **Bolletjes** | Zachte witte bolletjes, met melk + slagroom of alleen melk. Klein, normaal of groot. | 10 bolletjes van ± 125 g |
 | **Zuurdesem** | Zuurdesembrood uit de gietijzeren pan, via de koelkast of op dezelfde dag. Inclusief het maken van een starter. | 1 brood van ± 930 g |
 | **Stokbrood** | Frans stokbrood van Erin's Cozy Kitchen: met gist in één dag (85% vocht) of met zuurdesem in twee dagen (74% vocht). Gebakken op de pizzasteen met stoom. | 3 baguettes van ± 320 g |
+| **Koekjes** | Geschulpte fondantkoekjes: botervast deeg zonder bakpoeder, fondant in roze, ivoor, blauw of geel, met of zonder gestempelde tekst. | 20 koekjes van Ø 7 cm |
 
 ## Wat de app doet
 

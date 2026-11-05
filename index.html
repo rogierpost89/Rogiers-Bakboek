@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light only">
-<meta name="description" content="Pizzadeeg, witte bolletjes, zuurdesembrood en Frans stokbrood. Kies je aantal en alle hoeveelheden en tijden rekenen mee.">
+<meta name="description" content="Pizzadeeg, witte bolletjes, zuurdesembrood, Frans stokbrood en fondantkoekjes. Kies je aantal en alle hoeveelheden en tijden rekenen mee.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Rogier's Bakboek">
 <meta property="og:title" content="Rogier's Bakboek">
-<meta property="og:description" content="Pizzadeeg, witte bolletjes, zuurdesembrood en Frans stokbrood. Kies je aantal en alle hoeveelheden en tijden rekenen mee.">
+<meta property="og:description" content="Pizzadeeg, witte bolletjes, zuurdesembrood, Frans stokbrood en fondantkoekjes. Kies je aantal en alle hoeveelheden en tijden rekenen mee.">
 <meta property="og:url" content="https://rogierpost89.github.io/Rogiers-Bakboek/">
 <meta property="og:image" content="https://rogierpost89.github.io/Rogiers-Bakboek/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -32,7 +32,7 @@
   --bg:#fcf9f3; --paper:#fffdf9; --paper-edge:#efe5d3;
   --ink:#2a231c; --muted:#7a6f63;
   --green:#4a7a5a; --green-pale:#d0e4d8;
-  --a-pizza:#b03a30; --a-bol:#b8732c; --a-zd:#7a5230; --a-sb:#9a5a1e;
+  --a-pizza:#b03a30; --a-bol:#b8732c; --a-zd:#7a5230; --a-sb:#9a5a1e; --a-kk:#b8506f;
   --a-pale:#fbecd6;
   --warn-bg:#fbe7dc; --warn-fg:#8a3a1c;
   --hero-ink:#3a2a1c;
@@ -48,6 +48,7 @@ body[data-tab="pizza"]{--accent:var(--a-pizza)}
 body[data-tab="bolletjes"]{--accent:var(--a-bol)}
 body[data-tab="zuurdesem"]{--accent:var(--a-zd)}
 body[data-tab="stokbrood"]{--accent:var(--a-sb)}
+body[data-tab="koekjes"]{--accent:var(--a-kk)}
 
 /* Hero */
 .hero{position:relative;overflow:hidden;background:var(--bg)}
@@ -58,6 +59,7 @@ body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 .art[data-tab="bolletjes"] img{object-position:62% 55%}
 .art[data-tab="zuurdesem"] img{object-position:45% 45%}
 .art[data-tab="stokbrood"] img{object-position:58% 60%}
+.art[data-tab="koekjes"] img{object-position:50% 50%}
 @keyframes artIn{from{opacity:.001}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){.art img{animation:none}}
 .mode{max-width:620px;margin:0 auto;padding-block:.8rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -73,7 +75,7 @@ body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 .hero-shade{position:absolute;left:0;right:0;top:0;height:clamp(230px,58vw,400px);background:linear-gradient(to bottom,transparent 72%,var(--bg) 100%);pointer-events:none}
 .hero-text{position:relative;margin-top:-1.4rem;text-align:center;padding-block:0 .4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--hero-ink)}
 .stripes{display:none}
-@media (max-width:420px){.tabs a{font-size:.84rem}}
+
 .stripes i{width:4px;height:24px;border-radius:2px}
 .brand{display:inline-block;font-family:var(--display);font-style:italic;font-weight:600;font-size:1.3rem;letter-spacing:.02em;color:var(--ink);background:var(--paper);border:1px solid var(--paper-edge);border-radius:999px;padding:.15rem 1rem;margin-bottom:.45rem;box-shadow:0 4px 12px -6px rgba(140,80,30,.35)}
 .hero h1{font-family:var(--display);font-weight:400;font-size:2.5rem;line-height:1.05;margin:0}
@@ -81,7 +83,7 @@ body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 .hero p{margin:.35rem 0 0;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
 /* Tabs */
-.tabs{max-width:620px;margin:-1px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding-block:1rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tabs{max-width:620px;margin:-1px auto 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;padding-block:1rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .tabs a{text-decoration:none;text-align:center;padding:.65rem .15rem;letter-spacing:-.01em;border-radius:6px;border:1px solid var(--paper-edge);color:var(--muted);background:var(--paper);font-size:.92rem;line-height:1.2}
 .tabs a small{display:block;font-size:.72rem;opacity:.85}
 .tabs a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:500}
@@ -146,6 +148,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
 .lang button[aria-pressed="true"]{color:var(--bg)}
 .lang button:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:999px}
 @media (prefers-reduced-motion:reduce){.lang::before{transition:none}}
+@media (max-width:420px){.tabs{gap:4px}.tabs a{font-size:.74rem;padding:.6rem .05rem;letter-spacing:-.02em}.tabs a small{font-size:.62rem}}
 </style>
 
 <style>html,body{margin:0}html{background:#fffaf0}img{max-width:100%}[hidden]{display:none!important}
@@ -171,6 +174,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
   <a href="#bolletjes" data-tab="bolletjes">Bolletjes<small>wit &amp; zacht</small></a>
   <a href="#zuurdesem" data-tab="zuurdesem">Zuurdesem<small>brood</small></a>
   <a href="#stokbrood" data-tab="stokbrood">Stokbrood<small>baguette</small></a>
+  <a href="#koekjes" data-tab="koekjes">Koekjes<small>fondant</small></a>
 </nav>
 
 <div class="mode">
@@ -236,8 +240,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     pizza:{count:3,method:'snel',eat:'18:30'},
     bolletjes:{count:10,size:125,liq:'room',eat:'18:00'},
     zuurdesem:{count:1,method:'koel',eat:'12:00'},
-    stokbrood:{count:3,method:'gist',eat:'18:00'}};
-  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){if(s.mode==='bge'||s.mode==='oven')state.mode=s.mode;if(s.lang==='en'||s.lang==='nl')state.lang=s.lang;['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
+    stokbrood:{count:3,method:'gist',eat:'18:00'},
+    koekjes:{count:20,kleur:'roze',tekst:'ja',eat:'16:00'}};
+  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){if(s.mode==='bge'||s.mode==='oven')state.mode=s.mode;if(s.lang==='en'||s.lang==='nl')state.lang=s.lang;['pizza','bolletjes','zuurdesem','stokbrood','koekjes'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
   function save(){try{localStorage.setItem('bakboek',JSON.stringify(state))}catch(e){}}
 
   /* ---------- Recepten ---------- */
@@ -420,6 +425,50 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       '<div class="tip a"><b>Bewaren:</b> het lekkerst op de dag zelf, de korst wordt \'s nachts zacht. Vries afgekoelde baguettes tot 1 maand in een luchtdichte zak. Opwarmen: zonder ontdooien 10–12 minuten op 180°C.</div>';}
   };
 
+
+  R.koekjes={
+    title:'Fondant<em> Koekjes</em>', sub:'Botervast deeg · fondant · met naam',
+    cTitle:'Aantal koekjes', min:1, max:150,
+    unit:function(st){return (st.count===1?'koekje':'koekjes')+' van Ø 7 cm, geschulpt'},
+    toggles:[{key:'kleur',opts:[['roze','Roze','poederroze'],['ivoor','Ivoor','warm wit'],['blauw','Blauw','lichtblauw'],['geel','Geel','zacht geel']]},
+             {key:'tekst',opts:[['ja','Met tekst','letterstempels'],['nee','Zonder tekst','alleen fondant']]}],
+    planQ:'Wanneer moeten ze klaar zijn?',
+    calc:function(st){
+      var n=st.count, f=n/20, txt=st.tekst==='ja';
+      var KL={roze:'een vleugje roze kleurpasta',ivoor:'een piepklein beetje gele of bruine kleurpasta',blauw:'een vleugje blauwe kleurpasta',geel:'een vleugje gele kleurpasta'};
+      var fond=Math.ceil(n*15*1.25/10)*10, trays=Math.ceil(n/20), flour=Math.round(200*f);
+      var rows=[['grp','Koekjesdeeg'],['Roomboter',Math.round(150*f)+' g','ongezouten, op kamertemperatuur'],['Witte basterdsuiker',Math.round(100*f)+' g',''],['Eidooier',Math.max(1,Math.round(f))+'×',''],['Tarwebloem',flour+' g','plus wat om uit te rollen'],
+        ['grp','Afwerking'],['Fondant',fond+' g','wit, inclusief restjes'],['Kleurpasta',st.kleur==='ivoor'?'heel weinig':'vleugje',{roze:'roze',ivoor:'geel of bruin',blauw:'blauw',geel:'geel'}[st.kleur]],['Eetbare lijm','beetje','of water of abrikozenjam, om te plakken'],['Maïzena of poedersuiker','beetje','om uit te rollen']];
+      if(txt)rows.push(['Letterstempels','1 set','voor de tekst']);
+      rows.push(['Geschulpte uitsteker','Ø 7 cm','voor koekje én fondant']);
+      var steps=[
+        ['Deeg maken','10 min','Kneed <b>'+Math.round(150*f)+' g zachte boter</b>, <b>'+Math.round(100*f)+' g suiker</b>, <b>'+Math.max(1,Math.round(f))+' eidooier'+(Math.round(f)>1?'s':'')+'</b> en <b>'+flour+' g bloem</b> tot een samenhangend deeg. Kneed niet langer dan nodig.','Er zit bewust geen bakpoeder in. Zo rijzen de koekjes niet en blijven ze mooi plat, zodat de fondant er strak op ligt.'],
+        ['Rusten','1 uur','Druk het deeg tot een platte plak, verpak in vershoudfolie en leg het 1 uur in de koelkast.'],
+        ['Uitrollen & uitsteken','20 min','Verwarm de oven voor op <b>175°C</b>. Rol het deeg tussen twee vellen bakpapier uit tot <b>5 mm</b> dik. Steek <b>'+n+' '+(n===1?'koekje':'koekjes')+'</b> uit met de geschulpte uitsteker en leg ze op bakpapier op '+(trays>1?trays+' bakplaten':'een bakplaat')+'. Kneed het restdeeg opnieuw en rol het weer uit.','Leg de uitgestoken koekjes 10 minuten in de koelkast voordat ze de oven in gaan. Dan blijven de schulpjes scherp.'],
+        ['Bakken','12–15 min'+(trays>1?' per plaat':''),'Bak de koekjes tot de randjes net lichtbruin worden. Laat ze daarna <b>helemaal afkoelen</b> op een rooster, minstens 45 minuten.','Fondant op een warm koekje smelt en wordt plakkerig. Wacht echt tot ze koud zijn.'],
+        ['Fondant kleuren & uitrollen','15 min','Kneed de <b>'+fond+' g fondant</b> soepel. Voeg met een tandenstoker <b>'+KL[st.kleur]+'</b> toe en kneed tot de kleur egaal is. Rol de fondant op wat maïzena uit tot <b>3 mm</b> en steek met dezelfde uitsteker de rondjes uit.','Kleur liever te licht dan te donker: fondant kleurt na een uur nog wat bij. Dek de fondant die je niet gebruikt af, anders droogt hij uit.']];
+      if(txt)steps.push(['Tekst stempelen','± 1 min per koekje','Druk de tekst met de letterstempels in de <b>verse, zachte fondant</b>, direct na het uitsteken. Druk recht en gelijkmatig, niet te diep.','Houd het kort: ±14 tekens op de eerste regel en ±22 op de tweede, dan past het mooi op een koekje van 7 cm.']);
+      steps.push(['Plakken & drogen','1–2 uur','Bestrijk elk koekje dun met eetbare lijm, een beetje water of abrikozenjam. Leg de fondant erop en druk hem zacht aan met een vlakke hand. Laat de koekjes 1–2 uur drogen voordat je ze inpakt.','Bewaar ze luchtdicht, koel en droog, tot ±2 weken. Niet in de koelkast: dan gaat de fondant zweten.']);
+      var bake=15*trays+5;
+      var blocks=[['Deeg maken',10],['Deeg rusten (koelkast)',60],['Uitrollen & uitsteken',20],['Bakken'+(trays>1?' ('+trays+' platen)':''),bake],['Afkoelen',45],['Fondant kleuren & uitrollen',15+Math.round(n*0.5)]];
+      if(txt)blocks.push(['Tekst stempelen',Math.round(n*1)]);
+      blocks.push(['Plakken',Math.round(n*0.5)+5],['Laten drogen',90]);
+      var after=blocks.slice(3).reduce(function(a,b){return a+b[1]},0);
+      return {rows:rows,total:'Koekjesdeeg <b>± '+Math.round(450*f).toLocaleString(LOC)+' g</b></span><span>Fondant <b>± '+fond.toLocaleString(LOC)+' g</b>',flour:flour,steps:steps,blocks:blocks,
+        marks:[K()?['Kamado aansteken',-(after+45)]:['Oven voorverwarmen op 175°C',-(after+20)]]};
+    },
+    oven:function(){if(K())return HEAD()+BGE('170°','12–15','Leg de koekjes op bakpapier op een bakplaat, zet die op de steen en sluit de deksel. Kijk na 10 minuten.','Houd de kamado laag, op 160–175°C, met de schuiven bijna dicht. Hij loopt makkelijk op, en koekjes verbranden snel.')+CARE;
+      return HEAD()+'<h4>Op de bakplaat</h4><div class="oven"><div><strong>175°</strong><span>boven/onder</span></div><div><strong>12–15</strong><span>minuten</span></div><div><strong>midden</strong><span>richel</span></div></div>'+
+      '<div class="tip a">Bak tot de randjes net beginnen te kleuren. Bleek in het midden is prima: zo blijven ze boterig en mooi licht onder de fondant.</div>'+
+      '<div class="tip">Hetelucht: zet hem op ±160°C. Bak één plaat tegelijk en leg de volgende zolang in de koelkast.</div>'+
+      STONE('Leg de koekjes op bakpapier op de steen. Ze krijgen meer onderwarmte, dus kijk na 10 minuten of de onderkant niet te donker wordt.')+CARE;},
+    extra:function(){return '<div class="label">Tips &amp; trucs</div><h2>Strak resultaat</h2>'+
+      '<ol class="plain"><li><b>Luchtbelletje in de fondant?</b> Prik het door met een naald en strijk het glad.</li>'+
+      '<li><b>Fondant plakt?</b> Gebruik iets meer maïzena, of laat je handen even afkoelen. Warme handen maken fondant zacht.</li>'+
+      '<li><b>Koekjes lopen uit?</b> Het deeg was te warm. Laat het langer rusten en leg de uitgestoken koekjes vóór het bakken in de koelkast.</li>'+
+      '<li><b>Fondant past niet precies?</b> Steek fondant en koekje met dezelfde uitsteker uit. De fondant krimpt niet, het koekje een klein beetje.</li></ol>'+
+      '<div class="tip">Maak de koekjes gerust een dag van tevoren. Gebakken koekjes zonder fondant blijven luchtdicht bewaard een week goed.</div>';}
+  };
   }
 
   function defEN(R){
@@ -595,6 +644,50 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       '<div class="tip">A pleated linen cloth keeps the baguettes in shape. Dust it with half flour, half rice flour: rice flour doesn\'t stick.</div>'+
       '<div class="tip a"><b>Storing:</b> best on the day itself, the crust softens overnight. Freeze cooled baguettes for up to 1 month in an airtight bag. To reheat: straight from frozen, 10–12 minutes at 180°C.</div>';}
   };
+
+  R.koekjes={
+    title:'Fondant<em> Cookies</em>', sub:'No-spread dough · fondant · personalised',
+    cTitle:'Number of cookies', min:1, max:150,
+    unit:function(st){return (st.count===1?'cookie':'cookies')+' of Ø 7 cm, scalloped'},
+    toggles:[{key:'kleur',opts:[['roze','Pink','powder pink'],['ivoor','Ivory','warm white'],['blauw','Blue','light blue'],['geel','Yellow','soft yellow']]},
+             {key:'tekst',opts:[['ja','With text','letter stamps'],['nee','No text','fondant only']]}],
+    planQ:'When do they need to be ready?',
+    calc:function(st){
+      var n=st.count, f=n/20, txt=st.tekst==='ja';
+      var KL={roze:'a touch of pink gel colour',ivoor:'a tiny amount of yellow or brown gel colour',blauw:'a touch of blue gel colour',geel:'a touch of yellow gel colour'};
+      var fond=Math.ceil(n*15*1.25/10)*10, trays=Math.ceil(n/20), flour=Math.round(200*f);
+      var rows=[['grp','Cookie dough'],['Butter',Math.round(150*f)+' g','unsalted, at room temperature'],['Caster sugar',Math.round(100*f)+' g',''],['Egg yolk',Math.max(1,Math.round(f))+'×',''],['Plain flour',flour+' g','plus extra for rolling'],
+        ['grp','Finishing'],['Fondant',fond+' g','white, including scraps'],['Gel colour',st.kleur==='ivoor'?'very little':'a touch',{roze:'pink',ivoor:'yellow or brown',blauw:'blue',geel:'yellow'}[st.kleur]],['Edible glue','a little','or water or apricot jam, to stick'],['Cornflour or icing sugar','a little','for rolling']];
+      if(txt)rows.push(['Letter stamps','1 set','for the text']);
+      rows.push(['Scalloped cutter','Ø 7 cm','for cookie and fondant']);
+      var steps=[
+        ['Make the dough','10 min','Knead <b>'+Math.round(150*f)+' g soft butter</b>, <b>'+Math.round(100*f)+' g sugar</b>, <b>'+Math.max(1,Math.round(f))+' egg yolk'+(Math.round(f)>1?'s':'')+'</b> and <b>'+flour+' g flour</b> into a smooth dough. Don\'t knead longer than needed.','There\'s deliberately no baking powder. The cookies don\'t rise and stay nice and flat, so the fondant sits neatly on top.'],
+        ['Rest','1 hour','Press the dough into a flat disc, wrap it in cling film and chill for 1 hour.'],
+        ['Roll & cut','20 min','Preheat the oven to <b>175°C</b>. Roll the dough out between two sheets of baking paper to <b>5 mm</b> thick. Cut out <b>'+n+' '+(n===1?'cookie':'cookies')+'</b> with the scalloped cutter and place them on baking paper on '+(trays>1?trays+' baking trays':'a baking tray')+'. Knead the scraps together and roll out again.','Chill the cut cookies for 10 minutes before they go in the oven. That keeps the scallops sharp.'],
+        ['Bake','12–15 min'+(trays>1?' per tray':''),'Bake until the edges just turn light golden. Then let them <b>cool completely</b> on a rack, at least 45 minutes.','Fondant on a warm cookie melts and turns sticky. Really wait until they\'re cold.'],
+        ['Colour & roll the fondant','15 min','Knead the <b>'+fond+' g fondant</b> until supple. Add <b>'+KL[st.kleur]+'</b> with a toothpick and knead until the colour is even. Roll the fondant out on a little cornflour to <b>3 mm</b> and cut circles with the same cutter.','Go lighter rather than darker: fondant deepens a little after an hour. Keep the fondant you\'re not using covered so it doesn\'t dry out.']];
+      if(txt)steps.push(['Stamp the text','± 1 min per cookie','Press the text into the <b>fresh, soft fondant</b> with the letter stamps, right after cutting. Press straight and evenly, not too deep.','Keep it short: ±14 characters on the first line and ±22 on the second fits nicely on a 7 cm cookie.']);
+      steps.push(['Stick & dry','1–2 hours','Brush each cookie thinly with edible glue, a little water or apricot jam. Lay the fondant on top and press gently with a flat hand. Let the cookies dry for 1–2 hours before packing.','Store airtight, cool and dry, for up to ±2 weeks. Not in the fridge: the fondant will sweat.']);
+      var bake=15*trays+5;
+      var blocks=[['Make the dough',10],['Rest the dough (fridge)',60],['Roll & cut',20],['Bake'+(trays>1?' ('+trays+' trays)':''),bake],['Cool',45],['Colour & roll the fondant',15+Math.round(n*0.5)]];
+      if(txt)blocks.push(['Stamp the text',Math.round(n*1)]);
+      blocks.push(['Stick',Math.round(n*0.5)+5],['Let dry',90]);
+      var after=blocks.slice(3).reduce(function(a,b){return a+b[1]},0);
+      return {rows:rows,total:'Cookie dough <b>± '+Math.round(450*f).toLocaleString(LOC)+' g</b></span><span>Fondant <b>± '+fond.toLocaleString(LOC)+' g</b>',flour:flour,steps:steps,blocks:blocks,
+        marks:[K()?['Light the kamado',-(after+45)]:['Preheat the oven to 175°C',-(after+20)]]};
+    },
+    oven:function(){if(K())return HEAD()+BGE('170°','12–15','Put the cookies on baking paper on a baking tray, set it on the stone and close the dome. Check after 10 minutes.','Keep the kamado low, at 160–175°C, with the vents almost closed. It creeps up easily, and cookies burn fast.')+CARE;
+      return HEAD()+'<h4>On a baking tray</h4><div class="oven"><div><strong>175°</strong><span>top/bottom heat</span></div><div><strong>12–15</strong><span>minutes</span></div><div><strong>middle</strong><span>shelf</span></div></div>'+
+      '<div class="tip a">Bake until the edges just start to colour. Pale in the middle is fine: that keeps them buttery and nice and light under the fondant.</div>'+
+      '<div class="tip">Fan oven: set it to ±160°C. Bake one tray at a time and keep the next one in the fridge meanwhile.</div>'+
+      STONE('Put the cookies on baking paper on the stone. They get more heat from below, so check after 10 minutes that the bottoms aren\'t getting too dark.')+CARE;},
+    extra:function(){return '<div class="label">Tips &amp; tricks</div><h2>A clean finish</h2>'+
+      '<ol class="plain"><li><b>Air bubble in the fondant?</b> Prick it with a needle and smooth it over.</li>'+
+      '<li><b>Fondant sticking?</b> Use a little more cornflour, or cool your hands for a moment. Warm hands soften fondant.</li>'+
+      '<li><b>Cookies spreading?</b> The dough was too warm. Rest it longer and chill the cut cookies before baking.</li>'+
+      '<li><b>Fondant doesn\'t fit exactly?</b> Cut fondant and cookie with the same cutter. The fondant doesn\'t shrink, the cookie shrinks slightly.</li></ol>'+
+      '<div class="tip">Feel free to bake the cookies a day ahead. Baked cookies without fondant keep well for a week in an airtight tin.</div>';}
+  };
   }
 
   function setLang(l){R={};(l==='en'?defEN:defNL)(R);}
@@ -602,20 +695,22 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
 
   /* ---------- Hero art ---------- */
   var T={
-    nl:{loc:'nl-NL',nav:'Recepten',tabs:{pizza:['Pizza','deegbollen'],bolletjes:['Bolletjes','wit & zacht'],zuurdesem:['Zuurdesem','brood'],stokbrood:['Stokbrood','baguette']},
+    nl:{loc:'nl-NL',nav:'Recepten',tabs:{pizza:['Pizza','deegbollen'],bolletjes:['Bolletjes','wit & zacht'],zuurdesem:['Zuurdesem','brood'],stokbrood:['Stokbrood','baguette'],koekjes:['Koekjes','fondant']},
       where:'Waar bak je?',oven:['Oven','bakplaat of steen'],bge:['Kamado','Big Green Egg'],how:'Hoeveel maak je?',less:'Eén minder',more:'Eén meer',
       shop:'Boodschappen',ing:'Ingrediënten',back:'Terugrekenen',eatAria:'Tijd dat het klaar moet zijn',method:'Werkwijze',make:'Zo maak je het',langLabel:'Taal',
       warn:function(g){return 'Let op: '+g+' g bloem past niet in één KitchenAid-kom. Maak het deeg in twee porties.'},
       eat:'Smakelijk eten',slice:'Aansnijden',day0:'Op de dag zelf',day1:'De dag ervoor',dayN:function(n){return n+' dagen ervoor'},
       start:function(when,t,h,m){return 'Begin '+when+'om '+t+' (±'+h+' u'+(m?' '+m+' min':'')+')'},
-      alt:{pizza:'Napolitaanse pizza margherita op een terras aan de Amalfikust',bolletjes:'Mandje met witte bolletjes in een bakkerij',zuurdesem:'Zuurdesembrood met een snee op een houten plank',stokbrood:'Franse stokbroden op een houten tafel bij het raam'}},
-    en:{loc:'en-GB',nav:'Recipes',tabs:{pizza:['Pizza','dough balls'],bolletjes:['Rolls','white & soft'],zuurdesem:['Sourdough','loaf'],stokbrood:['Baguette','French']},
+      alt:{pizza:'Napolitaanse pizza margherita op een terras aan de Amalfikust',bolletjes:'Mandje met witte bolletjes in een bakkerij',zuurdesem:'Zuurdesembrood met een snee op een houten plank',stokbrood:'Franse stokbroden op een houten tafel bij het raam',koekjes:'Geschulpte fondantkoekjes in roze, ivoor, blauw en marmer'},
+      ready:'Klaar om in te pakken'},
+    en:{loc:'en-GB',nav:'Recipes',tabs:{pizza:['Pizza','dough balls'],bolletjes:['Rolls','white & soft'],zuurdesem:['Sourdough','loaf'],stokbrood:['Baguette','French'],koekjes:['Cookies','fondant']},
       where:'Where are you baking?',oven:['Oven','tray or stone'],bge:['Kamado','Big Green Egg'],how:'How many?',less:'One fewer',more:'One more',
       shop:'Shopping list',ing:'Ingredients',back:'Plan backwards',eatAria:'Time it needs to be ready',method:'Method',make:'How to make it',langLabel:'Language',
       warn:function(g){return 'Note: '+g+' g of flour won\'t fit in one KitchenAid bowl. Make the dough in two batches.'},
       eat:'Enjoy your meal',slice:'Slice the bread',day0:'On the day',day1:'The day before',dayN:function(n){return n+' days before'},
       start:function(when,t,h,m){return 'Start '+when+'at '+t+' (±'+h+' h'+(m?' '+m+' min':'')+')'},
-      alt:{pizza:'Neapolitan margherita pizza on a terrace on the Amalfi Coast',bolletjes:'Basket of white bread rolls in a bakery',zuurdesem:'Sourdough loaf with a slice on a wooden board',stokbrood:'French baguettes on a wooden table by the window'}}
+      alt:{pizza:'Neapolitan margherita pizza on a terrace on the Amalfi Coast',bolletjes:'Basket of white bread rolls in a bakery',zuurdesem:'Sourdough loaf with a slice on a wooden board',stokbrood:'French baguettes on a wooden table by the window',koekjes:'Scalloped fondant cookies in pink, ivory, blue and marble'},
+      ready:'Ready to pack'}
   };
   var L=function(){return T[state.lang]};
   function applyUI(){
@@ -635,7 +730,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     var el=$('art'); if(el.dataset.tab===tab)return; el.dataset.tab=tab;
     el.innerHTML='<img src="img/'+tab+'.webp" alt="'+L().alt[tab]+'" width="1400" height="782" decoding="async">';
   }
-  ['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(t){var i=new Image();i.src='img/'+t+'.webp'});
+  ['pizza','bolletjes','zuurdesem','stokbrood','koekjes'].forEach(function(t){var i=new Image();i.src='img/'+t+'.webp'});
 
   /* ---------- Render ---------- */
   function render(){
@@ -667,7 +762,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     var start=eat-total;
     out.marks.forEach(function(mk){var m=mk[1]===-99999?start-360:eat+mk[1];items.push({m:m,txt:mk[0],mk:true})});
     items.sort(function(a,b){return a.m-b.m});
-    items.push({m:eat,txt:state.tab==='zuurdesem'?L().slice:L().eat,go:true});
+    items.push({m:eat,txt:state.tab==='zuurdesem'?L().slice:state.tab==='koekjes'?L().ready:L().eat,go:true});
     var fmt=function(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
     var dayName=function(d){return d===0?L().day0:d===-1?L().day1:L().dayN(-d)};
     var dayOf=function(m){return Math.floor(m/1440)};
