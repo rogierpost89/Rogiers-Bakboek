@@ -4,6 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light only">
+<meta name="description" content="Pizzadeeg, witte bolletjes, zuurdesembrood en Frans stokbrood. Kies je aantal en alle hoeveelheden en tijden rekenen mee.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rogier's Bakboek">
+<meta property="og:title" content="Rogier's Bakboek">
+<meta property="og:description" content="Pizzadeeg, witte bolletjes, zuurdesembrood en Frans stokbrood. Kies je aantal en alle hoeveelheden en tijden rekenen mee.">
+<meta property="og:url" content="https://rogierpost89.github.io/Rogiers-Bakboek/">
+<meta property="og:image" content="https://rogierpost89.github.io/Rogiers-Bakboek/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="nl_NL">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Rogier's Bakboek">
@@ -21,7 +32,7 @@
   --bg:#fcf9f3; --paper:#fffdf9; --paper-edge:#efe5d3;
   --ink:#2a231c; --muted:#7a6f63;
   --green:#4a7a5a; --green-pale:#d0e4d8;
-  --a-pizza:#b03a30; --a-bol:#b8732c; --a-zd:#7a5230;
+  --a-pizza:#b03a30; --a-bol:#b8732c; --a-zd:#7a5230; --a-sb:#9a5a1e;
   --a-pale:#fbecd6;
   --warn-bg:#fbe7dc; --warn-fg:#8a3a1c;
   --hero-ink:#3a2a1c;
@@ -36,6 +47,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:3
 body[data-tab="pizza"]{--accent:var(--a-pizza)}
 body[data-tab="bolletjes"]{--accent:var(--a-bol)}
 body[data-tab="zuurdesem"]{--accent:var(--a-zd)}
+body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 
 /* Hero */
 .hero{position:relative;height:300px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 30%,#fffaf0 0%,#fbecd3 55%,#f4dcb6 100%)}
@@ -55,6 +67,10 @@ body[data-tab="zuurdesem"]{--accent:var(--a-zd)}
   box-shadow:0 18px 30px -8px rgba(140,80,30,.35),inset 0 -12px 20px rgba(60,25,5,.35)}
 .loaf::before{content:"";position:absolute;left:30%;top:22%;width:46%;height:24%;border-radius:50%;border-top:9px solid #e8c48f;transform:rotate(-14deg)}
 .loaf::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 25% 60%,rgba(255,255,255,.25) 0 2px,transparent 3px) 0 0/22px 18px;opacity:.7}
+.bag{width:330px;height:66px;margin-top:70px;border-radius:40px/33px;position:relative;transform:rotate(-8deg);
+  background:radial-gradient(ellipse 60% 40% at 45% 30%,rgba(255,236,196,.6),transparent 70%),linear-gradient(180deg,#e2a85c 0%,#c47f36 55%,#94541c 100%);
+  box-shadow:0 18px 26px -10px rgba(140,80,30,.4),inset 0 -8px 12px rgba(90,40,8,.3)}
+.bag i{position:absolute;top:16px;width:46px;height:12px;border-radius:50%;background:linear-gradient(180deg,#f6dcaa,#e8be7c);transform:rotate(-14deg);box-shadow:inset 0 2px 0 rgba(120,60,15,.35)}
 .hero-shade{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(252,249,243,.92) 82%,var(--bg) 100%)}
 .hero-text{position:absolute;left:0;right:0;bottom:0;text-align:center;padding-block:0 1.4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--hero-ink)}
 .stripes{display:flex;justify-content:center;gap:5px;margin-bottom:.7rem}
@@ -65,8 +81,8 @@ body[data-tab="zuurdesem"]{--accent:var(--a-zd)}
 .hero p{margin:.35rem 0 0;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
 /* Tabs */
-.tabs{max-width:620px;margin:-1px auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding-block:1rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.tabs a{text-decoration:none;text-align:center;padding:.7rem .3rem;border-radius:6px;border:1px solid var(--paper-edge);color:var(--muted);background:var(--paper);font-size:.92rem;line-height:1.2}
+.tabs{max-width:620px;margin:-1px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding-block:1rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tabs a{text-decoration:none;text-align:center;padding:.65rem .2rem;overflow-wrap:anywhere;border-radius:6px;border:1px solid var(--paper-edge);color:var(--muted);background:var(--paper);font-size:.92rem;line-height:1.2}
 .tabs a small{display:block;font-size:.72rem;opacity:.85}
 .tabs a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:500}
 .tabs a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -146,6 +162,7 @@ footer a{color:inherit}
   <a href="#pizza" data-tab="pizza">Pizza<small>deegbollen</small></a>
   <a href="#bolletjes" data-tab="bolletjes">Bolletjes<small>wit &amp; zacht</small></a>
   <a href="#zuurdesem" data-tab="zuurdesem">Zuurdesem<small>brood</small></a>
+  <a href="#stokbrood" data-tab="stokbrood">Stokbrood<small>baguette</small></a>
 </nav>
 
 <main class="wrap">
@@ -203,8 +220,9 @@ footer a{color:inherit}
   var state={tab:'pizza',
     pizza:{count:3,method:'snel',eat:'18:30'},
     bolletjes:{count:10,size:125,liq:'room',eat:'18:00'},
-    zuurdesem:{count:1,method:'koel',eat:'12:00'}};
-  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){['pizza','bolletjes','zuurdesem'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
+    zuurdesem:{count:1,method:'koel',eat:'12:00'},
+    stokbrood:{count:4,hyd:80,eat:'18:00'}};
+  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
   function save(){try{localStorage.setItem('bakboek',JSON.stringify(state))}catch(e){}}
 
   /* ---------- Recepten ---------- */
@@ -315,6 +333,41 @@ footer a{color:inherit}
       '<div class="tip">Bak je niet elke week? Bewaar de starter afgedekt in de koelkast en voed hem elke 7 tot 14 dagen. Vul de pot nooit meer dan driekwart, want hij rijst.</div>';}
   };
 
+  R.stokbrood={
+    title:'Frans <em>Stokbrood</em>', sub:'Poolish · krokante korst · stoom', stripes:['#3b5ba5','#f6efe0','#c8433a'],
+    cTitle:'Aantal stokbroden', min:1, max:12,
+    unit:function(st){return (st.count===1?'baguette':'baguettes')+' van ±345 g · max 45 cm'},
+    toggles:[{key:'hyd',num:true,opts:[[80,'Origineel','80% vocht · open kruim'],[72,'Makkelijker','72% · beter te vormen']]}],
+    planQ:'Wanneer wil je eten?',
+    calc:function(st){
+      var n=st.count, d1=function(x){return Math.round(x*10)/10};
+      var pF=95*n, pW=76*n, pY=d1(0.75*n);
+      var mF=95*n, mW=Math.round(190*n*st.hyd/100)-pW, salt=Math.round(3*n), mY=d1(0.375*n);
+      var batches=Math.ceil(n/3), bake=25*batches;
+      var rows=[['grp','Poolish · avond ervoor'],['Tarwebloem',pF+' g','bakkersbloem of patentbloem'],['Water',pW+' g','kamertemperatuur'],['Instant droge gist',pY+' g',''],
+        ['grp','Hoofddeeg · bakdag'],['Tarwebloem',mF+' g',''],['Water',mW+' g',''],['Zout',salt+' g','zeezout'],['Instant droge gist',mY+' g',''],
+        ['grp','Nodig'],['Ovenschaal of bakblik','voor de stoom',''],['Scheermesje of lame','om in te snijden','']];
+      var steps=[
+        ['Poolish','10 min + 1 uur','Roer <b>'+pF+' g bloem</b>, <b>'+pW+' g water</b> en <b>'+pY+' g gist</b> tot een dik beslag. Dek af, laat 1 uur op het aanrecht staan en zet het daarna 10 tot 17 uur in de koelkast.','De poolish geeft de typische nootachtige smaak van een echte baguette.'],
+        ['Mengen','10 min','Roer de <b>'+mW+' g water</b> door de koude poolish. Voeg <b>'+mF+' g bloem</b>, <b>'+salt+' g zout</b> en <b>'+mY+' g gist</b> toe en meng tot een ruwe, klonterige massa. Niet kneden. Dek af en laat 10 minuten rusten.'],
+        ['Vouwen','± 3 uur','Rek en vouw het deeg 2 minuten op het werkblad en leg het in een licht ingevette kom. Daarna vouw je het nog 4 keer, elke 45 minuten: trek het deeg uit tot een lap en vouw het in drieën, als een brief. De eerste keer doe je dit twee keer achter elkaar.',st.hyd===80?'Het deeg is nat en plakkerig, dat hoort zo. Met natte handen gaat het vouwen het makkelijkst.':'Met 72% vocht is het deeg steviger. De kruim wordt iets minder open, maar vormen gaat een stuk makkelijker.'],
+        ['Delen & voorvormen','25 min','Laat het deeg 10 minuten rusten op het werkblad. Verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+' van ±345 g</b>. Rek elk stuk tot een rechthoek en rol het losjes op. Laat ze 15 minuten afgedekt rusten.','Weeg de stukken af, dan worden ze even dik en even snel gaar.'],
+        ['Vormen','25 min narijzen','Druk een stuk licht plat. Vouw een derde van de lange kant naar binnen en druk aan. Herhaal dit nog twee keer en rol het daarna met platte handen uit tot een stokbrood met puntige uiteinden, <b>maximaal 45 cm</b>. Leg ze in een bebloemde linnen doek met plooien ertussen en laat ze 25 minuten narijzen.','Vingertest: druk er met een bebloemde vinger in. Komt het gat half terug, dan is het goed.'],
+        ['Insnijden & bakken','25 min'+(batches>1?' per ronde':''),'Snijd elk stokbrood met een scherp mesje in, schuin onder een hoek van ±30° in de lengte. Houd de sneden in het middelste derde en laat ze een derde overlappen. Schuif ze in de oven, giet <b>een halve kop heet water</b> in de hete bak en sluit de deur. Bak <b>25 minuten op 240°C</b>.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van maximaal 3.':''),'Zet de deur de laatste 5 minuten op een kier, dan wordt de korst extra krokant.']];
+      var blocks=[['Poolish maken',10],['Poolish rijzen op het aanrecht',60],['Poolish in de koelkast',720],['Hoofddeeg mengen + rust',10],['Vouwen & rijzen',192],['Delen & voorvormen',25],['Vormen & narijzen',25],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',30]];
+      return {rows:rows,total:'Totaal deeg <b>± '+(345*n).toLocaleString('nl-NL')+' g</b></span><span>Ovenrondes <b>'+batches+' × (max 3)</b>',flour:pF+mF,steps:steps,blocks:blocks,
+        marks:[['Oven + stoombak voorverwarmen',-(30+bake+45)]],
+        foot:'Naar het recept voor <a href="https://www.weekendbakery.com/posts/recipe-for-80-hydration-baguette/" target="_blank" rel="noopener">80% hydration baguette</a> van Weekend Bakery · basis 4 baguettes'};
+    },
+    oven:function(st){var b=Math.ceil(st.count/3);return '<div class="label">Bakken</div><h2>In de oven, met stoom</h2><div class="oven"><div><strong>240°</strong><span>boven/onder</span></div><div><strong>25</strong><span>minuten</span></div><div><strong>½ kop</strong><span>heet water</span></div></div>'+
+      '<div class="tip a">Zet een metalen bak of ovenschaal onderin vóór je gaat voorverwarmen. Verwarm minstens 45 minuten voor, met de bakplaat of steen al in de oven.</div>'+
+      '<div class="tip">De stoom houdt de buitenkant zacht. Daardoor kan het brood flink rijzen en gaan de sneden mooi open. Pas op voor de hete damp als je het water erin giet.</div>'+
+      (b>1?'<div class="tip">'+b+' ovenrondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'');},
+    extra:function(){return '<div class="label">Geen linnen doek?</div><h2>Zo houd je ze in vorm</h2>'+
+      '<p>Een bakkersdoek (couche) zorgt dat de baguettes tijdens het narijzen niet uitzakken. Thuis werkt een <b>stevige, schone theedoek</b> ook. Bestuif hem goed met bloem en maak tussen elk stokbrood een plooi als steuntje.</p>'+
+      '<div class="tip">Leg de baguettes met de naad naar boven in de doek. Rol ze vlak voor het bakken voorzichtig op een plank en dan met de naad naar beneden op de bakplaat.</div>';}
+  };
+
   /* ---------- Hero art ---------- */
   function art(tab){
     var el=$('art');el.innerHTML='';
@@ -325,6 +378,9 @@ footer a{color:inherit}
     else if(tab==='bolletjes'){var b=document.createElement('div');b.className='bun';
       [[30,20],[45,14],[60,22],[72,15],[38,34],[55,32],[68,36],[48,46],[32,48],[62,50],[78,28],[24,32]].forEach(function(c,i){var s=document.createElement('i');s.className='seed'+(i%3===0?' d':'');s.style.cssText='left:'+c[0]+'%;top:'+c[1]+'%;transform:rotate('+(i*37%180)+'deg)';b.appendChild(s)});
       el.appendChild(b);}
+    else if(tab==='stokbrood'){var g=document.createElement('div');g.className='bag';
+      [60,118,176,234].forEach(function(x){var i=document.createElement('i');i.style.left=x+'px';g.appendChild(i)});
+      el.appendChild(g);}
     else{var l=document.createElement('div');l.className='loaf';el.appendChild(l);}
   }
 
