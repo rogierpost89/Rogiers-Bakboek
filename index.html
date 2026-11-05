@@ -50,30 +50,26 @@ body[data-tab="zuurdesem"]{--accent:var(--a-zd)}
 body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 
 /* Hero */
-.hero{position:relative;height:300px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 30%,#fffaf0 0%,#fbecd3 55%,#f4dcb6 100%)}
+.hero{position:relative;height:320px;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 30%,#fffaf0 0%,#fbecd3 55%,#f4dcb6 100%)}
 .hero::before{content:"";position:absolute;left:50%;top:170px;width:300px;height:30px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(140,90,40,.28),transparent 70%)}
-.art{position:absolute;left:50%;top:34px;transform:translateX(-50%)}
-.bun{width:250px;height:165px;border-radius:50% 50% 44% 44%/62% 62% 38% 38%;position:relative;
-  background:radial-gradient(ellipse 45% 32% at 38% 28%,#ffe2a6 0%,transparent 70%),radial-gradient(ellipse at 50% 30%,#e7a14c 0%,#c9782b 45%,#8e4d18 100%);
-  box-shadow:0 18px 30px -8px rgba(140,80,30,.35),inset 0 -14px 22px rgba(120,60,15,.3)}
-.seed{position:absolute;width:7px;height:4px;border-radius:50%;background:#f7ecd2}
-.seed.d{background:#2b2420}
-.pz{width:210px;height:210px;border-radius:50%;position:relative;margin-top:-10px;
-  background:radial-gradient(circle at 50% 50%,#b53a2a 0 66%,#d9a05a 69%,#e9be7d 78%,#b07038 100%);box-shadow:0 18px 30px -8px rgba(140,80,30,.35)}
-.pz i{position:absolute;border-radius:45%;background:#f6efe0}
-.pz b{position:absolute;width:20px;height:11px;border-radius:0 80% 0 80%;background:#3f7a3c}
-.loaf{width:270px;height:160px;border-radius:50%/56%;position:relative;
-  background:radial-gradient(ellipse 50% 30% at 40% 25%,rgba(255,230,190,.35),transparent 70%),radial-gradient(ellipse at 50% 40%,#b0703a 0%,#7c4a22 60%,#4a2a12 100%);
-  box-shadow:0 18px 30px -8px rgba(140,80,30,.35),inset 0 -12px 20px rgba(60,25,5,.35)}
-.loaf::before{content:"";position:absolute;left:30%;top:22%;width:46%;height:24%;border-radius:50%;border-top:9px solid #e8c48f;transform:rotate(-14deg)}
-.loaf::after{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 25% 60%,rgba(255,255,255,.25) 0 2px,transparent 3px) 0 0/22px 18px;opacity:.7}
-.bag{width:330px;height:66px;margin-top:70px;border-radius:40px/33px;position:relative;transform:rotate(-8deg);
-  background:radial-gradient(ellipse 60% 40% at 45% 30%,rgba(255,236,196,.6),transparent 70%),linear-gradient(180deg,#e2a85c 0%,#c47f36 55%,#94541c 100%);
-  box-shadow:0 18px 26px -10px rgba(140,80,30,.4),inset 0 -8px 12px rgba(90,40,8,.3)}
-.bag i{position:absolute;top:16px;width:46px;height:12px;border-radius:50%;background:linear-gradient(180deg,#f6dcaa,#e8be7c);transform:rotate(-14deg);box-shadow:inset 0 2px 0 rgba(120,60,15,.35)}
+.art{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:min(94vw,440px);height:238px;display:flex;align-items:center;justify-content:center}
+.art img{max-width:100%;max-height:100%;object-fit:contain;display:block;animation:artIn .45s ease both}
+@keyframes artIn{from{opacity:.001;transform:translateY(6px) scale(.98)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.art img{animation:none}}
+.mode{max-width:620px;margin:0 auto;padding-block:.8rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mode .label{display:block;text-align:center;margin-bottom:.35rem}
+.switch{position:relative;display:grid;grid-template-columns:1fr 1fr;background:var(--paper);border:1px solid var(--paper-edge);border-radius:999px;padding:4px;box-shadow:0 4px 14px -8px rgba(140,80,30,.35)}
+.switch::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--accent);transition:transform .28s cubic-bezier(.4,.1,.2,1)}
+.switch[data-mode="bge"]::before{transform:translateX(100%)}
+.switch button{position:relative;z-index:1;border:0;background:none;cursor:pointer;padding:.55rem .4rem;font-family:var(--body);font-size:.95rem;color:var(--muted);line-height:1.2;transition:color .2s}
+.switch button small{display:block;font-size:.72rem;opacity:.85}
+.switch button[aria-pressed="true"]{color:var(--bg);font-weight:500}
+.switch button:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:999px}
+@media (prefers-reduced-motion:reduce){.switch::before{transition:none}}
 .hero-shade{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(252,249,243,.92) 82%,var(--bg) 100%)}
 .hero-text{position:absolute;left:0;right:0;bottom:0;text-align:center;padding-block:0 1.4rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:var(--hero-ink)}
-.stripes{display:flex;justify-content:center;gap:5px;margin-bottom:.7rem}
+.stripes{display:none}
+@media (max-width:420px){.tabs a{font-size:.84rem}}
 .stripes i{width:4px;height:24px;border-radius:2px}
 .brand{display:inline-block;font-family:var(--display);font-style:italic;font-weight:600;font-size:1.3rem;letter-spacing:.02em;color:var(--ink);background:var(--paper);border:1px solid var(--paper-edge);border-radius:999px;padding:.15rem 1rem;margin-bottom:.45rem;box-shadow:0 4px 12px -6px rgba(140,80,30,.35)}
 .hero h1{font-family:var(--display);font-weight:400;font-size:2.5rem;line-height:1.05;margin:0}
@@ -82,7 +78,7 @@ body[data-tab="stokbrood"]{--accent:var(--a-sb)}
 
 /* Tabs */
 .tabs{max-width:620px;margin:-1px auto 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding-block:1rem 0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.tabs a{text-decoration:none;text-align:center;padding:.65rem .2rem;overflow-wrap:anywhere;border-radius:6px;border:1px solid var(--paper-edge);color:var(--muted);background:var(--paper);font-size:.92rem;line-height:1.2}
+.tabs a{text-decoration:none;text-align:center;padding:.65rem .15rem;letter-spacing:-.01em;border-radius:6px;border:1px solid var(--paper-edge);color:var(--muted);background:var(--paper);font-size:.92rem;line-height:1.2}
 .tabs a small{display:block;font-size:.72rem;opacity:.85}
 .tabs a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:500}
 .tabs a:focus-visible{outline:2px solid var(--green);outline-offset:2px}
@@ -165,6 +161,14 @@ footer a{color:inherit}
   <a href="#stokbrood" data-tab="stokbrood">Stokbrood<small>baguette</small></a>
 </nav>
 
+<div class="mode">
+  <span class="label" id="modeLabel">Waar bak je?</span>
+  <div class="switch" id="switch" role="group" aria-labelledby="modeLabel" data-mode="oven">
+    <button type="button" id="m-oven" data-mode="oven" aria-pressed="true">Oven<small>bakplaat of steen</small></button>
+    <button type="button" id="m-bge" data-mode="bge" aria-pressed="false">Kamado<small>Big Green Egg</small></button>
+  </div>
+</div>
+
 <main class="wrap">
   <section class="card">
     <div class="label" id="cLabel">Hoeveel maak je?</div>
@@ -217,17 +221,19 @@ footer a{color:inherit}
   var zak=function(g){if(g<6.5)return 'minder dan 1 zakje';var z=hlf(g/7);return z<=1?'± 1 zakje':'± '+frac(z)+' zakjes (7 g)'};
   var FLOUR_MAX=1350;
 
-  var state={tab:'pizza',
+  var state={tab:'pizza',mode:'oven',
     pizza:{count:3,method:'snel',eat:'18:30'},
     bolletjes:{count:10,size:125,liq:'room',eat:'18:00'},
     zuurdesem:{count:1,method:'koel',eat:'12:00'},
     stokbrood:{count:4,hyd:80,eat:'18:00'}};
-  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
+  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){if(s.mode==='bge'||s.mode==='oven')state.mode=s.mode;['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
   function save(){try{localStorage.setItem('bakboek',JSON.stringify(state))}catch(e){}}
 
   /* ---------- Recepten ---------- */
   var R={};
 
+  var K=function(){return state.mode==='bge'};
+  var HEAD=function(){return '<div class="label">Bakken</div><h2>'+(K()?'Op de kamado':'In de oven')+'</h2>'};
   var CARE='<div class="tip a">Leg de steen altijd koud in de oven of BGE en warm hem mee op. Een koude steen in een hete oven kan barsten. Giet nooit water op de steen.</div>';
   var STONE=function(t){return '<h4>Met de pizzasteen in de oven</h4><p>'+t+'</p>'};
   var BGE=function(temp,time,what,tips){return '<h4>Big Green Egg (kamado), op de pizzasteen</h4><div class="oven"><div><strong>'+temp+'</strong><span>deksel-thermometer</span></div><div><strong>'+time+'</strong><span>minuten</span></div><div><strong>indirect</strong><span>convEGGtor</span></div></div>'+
@@ -255,17 +261,16 @@ footer a{color:inherit}
         steps.push(['Bollen maken','1 uur voor bakken','Verdeel in <b>'+st.count+' '+(st.count===1?'bol':'bollen')+' van ±270 g</b>. Laat ze afgedekt 1 uur narijzen voordat je gaat bakken.']);
       }
       steps.push(['Uitrekken & bakken','','Bestrooi het aanrecht met <b>semolabloem</b> en druk de bol vanuit het midden naar buiten uit. Laat de rand dik voor een luchtige korst. Beleg en bak direct.','Semola plakt minder dan gewone bloem, zo glijdt de pizza makkelijk van de schep.']);
-      var bake=st.count*5;
+      var bake=st.count*(K()?5:10);
       var blocks=snel?[['Deeg maken',10],['Snelle rijs',30],['Bollen maken + rust',15],['Pizza\'s bakken',bake]]:[['Deeg maken',10],['Lange rijs',480],['Bollen maken + narijzen',60],['Pizza\'s bakken',bake]];
       return {rows:rows,total:'Totaal deeg <b>± '+Math.round(st.count*270)+' g</b>',flour:flour,steps:steps,blocks:blocks,
-        marks:[['Kamado of oven aansteken',-(bake+45)]],
+        marks:[K()?['Kamado aansteken + steen opwarmen',-(bake+60)]:['Oven + pizzasteen voorverwarmen',-(bake+45)]],
         foot:'Jouw eigen pizzadeegrecept · basis 3 bollen van 270 g'};
     },
-    oven:function(st){return '<div class="label">Bakken</div><h2>Oven of kamado</h2>'+
-      '<h4>Heteluchtoven</h4><div class="oven"><div><strong>250°</strong><span>maximaal</span></div><div><strong>8–10</strong><span>minuten</span></div><div><strong>steen</strong><span>mee opwarmen</span></div></div>'+
+    oven:function(st){if(K())return HEAD()+BGE('350°','± 4','Schuif de pizza met een schep met semola op de steen en sluit de deksel. Draai hem halverwege een kwartslag.','Bak de pizza\'s één voor één. Na elke pizza heeft de steen even nodig om weer op temperatuur te komen.')+CARE;
+      return HEAD()+'<h4>Heteluchtoven</h4><div class="oven"><div><strong>250°</strong><span>maximaal</span></div><div><strong>8–10</strong><span>minuten</span></div><div><strong>steen</strong><span>mee opwarmen</span></div></div>'+
       '<div class="tip">Leg je <b>pizzasteen</b> op het middelste rooster in de koude oven en laat hem minstens 45 minuten mee opwarmen op 250°C. Schuif de pizza met een schep met semola op de steen.</div>'+
-      '<h4>Big Green Egg (kamado)</h4><div class="oven"><div><strong>350°</strong><span>stoken tot</span></div><div><strong>± 4</strong><span>minuten</span></div><div><strong>'+st.count+'</strong><span>'+(st.count===1?'pizza':'pizza\'s')+'</span></div></div>'+
-      '<ol class="plain"><li>Plaats de <b>convEGGtor</b> (indirecte plaat) onderin</li><li>Leg het <b>rooster</b> erop</li><li>Leg de <b>pizzasteen</b> op het rooster en stook op tot 350°C</li></ol>';}
+      CARE;}
   };
 
   R.bolletjes={
@@ -293,17 +298,17 @@ footer a{color:inherit}
         ['Eerste rijs','1–2 uur','Dek de kom af en laat het deeg verdubbelen. Hoe warmer de keuken, hoe sneller.'],
         ['Vormen','15 min','Sla de lucht eruit en verdeel het deeg in <b>'+st.count+' stukjes van ±'+st.size+' g</b>. Leg je hand als een kommetje over een stukje en draai het over het aanrecht rond, zo zet je het deeg op spanning. Leg ze op '+(trays>1?trays+' bakplaten':'een bakplaat')+' met bakpapier.','Weeg de stukjes af, dan worden ze allemaal even groot en even snel gaar.'],
         ['Tweede rijs','± 45 min','Dek weer af en laat ze verdubbelen. Handig: in de oven met alleen het lampje aan.'],
-        ['Insmeren & bakken','12–15 min','Klop <b>'+yolk+' eidooier'+(yolk>1?'s':'')+'</b> los met <b>'+yolk+' el Griekse yoghurt</b> en smeer de bolletjes in. Strooi er eventueel sesam of maanzaad over. Bak 12–15 minuten op <b>180°C</b>.']];
+        ['Insmeren & bakken',K()?'15–18 min':'12–15 min','Klop <b>'+yolk+' eidooier'+(yolk>1?'s':'')+'</b> los met <b>'+yolk+' el Griekse yoghurt</b> en smeer de bolletjes in. Strooi er eventueel sesam of maanzaad over. '+(K()?'Schuif ze op bakpapier op de pizzasteen in de kamado en bak 15–18 minuten op <b>190°C</b>.':'Bak 12–15 minuten op <b>180°C</b>.')]];
       return {rows:rows,total:'Totaal deeg <b>± '+(st.count*st.size).toLocaleString('nl-NL')+' g</b></span><span>Bakplaten <b>'+trays+' × (±'+per+' per plaat)</b>',flour:f1+f2,steps:steps,
-        blocks:[['Voordeeg maken',35],['Kneden',15],['Eerste rijs',90],['Vormen',15],['Tweede rijs + oven voorverwarmen',45],['Bakken'+(trays>1?' ('+trays+' platen)':''),15*trays+5]],marks:[],
+        blocks:[['Voordeeg maken',35],['Kneden',15],['Eerste rijs',90],['Vormen',15],[K()?'Tweede rijs':'Tweede rijs + oven voorverwarmen',45],['Bakken'+(trays>1?' ('+trays+' rondes)':''),(K()?18:15)*trays+5]],marks:K()?[['Kamado aansteken + steen opwarmen',-((18*trays+5)+60)]]:[],
         foot:'Naar het recept uit de WhatsApp-groep · basis 10 bolletjes van 125 g'};
     },
-    oven:function(){return '<div class="label">Bakken</div><h2>Oven of BGE</h2><h4>In de oven, op de bakplaat</h4><div class="oven"><div><strong>180°</strong><span>boven/onder</span></div><div><strong>12–15</strong><span>minuten</span></div><div><strong>midden</strong><span>richel</span></div></div>'+
+    oven:function(){if(K())return HEAD()+BGE('190°','15–18','Schuif de bolletjes op bakpapier op de steen en sluit de deksel. Kijk na 10 minuten naar de onderkant.','Op de ronde steen passen minder bolletjes dan op een bakplaat. Reken op een extra ronde en houd de rest zolang koel.')+CARE;
+      return HEAD()+'<h4>Op de bakplaat</h4><div class="oven"><div><strong>180°</strong><span>boven/onder</span></div><div><strong>12–15</strong><span>minuten</span></div><div><strong>midden</strong><span>richel</span></div></div>'+
       '<div class="tip a">Rijzen ze in de oven met alleen het lampje aan? Haal ze er dan eerst uit voordat je gaat voorverwarmen.</div>'+
       '<div class="tip">Hetelucht: zet hem op ±170°C. Klaar als ze goudbruin zijn en hol klinken als je op de onderkant tikt. Kijk de eerste keer na 12 minuten.</div>'+
       '<div class="tip">Meerdere bakplaten? Bak ze één voor één en zet de volgende plaat zolang koel weg, dan rijzen ze niet te ver door.</div>'+
-      STONE('Verwarm de steen 45 minuten mee op 180°C. Laat de bolletjes rijzen op bakpapier en schuif ze met papier en al op de steen, met een plank of je pizzaschep. Ze krijgen meer onderwarmte, dus kijk na 10 minuten of de onderkant niet te donker wordt.')+
-      BGE('190°','15–18','Schuif de bolletjes op bakpapier op de steen en sluit de deksel. Kijk na 10 minuten naar de onderkant.','Op de ronde steen passen minder bolletjes dan op een bakplaat. Reken op een extra ronde en houd de rest zolang koel.')+CARE;}
+      STONE('Verwarm de steen 45 minuten mee op 180°C. Laat de bolletjes rijzen op bakpapier en schuif ze met papier en al op de steen, met een plank of je pizzaschep. Ze krijgen meer onderwarmte, dus kijk na 10 minuten of de onderkant niet te donker wordt.')+CARE;}
   };
 
   R.zuurdesem={
@@ -322,18 +327,18 @@ footer a{color:inherit}
         koel?['Koude rijs','12 uur','Zet de kom 12 uur in de koelkast. De koude rijs geeft een vollere, zuurdere smaak en het deeg is daarna makkelijker te vormen.']
             :['Rijzen','3 uur','Laat het deeg 3 uur rijzen op een warme plek. Hoe warmer de keuken, hoe sneller.'],
         ['Vormen & rijsmand','1,5 uur','Leg het deeg op een licht bebloemd werkblad'+(n>1?' en verdeel het in <b>'+n+' gelijke stukken</b>':'')+'. Vorm een bol door de onderkant met draaiende bewegingen naar binnen te duwen. Leg hem met de naad naar boven in een bebloemde rijsmand en druk de naad dicht. Laat 1,5 uur rijzen op een warme plek.','Geen rijsmand? Een schone, bebloemde theedoek in een vergiet of kom werkt ook. Het deeg is klaar als het na licht indrukken langzaam terugveert.'],
-        ['Bakken','40–45 min','Verwarm de oven met de <b>gietijzeren pan en deksel</b> erin voor op <b>240°C</b>. Keer het deeg op bakpapier, gladde kant boven, en maak met een scherp mesje één snede over het midden. Til het met het bakpapier in de hete pan. Bak <b>25 minuten met deksel</b> en daarna <b>15–20 minuten zonder</b>, tot het brood goudbruin is.','Laat het brood helemaal afkoelen voordat je het aansnijdt. Binnenin bakt het nog na.']];
+        ['Bakken','40–45 min',(K()?'Stook de kamado op tot <b>230°C</b> met de <b>gietijzeren pan en deksel</b> op de pizzasteen.':'Verwarm de oven met de <b>gietijzeren pan en deksel</b> erin voor op <b>240°C</b>.')+' Keer het deeg op bakpapier, gladde kant boven, en maak met een scherp mesje één snede over het midden. Til het met het bakpapier in de hete pan. Bak <b>25 minuten met deksel</b> en daarna <b>15–20 minuten zonder</b>, tot het brood goudbruin is.','Laat het brood helemaal afkoelen voordat je het aansnijdt. Binnenin bakt het nog na.']];
       var bake=45*n;
       var blocks=[['Mengen + rust',35],['Vouwen',10],[koel?'Koude rijs (koelkast)':'Rijzen',koel?720:180],['Vormen',10],['Rijzen in rijsmand',90],['Bakken'+(n>1?' ('+n+' broden na elkaar)':''),bake],['Afkoelen',60]];
       return {rows:rows,total:'Totaal deeg <b>± '+(933*n).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
-        marks:[['Starter voeden',-99999],['Oven of BGE + pan voorverwarmen',-(bake+60+45)]],
+        marks:[['Starter voeden',-99999],K()?['Kamado aansteken, pan op de steen',-(bake+60+60)]:['Oven + pan voorverwarmen',-(bake+60+45)]],
         foot:'Naar het Allerhande-recept voor <a href="https://www.ah.nl/allerhande/recept/R-R1201850/biologisch-zuurdesembrood-bakken" target="_blank" rel="noopener">biologisch zuurdesembrood</a> · basis 1 brood'};
     },
-    oven:function(st){return '<div class="label">Bakken</div><h2>Pan, steen of BGE</h2><h4>In de oven, in de gietijzeren pan</h4><div class="oven"><div><strong>240°</strong><span>voorverwarmd</span></div><div><strong>25</strong><span>min met deksel</span></div><div><strong>15–20</strong><span>min zonder</span></div></div>'+
+    oven:function(st){if(K())return HEAD()+BGE('230°','40–45','Zet de gietijzeren pan op de steen en laat hem 30 minuten mee opwarmen. Bak 25 minuten met de pandeksel erop en 15–20 minuten zonder, met de BGE-deksel steeds dicht.','Zonder pan kan het ook: leg het brood op bakpapier direct op de steen. De gesloten BGE houdt zelf veel vocht vast.')+CARE;
+      return HEAD()+'<h4>In de gietijzeren pan</h4><div class="oven"><div><strong>240°</strong><span>voorverwarmd</span></div><div><strong>25</strong><span>min met deksel</span></div><div><strong>15–20</strong><span>min zonder</span></div></div>'+
       '<div class="tip a">De deksel houdt de stoom vast. Daardoor kan het brood eerst flink rijzen voordat de korst hard wordt.</div>'+
       '<div class="tip">Gaar als het hol klinkt bij tikken op de onderkant.'+(st.count>1?' Eén pan? Bak de broden na elkaar en laat de volgende zolang in de rijsmand in de koelkast wachten.':'')+'</div>'+
-      STONE('Geen gietijzeren pan? Bak het brood direct op de steen. Verwarm de steen 45 minuten mee op 240°C, met een metalen bakje onderin de oven. Leg het brood op bakpapier op de steen, giet een halve kop heet water in het bakje en bak 20 minuten. Haal het bakje eruit en bak nog 20–25 minuten.')+
-      BGE('230°','40–45','Zet de gietijzeren pan op de steen en laat hem 30 minuten mee opwarmen. Bak 25 minuten met de pandeksel erop en 15–20 minuten zonder, met de BGE-deksel steeds dicht.','Zonder pan kan het ook: leg het brood op bakpapier direct op de steen. De gesloten BGE houdt zelf veel vocht vast.')+CARE;},
+      STONE('Geen gietijzeren pan? Bak het brood direct op de steen. Verwarm de steen 45 minuten mee op 240°C, met een metalen bakje onderin de oven. Leg het brood op bakpapier op de steen, giet een halve kop heet water in het bakje en bak 20 minuten. Haal het bakje eruit en bak nog 20–25 minuten.')+CARE;},
     extra:function(){return '<div class="label">Nog geen starter?</div><h2>Zelf een starter maken</h2>'+
       '<p>Dit duurt ongeveer een week. Je hebt volkorenmeel en lauw water nodig.</p>'+
       '<ol class="plain"><li><b>Dag 1:</b> weeg een schone pot en noteer het gewicht. Meng 50 g volkorenmeel met 50 ml lauw water tot een glad papje. Dek losjes af en zet op een warme plek zonder tocht of zon.</li>'+
@@ -345,55 +350,47 @@ footer a{color:inherit}
   R.stokbrood={
     title:'Frans <em>Stokbrood</em>', sub:'Poolish · krokante korst · stoom', stripes:['#3b5ba5','#f6efe0','#c8433a'],
     cTitle:'Aantal stokbroden', min:1, max:12,
-    unit:function(st){return (st.count===1?'baguette':'baguettes')+' van ±345 g · max 45 cm'},
+    unit:function(st){return (st.count===1?'baguette':'baguettes')+' van ±345 g · '+(K()?'±30 cm voor de steen':'max 45 cm')},
     toggles:[{key:'hyd',num:true,opts:[[80,'Origineel','80% vocht · open kruim'],[72,'Makkelijker','72% · beter te vormen']]}],
     planQ:'Wanneer wil je eten?',
     calc:function(st){
       var n=st.count, d1=function(x){return Math.round(x*10)/10};
       var pF=95*n, pW=76*n, pY=d1(0.75*n);
       var mF=95*n, mW=Math.round(190*n*st.hyd/100)-pW, salt=Math.round(3*n), mY=d1(0.375*n);
-      var batches=Math.ceil(n/3), bake=25*batches;
+      var per=K()?2:3, batches=Math.ceil(n/per), bake=25*batches;
       var rows=[['grp','Poolish · avond ervoor'],['Tarwebloem',pF+' g','bakkersbloem of patentbloem'],['Water',pW+' g','kamertemperatuur'],['Instant droge gist',pY+' g',''],
         ['grp','Hoofddeeg · bakdag'],['Tarwebloem',mF+' g',''],['Water',mW+' g',''],['Zout',salt+' g','zeezout'],['Instant droge gist',mY+' g',''],
-        ['grp','Nodig'],['Ovenschaal of bakblik','voor de stoom',''],['Scheermesje of lame','om in te snijden','']];
+        ['grp','Nodig'],K()?['Plantenspuit','met water','']:['Ovenschaal of bakblik','voor de stoom',''],['Scheermesje of lame','om in te snijden','']];
       var steps=[
         ['Poolish','10 min + 1 uur','Roer <b>'+pF+' g bloem</b>, <b>'+pW+' g water</b> en <b>'+pY+' g gist</b> tot een dik beslag. Dek af, laat 1 uur op het aanrecht staan en zet het daarna 10 tot 17 uur in de koelkast.','De poolish geeft de typische nootachtige smaak van een echte baguette.'],
         ['Mengen','10 min','Roer de <b>'+mW+' g water</b> door de koude poolish. Voeg <b>'+mF+' g bloem</b>, <b>'+salt+' g zout</b> en <b>'+mY+' g gist</b> toe en meng tot een ruwe, klonterige massa. Niet kneden. Dek af en laat 10 minuten rusten.'],
         ['Vouwen','± 3 uur','Rek en vouw het deeg 2 minuten op het werkblad en leg het in een licht ingevette kom. Daarna vouw je het nog 4 keer, elke 45 minuten: trek het deeg uit tot een lap en vouw het in drieën, als een brief. De eerste keer doe je dit twee keer achter elkaar.',st.hyd===80?'Het deeg is nat en plakkerig, dat hoort zo. Met natte handen gaat het vouwen het makkelijkst.':'Met 72% vocht is het deeg steviger. De kruim wordt iets minder open, maar vormen gaat een stuk makkelijker.'],
         ['Delen & voorvormen','25 min','Laat het deeg 10 minuten rusten op het werkblad. Verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+' van ±345 g</b>. Rek elk stuk tot een rechthoek en rol het losjes op. Laat ze 15 minuten afgedekt rusten.','Weeg de stukken af, dan worden ze even dik en even snel gaar.'],
-        ['Vormen','25 min narijzen','Druk een stuk licht plat. Vouw een derde van de lange kant naar binnen en druk aan. Herhaal dit nog twee keer en rol het daarna met platte handen uit tot een stokbrood met puntige uiteinden, <b>maximaal 45 cm</b>. Leg ze in een bebloemde linnen doek met plooien ertussen en laat ze 25 minuten narijzen.','Vingertest: druk er met een bebloemde vinger in. Komt het gat half terug, dan is het goed.'],
-        ['Insnijden & bakken','25 min'+(batches>1?' per ronde':''),'Snijd elk stokbrood met een scherp mesje in, schuin onder een hoek van ±30° in de lengte. Houd de sneden in het middelste derde en laat ze een derde overlappen. Schuif ze in de oven, giet <b>een halve kop heet water</b> in de hete bak en sluit de deur. Bak <b>25 minuten op 240°C</b>.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van maximaal 3.':''),'Zet de deur de laatste 5 minuten op een kier, dan wordt de korst extra krokant.']];
+        ['Vormen','25 min narijzen','Druk een stuk licht plat. Vouw een derde van de lange kant naar binnen en druk aan. Herhaal dit nog twee keer en rol het daarna met platte handen uit tot een stokbrood met puntige uiteinden, <b>'+(K()?'±30 cm, zodat het op de steen past':'maximaal 45 cm')+'</b>. Leg ze in een bebloemde linnen doek met plooien ertussen en laat ze 25 minuten narijzen.','Vingertest: druk er met een bebloemde vinger in. Komt het gat half terug, dan is het goed.'],
+        ['Insnijden & bakken','25 min'+(batches>1?' per ronde':''),'Snijd elk stokbrood met een scherp mesje in, schuin onder een hoek van ±30° in de lengte. Houd de sneden in het middelste derde en laat ze een derde overlappen. '+(K()?'Besproei ze met de plantenspuit, schuif ze op bakpapier op de pizzasteen en sluit de deksel. Bak <b>20–25 minuten op 240°C</b>.':'Schuif ze in de oven, giet <b>een halve kop heet water</b> in de hete bak en sluit de deur. Bak <b>25 minuten op 240°C</b>.')+(batches>1?' Bak in <b>'+batches+' rondes</b> van maximaal '+per+'.':''),K()?'Kijk na 18 minuten. Op de steen bakt de onderkant sneller.':'Zet de deur de laatste 5 minuten op een kier, dan wordt de korst extra krokant.']];
       var blocks=[['Poolish maken',10],['Poolish rijzen op het aanrecht',60],['Poolish in de koelkast',720],['Hoofddeeg mengen + rust',10],['Vouwen & rijzen',192],['Delen & voorvormen',25],['Vormen & narijzen',25],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',30]];
-      return {rows:rows,total:'Totaal deeg <b>± '+(345*n).toLocaleString('nl-NL')+' g</b></span><span>Ovenrondes <b>'+batches+' × (max 3)</b>',flour:pF+mF,steps:steps,blocks:blocks,
-        marks:[['Oven of BGE + steen voorverwarmen',-(30+bake+45)]],
+      return {rows:rows,total:'Totaal deeg <b>± '+(345*n).toLocaleString('nl-NL')+' g</b></span><span>'+(K()?'Rondes op de steen':'Ovenrondes')+' <b>'+batches+' × (max '+per+')</b>',flour:pF+mF,steps:steps,blocks:blocks,
+        marks:[K()?['Kamado aansteken + steen opwarmen',-(30+bake+60)]:['Oven + stoombak voorverwarmen',-(30+bake+45)]],
         foot:'Naar het recept voor <a href="https://www.weekendbakery.com/posts/recipe-for-80-hydration-baguette/" target="_blank" rel="noopener">80% hydration baguette</a> van Weekend Bakery · basis 4 baguettes'};
     },
-    oven:function(st){var b=Math.ceil(st.count/3);return '<div class="label">Bakken</div><h2>Oven of BGE</h2><h4>In de oven, met stoom</h4><div class="oven"><div><strong>240°</strong><span>boven/onder</span></div><div><strong>25</strong><span>minuten</span></div><div><strong>½ kop</strong><span>heet water</span></div></div>'+
+    oven:function(st){if(K())return HEAD()+BGE('240°','20–25','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 18 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;
+      var b=Math.ceil(st.count/3);return HEAD()+'<h4>Met stoom</h4><div class="oven"><div><strong>240°</strong><span>boven/onder</span></div><div><strong>25</strong><span>minuten</span></div><div><strong>½ kop</strong><span>heet water</span></div></div>'+
       '<div class="tip a">Zet een metalen bak of ovenschaal onderin vóór je gaat voorverwarmen. Verwarm minstens 45 minuten voor, met de bakplaat of steen al in de oven.</div>'+
       '<div class="tip">De stoom houdt de buitenkant zacht. Daardoor kan het brood flink rijzen en gaan de sneden mooi open. Pas op voor de hete damp als je het water erin giet.</div>'+
       (b>1?'<div class="tip">'+b+' ovenrondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+
-      STONE('Leg de steen op het middelste rooster en verwarm hem 45 minuten mee, met de stoombak eronder. Schuif de baguettes op bakpapier op de steen. Je steen is rond, dus maak de baguettes ±30 cm of leg ze schuin.')+
-      BGE('240°','20–25','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 18 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;},
+      STONE('Leg de steen op het middelste rooster en verwarm hem 45 minuten mee, met de stoombak eronder. Schuif de baguettes op bakpapier op de steen. Je steen is rond, dus maak de baguettes ±30 cm of leg ze schuin.')+CARE;},
     extra:function(){return '<div class="label">Geen linnen doek?</div><h2>Zo houd je ze in vorm</h2>'+
       '<p>Een bakkersdoek (couche) zorgt dat de baguettes tijdens het narijzen niet uitzakken. Thuis werkt een <b>stevige, schone theedoek</b> ook. Bestuif hem goed met bloem en maak tussen elk stokbrood een plooi als steuntje.</p>'+
       '<div class="tip">Leg de baguettes met de naad naar boven in de doek. Rol ze vlak voor het bakken voorzichtig op een plank en dan met de naad naar beneden op de bakplaat.</div>';}
   };
 
   /* ---------- Hero art ---------- */
+  var ALT={pizza:'Napolitaanse pizza met tomaat, mozzarella en basilicum',bolletjes:'Drie witte bolletjes met sesam en maanzaad',zuurdesem:'Zuurdesembrood met een opengesprongen snede',stokbrood:'Twee Franse stokbroden'};
   function art(tab){
-    var el=$('art');el.innerHTML='';
-    if(tab==='pizza'){var p=document.createElement('div');p.className='pz';
-      [[30,30,26,20],[58,24,22,18],[46,52,28,22],[24,58,20,16],[64,58,24,20],[42,76,20,14]].forEach(function(c){var i=document.createElement('i');i.style.cssText='left:'+c[0]+'%;top:'+c[1]+'%;width:'+c[2]+'px;height:'+c[3]+'px';p.appendChild(i)});
-      [[40,40,20],[60,44,-40],[34,70,60],[56,72,10]].forEach(function(c){var b=document.createElement('b');b.style.cssText='left:'+c[0]+'%;top:'+c[1]+'%;transform:rotate('+c[2]+'deg)';p.appendChild(b)});
-      el.appendChild(p);}
-    else if(tab==='bolletjes'){var b=document.createElement('div');b.className='bun';
-      [[30,20],[45,14],[60,22],[72,15],[38,34],[55,32],[68,36],[48,46],[32,48],[62,50],[78,28],[24,32]].forEach(function(c,i){var s=document.createElement('i');s.className='seed'+(i%3===0?' d':'');s.style.cssText='left:'+c[0]+'%;top:'+c[1]+'%;transform:rotate('+(i*37%180)+'deg)';b.appendChild(s)});
-      el.appendChild(b);}
-    else if(tab==='stokbrood'){var g=document.createElement('div');g.className='bag';
-      [60,118,176,234].forEach(function(x){var i=document.createElement('i');i.style.left=x+'px';g.appendChild(i)});
-      el.appendChild(g);}
-    else{var l=document.createElement('div');l.className='loaf';el.appendChild(l);}
+    var el=$('art'); if(el.dataset.tab===tab)return; el.dataset.tab=tab;
+    el.innerHTML='<img src="img/'+tab+'.webp" alt="'+ALT[tab]+'" width="700" height="450" decoding="async">';
   }
+  ['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(t){var i=new Image();i.src='img/'+t+'.webp'});
 
   /* ---------- Render ---------- */
   function render(){
@@ -401,6 +398,8 @@ footer a{color:inherit}
     document.body.dataset.tab=tab;
     document.querySelectorAll('.tabs a').forEach(function(a){if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
     art(tab);
+    $('switch').dataset.mode=state.mode;
+    $('m-oven').setAttribute('aria-pressed',state.mode==='oven'); $('m-bge').setAttribute('aria-pressed',state.mode==='bge');
     $('heroTitle').innerHTML=rc.title; $('heroSub').textContent=rc.sub;
     var sp=$('stripes').children; rc.stripes.forEach(function(c,i){sp[i].style.background=c});
     $('cTitle').textContent=rc.cTitle; $('count').textContent=st.count; $('countSub').textContent=rc.unit(st);
@@ -441,6 +440,7 @@ footer a{color:inherit}
   $('min').onclick=function(){var st=state[state.tab];if(st.count>R[state.tab].min){st.count--;render()}};
   $('plus').onclick=function(){var st=state[state.tab];if(st.count<R[state.tab].max){st.count++;render()}};
   $('toggles').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;state[state.tab][b.dataset.key]=b.dataset.num==='1'?+b.dataset.val:b.dataset.val;render()});
+  $('switch').addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.dataset.mode===state.mode)return;state.mode=b.dataset.mode;render()});
   $('eat').addEventListener('input',function(){state[state.tab].eat=this.value||'18:00';plan(R[state.tab].calc(state[state.tab]));save()});
   function fromHash(){var h=location.hash.replace('#','');if(R[h]){state.tab=h}render()}
   window.addEventListener('hashchange',fromHash);

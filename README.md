@@ -18,6 +18,7 @@ Een kleine web-app met mijn favoriete bakrecepten. Kies hoeveel je wilt maken en
 - Rekent alle ingrediënten om naar het aantal dat je kiest
 - Plant terug vanaf het moment dat je wilt eten, met starttijden per stap
 - Waarschuwt als het deeg niet meer in één KitchenAid-kom past
+- Schakelaar **Oven / Kamado**: je ziet alleen de werkwijze die je kiest, inclusief bakken op de pizzasteen
 - Onthoudt je laatste keuzes per recept
 
 ## Op je beginscherm zetten
@@ -29,6 +30,7 @@ Open de link in Safari, tik op **Deel** en kies **Zet op beginscherm**.
 - `index.html` – de hele app in één bestand
 - `apple-touch-icon.png` – het icoon voor het beginscherm
 - `og-image.png` – de voorbeeldkaart als je de link deelt in WhatsApp
+- `img/` – de afbeeldingen bovenaan elk recept
 
 Wijzigingen staan binnen 1–2 minuten live via GitHub Pages.
 
