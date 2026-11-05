@@ -266,9 +266,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     calc:function(st){
       var f=st.count/3, snel=st.method==='snel';
       var flour=Math.round(500*f), water=Math.round(315*f), yeast=snel?hlf(7*f):Math.max(0.5,hlf(1.5*f));
-      var rows=[['Pizzabloem',flour+' g','type 0 / W250'],['Water',water+' g',snel?'warm, ±38°C':'kamertemperatuur'],['Zout',Math.round(10*f)+' g',''],['Droge gist',yeast+' g',snel?zak(yeast):'weinig gist, trage rijs']];
+      var rows=[['Pizzabloem',flour+' g','type 0 / W250'],['Water',water+' g',snel?'warm, ±38°C':'kamertemperatuur'],['Zout',Math.round(10*f)+' g',''],['Droge gist',yeast+' g',snel?zak(yeast):'trage rijs']];
       if(snel)rows.push(['Olijfolie',Math.round(10*f)+' g','maakt het deeg soepeler']);
-      rows.push(['Semolabloem','om uit te rekken','']);
+      rows.push(['Semolabloem',Math.round(15*st.count)+' g','om uit te rekken']);
       var mix='Doe in de KitchenAid met deeghaak het <b>water ('+water+' g)</b> en de <b>gist</b> en roer 1 minuut. Voeg de <b>bloem ('+flour+' g)</b> toe en kneed 3–4 minuten op een lage stand. Voeg het <b>zout</b>'+(snel?' en de <b>olijfolie</b>':'')+' toe en kneed nog 2 minuten. Stop zodra het deeg glad en licht elastisch is.';
       var steps=[['Mengen','5 min',mix,'Niet perfect is prima.']];
       if(snel){
@@ -308,11 +308,11 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       if(cream)rows.push(['Slagroom',cream+' ml','lauwwarm, samen met de melk']);
       rows=rows.concat([['Bloem',f1+' g','eerste deel'],['Roomboter',Math.round(60*f)+' g','zacht'],['Suiker',Math.round(60*f)+' g','minder mag, minimaal '+Math.max(5,Math.round(10*f))+' g'],['Droge gist',yeast+' g',zak(yeast)],
         ['grp','Hoofddeeg'],['Ei',frac(egg)+' ei','≈ '+Math.round(50*f)+' g, losgeklopt'],['Zout',salt+' g',''],['Bloem',f2+' g','tweede deel'],
-        ['grp','Insmeren'],['Eidooier',yolk+'×',''],['Griekse yoghurt',yolk+' el','of wat slagroom'],['Sesam / maanzaad','naar smaak','optioneel']]);
+        ['grp','Insmeren'],['Eidooier',yolk+'×',''],['Griekse yoghurt',yolk+' el','of evenveel slagroom'],['Sesam / maanzaad',st.count+' g','1 g per bolletje, optioneel']]);
       var liquid=cream?milk+' ml melk en '+cream+' ml slagroom':milk+' ml melk';
       var steps=[
         ['Voordeeg','30 min','Verwarm <b>'+liquid+'</b> tot het lauw is. Als je er een vinger in houdt en "au" wilt roepen, is het te warm en gaat de gist dood. Meng in een kom met <b>'+f1+' g bloem</b>, de boter, suiker en gist. Kort mengen, dan 30 minuten afdekken met een theedoek.','Na een half uur is het voordeeg flink gegroeid. Zo weet je meteen dat je gist leeft.'],
-        ['Kneden','10 min','Voeg <b>'+frac(egg)+' ei</b>, <b>'+salt+' g zout</b> en <b>'+f2+' g bloem</b> toe. Kneed ±10 minuten met de hand, of ±8 minuten met de deeghaak op een lage stand. Het deeg mag een klein beetje plakken. Plakt het veel, dan is het nog niet lang genoeg gekneed.','Lang genoeg kneden is het geheim van een fluffy bolletje.'],
+        ['Kneden','10 min','Voeg <b>'+frac(egg)+' ei</b>, <b>'+salt+' g zout</b> en <b>'+f2+' g bloem</b> toe. Kneed ±10 minuten met de hand, of ±8 minuten met de deeghaak op een lage stand. Het deeg mag licht plakkerig zijn. Plakt het veel, dan is het nog niet lang genoeg gekneed.','Lang genoeg kneden is het geheim van een fluffy bolletje.'],
         ['Eerste rijs','1–2 uur','Dek de kom af en laat het deeg verdubbelen. Hoe warmer de keuken, hoe sneller.'],
         ['Vormen','15 min','Sla de lucht eruit en verdeel het deeg in <b>'+st.count+' stukjes van ±'+st.size+' g</b>. Leg je hand als een kommetje over een stukje en draai het over het aanrecht rond, zo zet je het deeg op spanning. Leg ze op '+(trays>1?trays+' bakplaten':'een bakplaat')+' met bakpapier.','Weeg de stukjes af, dan worden ze allemaal even groot en even snel gaar.'],
         ['Tweede rijs','± 45 min','Dek weer af en laat ze verdubbelen. Handig: in de oven met alleen het lampje aan.'],
@@ -337,7 +337,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     planQ:'Wanneer wil je het brood aansnijden?',
     calc:function(st){
       var n=st.count, koel=st.method==='koel';
-      var rows=[['Tarwebloem',(500*n)+' g','bij voorkeur biologisch'],['Water',(300*n)+' ml','lauwwarm'],['Zuurdesemstarter',(125*n)+' g','actief, met bubbels'],['Zout',(8*n)+' g',''],['Olie','beetje','om de kom in te vetten']];
+      var rows=[['Tarwebloem',(500*n)+' g','bij voorkeur biologisch'],['Water',(300*n)+' ml','lauwwarm'],['Zuurdesemstarter',(125*n)+' g','actief, met bubbels'],['Zout',(8*n)+' g',''],['Olie',(5*n)+' ml','om de kom in te vetten']];
       var steps=[
         ['Starter voeden','4–12 uur vooraf','Je hebt <b>'+(125*n)+' g actieve starter</b> nodig. Voed hem op tijd met gelijke delen bloem en water, zodat hij op het moment van mengen vol bubbels zit.','Testje: een lepel starter in een glas water blijft drijven als hij klaar is.'],
         ['Mengen','5 min + 30 min rust','Meng het <b>lauwe water ('+(300*n)+' ml)</b> met de <b>bloem</b>, <b>starter</b> en het <b>zout</b>. Kneed 5 minuten met de deeghaken op de middelste stand tot een soepel deeg. Dek af met een vochtige theedoek en laat 30 minuten staan.'],
@@ -356,7 +356,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       return HEAD()+'<h4>In de gietijzeren pan</h4><div class="oven"><div><strong>240°</strong><span>voorverwarmd</span></div><div><strong>25</strong><span>min met deksel</span></div><div><strong>15–20</strong><span>min zonder</span></div></div>'+
       '<div class="tip a">De deksel houdt de stoom vast. Daardoor kan het brood eerst flink rijzen voordat de korst hard wordt.</div>'+
       '<div class="tip">Gaar als het hol klinkt bij tikken op de onderkant.'+(st.count>1?' Eén pan? Bak de broden na elkaar en laat de volgende zolang in de rijsmand in de koelkast wachten.':'')+'</div>'+
-      STONE('Geen gietijzeren pan? Bak het brood direct op de steen. Verwarm de steen 45 minuten mee op 240°C, met een metalen bakje onderin de oven. Leg het brood op bakpapier op de steen, giet een halve kop heet water in het bakje en bak 20 minuten. Haal het bakje eruit en bak nog 20–25 minuten.')+CARE;},
+      STONE('Geen gietijzeren pan? Bak het brood direct op de steen. Verwarm de steen 45 minuten mee op 240°C, met een metalen bakje onderin de oven. Leg het brood op bakpapier op de steen, giet <b>120 ml heet water</b> in het bakje en bak 20 minuten. Haal het bakje eruit en bak nog 20–25 minuten.')+CARE;},
     extra:function(){return '<div class="label">Nog geen starter?</div><h2>Zelf een starter maken</h2>'+
       '<p>Dit duurt ongeveer een week. Je hebt volkorenmeel en lauw water nodig.</p>'+
       '<ol class="plain"><li><b>Dag 1:</b> weeg een schone pot en noteer het gewicht. Meng 50 g volkorenmeel met 50 ml lauw water tot een glad papje. Dek losjes af en zet op een warme plek zonder tocht of zon.</li>'+
@@ -377,17 +377,17 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       var rows, steps, blocks, marks, total;
       var bakeStep=K()
         ?['Insnijden & bakken','± 20 min'+(batches>1?' per ronde':''),'Zet de baguettes met de naad naar beneden op bakpapier op je schep. Snijd elk stokbrood in met één snelle, zekere snede onder <b>45°</b> over de lengte. Besproei ze met de plantenspuit, schuif ze op de pizzasteen en sluit de deksel. Bak <b>± 20 minuten op 240–250°C</b>.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van '+per+'.':''),'Kijk na 16 minuten. Op de steen bakt de onderkant sneller.']
-        :['Insnijden & bakken','20 min'+(batches>1?' per ronde':''),'Zet de baguettes met de naad naar beneden op bakpapier op je schep. Snijd elk stokbrood in met één snelle, zekere snede onder <b>45°</b> over de lengte. Schuif ze op de steen en giet direct <b>¾ kop kokend water</b> in de hete pan. Bak <b>10 minuten op 250°C</b> met stoom. Open de deur even om de stoom te laten ontsnappen, zet de oven op <b>230°C</b> en bak nog ±10 minuten tot ze mooi bruin zijn.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van '+per+'.':''),'Is het deeg zacht? Zet de baguettes eerst 15 minuten in de koelkast, dan snijd je ze makkelijker in.'];
+        :['Insnijden & bakken','20 min'+(batches>1?' per ronde':''),'Zet de baguettes met de naad naar beneden op bakpapier op je schep. Snijd elk stokbrood in met één snelle, zekere snede onder <b>45°</b> over de lengte. Schuif ze op de steen en giet direct <b>175 ml kokend water</b> in de hete pan. Bak <b>10 minuten op 250°C</b> met stoom. Open de deur even om de stoom te laten ontsnappen, zet de oven op <b>230°C</b> en bak nog ±10 minuten tot ze mooi bruin zijn.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van '+per+'.':''),'Is het deeg zacht? Zet de baguettes eerst 15 minuten in de koelkast, dan snijd je ze makkelijker in.'];
       var shape=['Vormen & narijzen',zd?'1 uur':'45 min','Leg een stuk met de onderkant naar boven en druk het plat tot een lange rechthoek. Vouw de bovenkant ⅔ naar beneden en druk stevig aan, draai 180° en herhaal. Duw het midden met je duim naar binnen, vouw het dubbel en sluit de naad met de zijkant van je hand. Rol vanuit het midden naar buiten tot <b>±30 cm</b> met taps toelopende uiteinden, met zo min mogelijk bloem. Leg ze met de naad naar beneden in de bestoven doek, met plooien als steun, en laat ze '+(zd?'1 uur':'±45 minuten')+' narijzen.','Vingertest: druk zacht met je vinger in het deeg. Blijft er een lichte deuk die langzaam terugveert, dan is het klaar.'];
       if(!zd){
         var fl=r1(515*f), w1=r1(350*f), w2=r1(10*f), w3=r1(80*f), salt=r1(10*f), y=Math.round(3*f*10)/10;
         rows=[['grp','Deeg'],['Broodbloem',fl+' g','eiwitrijke bloem, bv. Manitoba'],['Water',(w1+w2+w3)+' g','verdeeld: '+w1+' + '+w2+' + '+w3+' g'],['Zout',salt+' g',''],['Instant droge gist',y+' g',''],
-          ['grp','Nodig'],['Bloem + rijstbloem','50/50, voor de doek',''],K()?['Plantenspuit','met water','']:['Gietijzeren pan','of lavastenen, voor de stoom','']];
+          ['grp','Nodig'],['Bloem',(10*n)+' g','voor de doek'],['Rijstbloem',(10*n)+' g','voor de doek'],K()?['Plantenspuit','1','gevuld met water']:['Gietijzeren pan','1','of een bak met lavastenen, voor de stoom']];
         steps=[
           ['Autolyse','1 uur','Meng <b>'+fl+' g bloem</b> met <b>'+w1+' g water</b> tot er geen droge bloem meer over is. Dek af en laat 1 uur rusten.','Is je keuken warm? Zet de kom dan in de koelkast.'],
           ['Mengen & kneden','± 10 min','Voeg <b>'+salt+' g zout</b>, <b>'+y+' g gist</b> en <b>'+w2+' g water</b> toe en meng met de deeghaak op een lage stand. Zet de KitchenAid hoger en voeg de laatste <b>'+w3+' g water</b> scheutje voor scheutje toe. Wacht steeds tot het is opgenomen. Kneed door tot het deeg glad en sterk is.','Vliestest: rek een stukje deeg uit. Kun je er licht doorheen kijken zonder dat het scheurt, dan is het goed.'],
           ['Rijzen & vouwen','1 uur','Leg het deeg in een licht ingevette kom en laat het 30 minuten rijzen. Rek en vouw het één keer rondom, keer het om met de vouwkant naar beneden en laat het nog 30 minuten rusten.','Het deeg is erg plakkerig, dat hoort zo bij 85% vocht. Voeg geen extra bloem toe, werk met een schraper.'],
-          ['Delen & voorvormen','20 min rust','Bestuif de doek met de bloem en rijstbloem. Keer het deeg op het werkblad, druk het gelijkmatig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw de bovenkant ⅔ naar beneden en de onderkant ⅔ omhoog, vouw het dicht en sluit de naad. Laat ze 20 minuten afgedekt rusten.'],
+          ['Delen & voorvormen','20 min rust','Bestuif de doek met de <b>'+(10*n)+' g bloem en '+(10*n)+' g rijstbloem</b>. Keer het deeg op het werkblad, druk het gelijkmatig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw de bovenkant ⅔ naar beneden en de onderkant ⅔ omhoog, vouw het dicht en sluit de naad. Laat ze 20 minuten afgedekt rusten.'],
           shape, bakeStep];
         blocks=[['Autolyse',60],['Mengen & kneden',15],['Rijzen & vouwen',60],['Delen & voorvormen',25],['Vormen & narijzen',50],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
         total='Totaal deeg <b>± '+r1(968*f).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>85%</b>';
@@ -395,14 +395,14 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         var fl2=r1(450*f), wa=r1(270*f), wb=r1(45*f), salt2=r1(9*f), lev=r1(135*f), feed=r1(55*f);
         rows=[['grp','Levain · 4–5 uur vooraf'],['Starter',feed+' g','actief'],['Bloem',feed+' g',''],['Water',feed+' g',''],
           ['grp','Deeg'],['Broodbloem of T65',fl2+' g',''],['Water',(wa+wb)+' g','koud, verdeeld: '+wa+' + '+wb+' g'],['Actieve levain',lev+' g','op zijn piek'],['Zout',salt2+' g',''],
-          ['grp','Nodig'],['Bloem + rijstbloem','50/50, voor de doek',''],K()?['Plantenspuit','met water','']:['Gietijzeren pan','of lavastenen, voor de stoom','']];
+          ['grp','Nodig'],['Bloem',(10*n)+' g','voor de doek'],['Rijstbloem',(10*n)+' g','voor de doek'],K()?['Plantenspuit','1','gevuld met water']:['Gietijzeren pan','1','of een bak met lavastenen, voor de stoom']];
         steps=[
           ['Levain','4–5 uur','Voed je starter 1:1:1: <b>'+feed+' g starter, '+feed+' g bloem en '+feed+' g water</b>. Laat hem op kamertemperatuur op zijn piek komen: bol, vol bubbels en licht zuur van geur.','Plan het zo dat de levain piekt ongeveer 1 uur nadat je de autolyse hebt gemaakt.'],
           ['Autolyse','1 uur','Meng <b>'+fl2+' g bloem</b> met <b>'+wa+' g koud water</b> tot er geen droge bloem meer is. Dek af en laat 1 uur rusten.'],
           ['Mengen & kneden','± 10 min','Voeg <b>'+lev+' g levain</b> en <b>'+salt2+' g zout</b> toe. Kneed 5 minuten op een lage stand en 2 minuten op de middelste stand. Voeg de laatste <b>'+wb+' g water</b> in ±2 minuten toe. Kneed door tot het deeg glad is en de vliestest slaagt.','Mik op een deegtemperatuur van ±24°C. Dan klopt de rijstijd hieronder.'],
           ['Bulkrijs','3–3,5 uur','Leg het deeg in een licht ingevette, rechthoekige bak, gladde kant boven. Rek en vouw het na 1,5 uur één keer. Het deeg is klaar als het ±20% gerezen is, met bubbels aan de zijkant en bovenop. Het hoeft niet te verdubbelen.'],
           ['Koude rijs','15–17 uur','Zet de bak afgedekt in de koelkast. De lange koude rijs geeft de diepe smaak.'],
-          ['Delen & voorvormen','30 + 30 min','Laat het deeg 30 minuten op het aanrecht staan. Bestuif de doek met de bloem en rijstbloem. Keer het deeg om, druk het voorzichtig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw ze als een brief en sluit de naad. Laat ze 30 minuten afgedekt rusten.'],
+          ['Delen & voorvormen','30 + 30 min','Laat het deeg 30 minuten op het aanrecht staan. Bestuif de doek met de <b>'+(10*n)+' g bloem en '+(10*n)+' g rijstbloem</b>. Keer het deeg om, druk het voorzichtig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw ze als een brief en sluit de naad. Laat ze 30 minuten afgedekt rusten.'],
           shape, bakeStep];
         blocks=[['Levain voeden',210],['Autolyse',60],['Mengen & kneden',15],['Bulkrijs',195],['Koude rijs (koelkast)',960],['Op het aanrecht',30],['Delen & voorvormen',40],['Vormen & narijzen',70],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
         total='Totaal deeg <b>± '+r1(909*f).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>74%</b>';
@@ -412,7 +412,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         foot:'Naar Erin\'s Cozy Kitchen: <a href="'+(zd?'https://erinscozykitchen.com/recipe/sourdough-baguettes/':'https://erinscozykitchen.com/recipe/french-baguettes/')+'" target="_blank" rel="noopener">'+(zd?'Sourdough Baguettes':'French Baguettes')+'</a> · basis 3 baguettes'};
     },
     oven:function(st){if(K())return HEAD()+BGE('250°','± 20','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 16 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;
-      var b=Math.ceil(st.count/2);return HEAD()+'<h4>Op de steen, met stoom</h4><div class="oven"><div><strong>250°</strong><span>10 min stoom</span></div><div><strong>230°</strong><span>nog ±10 min</span></div><div><strong>¾ kop</strong><span>kokend water</span></div></div>'+
+      var b=Math.ceil(st.count/2);return HEAD()+'<h4>Op de steen, met stoom</h4><div class="oven"><div><strong>250°</strong><span>10 min stoom</span></div><div><strong>230°</strong><span>nog ±10 min</span></div><div><strong>175 ml</strong><span>kokend water</span></div></div>'+
       '<div class="tip a">Verwarm de oven voor op <b>260°C</b>, met de pizzasteen op het middelste rooster en een gietijzeren pan of bak met lavastenen onderin. Hoe langer je voorverwarmt, hoe krokanter de korst. Op een ronde steen passen 2 baguettes van ±30 cm naast elkaar.</div>'+
       '<div class="tip">Heteluchtoven? Zet hem uit vlak voordat je de baguettes erin schuift, anders hardt de ventilator de korst te snel uit. Giet het water erin en bak 8 minuten met de oven uit. Open de deur even, zet de oven weer aan op 250°C en bak nog ±10 minuten.</div>'+
       (b>1?'<div class="tip">'+b+' rondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+CARE;},
@@ -421,7 +421,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       '<li><b>Kruim ongelijk:</b> meestal het vormen. Druk overal even hard en laat beide uiteinden even taps toelopen.</li>'+
       '<li><b>Korst niet krokant:</b> te weinig stoom of de oven niet heet genoeg. Verwarm langer voor en zorg dat er in de eerste minuten echt stoom is.</li>'+
       '<li><b>Deeg scheurt bij vormen:</b> te koud of te strak. Laat het een paar minuten langer rusten.</li></ol>'+
-      '<div class="tip">Een linnen doek met plooien houdt de baguettes in vorm. Bestuif hem met half bloem, half rijstbloem: rijstbloem plakt niet.</div>'+
+      '<div class="tip">Een linnen doek met plooien houdt de baguettes in vorm. Bestuif hem met gelijke delen bloem en rijstbloem: rijstbloem plakt niet.</div>'+
       '<div class="tip a"><b>Bewaren:</b> het lekkerst op de dag zelf, de korst wordt \'s nachts zacht. Vries afgekoelde baguettes tot 1 maand in een luchtdichte zak. Opwarmen: zonder ontdooien 10–12 minuten op 180°C.</div>';}
   };
 
@@ -435,10 +435,11 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     planQ:'Wanneer moeten ze klaar zijn?',
     calc:function(st){
       var n=st.count, f=n/20, txt=st.tekst==='ja';
-      var KL={roze:'een vleugje roze kleurpasta',ivoor:'een piepklein beetje gele of bruine kleurpasta',blauw:'een vleugje blauwe kleurpasta',geel:'een vleugje gele kleurpasta'};
       var fond=Math.ceil(n*15*1.25/10)*10, trays=Math.ceil(n/20), flour=Math.round(200*f);
-      var rows=[['grp','Koekjesdeeg'],['Roomboter',Math.round(150*f)+' g','ongezouten, op kamertemperatuur'],['Witte basterdsuiker',Math.round(100*f)+' g',''],['Eidooier',Math.max(1,Math.round(f))+'×',''],['Tarwebloem',flour+' g','plus wat om uit te rollen'],
-        ['grp','Afwerking'],['Fondant',fond+' g','wit, inclusief restjes'],['Kleurpasta',st.kleur==='ivoor'?'heel weinig':'vleugje',{roze:'roze',ivoor:'geel of bruin',blauw:'blauw',geel:'geel'}[st.kleur]],['Eetbare lijm','beetje','of water of abrikozenjam, om te plakken'],['Maïzena of poedersuiker','beetje','om uit te rollen']];
+      var drops=st.kleur==='ivoor'?Math.max(1,Math.ceil(fond/200)):Math.max(1,Math.ceil(fond/50)), glue=Math.max(5,Math.round(n*0.5)), mz=Math.max(10,Math.ceil(fond*0.1/5)*5), roll=Math.max(10,Math.round(20*f/5)*5);
+      var KN={roze:'roze',ivoor:'gele',blauw:'blauwe',geel:'gele'}, KL={}; KL[st.kleur]=drops+' druppel'+(drops>1?'s':'')+' '+KN[st.kleur]+' gelkleurstof';
+      var rows=[['grp','Koekjesdeeg'],['Roomboter',Math.round(150*f)+' g','ongezouten, op kamertemperatuur'],['Witte basterdsuiker',Math.round(100*f)+' g',''],['Eidooier',Math.max(1,Math.round(f))+'×',''],['Tarwebloem',flour+' g',''],['Bloem om uit te rollen',roll+' g',''],
+        ['grp','Afwerking'],['Fondant',fond+' g','wit, inclusief restjes'],['Gelkleurstof',drops+' druppel'+(drops>1?'s':''),{roze:'roze',ivoor:'geel, voor een warme ivoortint',blauw:'blauw',geel:'geel'}[st.kleur]],['Eetbare lijm',glue+' ml','of water of abrikozenjam, om te plakken'],['Maïzena',mz+' g','om de fondant uit te rollen']];
       if(txt)rows.push(['Letterstempels','1 set','voor de tekst']);
       rows.push(['Geschulpte uitsteker','Ø 7 cm','voor koekje én fondant']);
       var steps=[
@@ -446,9 +447,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         ['Rusten','1 uur','Druk het deeg tot een platte plak, verpak in vershoudfolie en leg het 1 uur in de koelkast.'],
         ['Uitrollen & uitsteken','20 min','Verwarm de oven voor op <b>175°C</b>. Rol het deeg tussen twee vellen bakpapier uit tot <b>5 mm</b> dik. Steek <b>'+n+' '+(n===1?'koekje':'koekjes')+'</b> uit met de geschulpte uitsteker en leg ze op bakpapier op '+(trays>1?trays+' bakplaten':'een bakplaat')+'. Kneed het restdeeg opnieuw en rol het weer uit.','Leg de uitgestoken koekjes 10 minuten in de koelkast voordat ze de oven in gaan. Dan blijven de schulpjes scherp.'],
         ['Bakken','12–15 min'+(trays>1?' per plaat':''),'Bak de koekjes tot de randjes net lichtbruin worden. Laat ze daarna <b>helemaal afkoelen</b> op een rooster, minstens 45 minuten.','Fondant op een warm koekje smelt en wordt plakkerig. Wacht echt tot ze koud zijn.'],
-        ['Fondant kleuren & uitrollen','15 min','Kneed de <b>'+fond+' g fondant</b> soepel. Voeg met een tandenstoker <b>'+KL[st.kleur]+'</b> toe en kneed tot de kleur egaal is. Rol de fondant op wat maïzena uit tot <b>3 mm</b> en steek met dezelfde uitsteker de rondjes uit.','Kleur liever te licht dan te donker: fondant kleurt na een uur nog wat bij. Dek de fondant die je niet gebruikt af, anders droogt hij uit.']];
+        ['Fondant kleuren & uitrollen','15 min','Kneed de <b>'+fond+' g fondant</b> soepel. Voeg <b>'+KL[st.kleur]+'</b> toe en kneed tot de kleur egaal is. Rol de fondant op <b>'+mz+' g maïzena</b> uit tot <b>3 mm</b> en steek met dezelfde uitsteker de rondjes uit.','Kleur liever te licht dan te donker: fondant wordt na een uur nog iets donkerder. Dek de fondant die je niet gebruikt af, anders droogt hij uit.']];
       if(txt)steps.push(['Tekst stempelen','± 1 min per koekje','Druk de tekst met de letterstempels in de <b>verse, zachte fondant</b>, direct na het uitsteken. Druk recht en gelijkmatig, niet te diep.','Houd het kort: ±14 tekens op de eerste regel en ±22 op de tweede, dan past het mooi op een koekje van 7 cm.']);
-      steps.push(['Plakken & drogen','1–2 uur','Bestrijk elk koekje dun met eetbare lijm, een beetje water of abrikozenjam. Leg de fondant erop en druk hem zacht aan met een vlakke hand. Laat de koekjes 1–2 uur drogen voordat je ze inpakt.','Bewaar ze luchtdicht, koel en droog, tot ±2 weken. Niet in de koelkast: dan gaat de fondant zweten.']);
+      steps.push(['Plakken & drogen','1–2 uur','Bestrijk de koekjes dun met de <b>'+glue+' ml eetbare lijm</b>, water of abrikozenjam. Leg de fondant erop en druk hem zacht aan met een vlakke hand. Laat de koekjes 1–2 uur drogen voordat je ze inpakt.','Bewaar ze luchtdicht, koel en droog, tot ±2 weken. Niet in de koelkast: dan gaat de fondant zweten.']);
       var bake=15*trays+5;
       var blocks=[['Deeg maken',10],['Deeg rusten (koelkast)',60],['Uitrollen & uitsteken',20],['Bakken'+(trays>1?' ('+trays+' platen)':''),bake],['Afkoelen',45],['Fondant kleuren & uitrollen',15+Math.round(n*0.5)]];
       if(txt)blocks.push(['Tekst stempelen',Math.round(n*1)]);
@@ -464,9 +465,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       STONE('Leg de koekjes op bakpapier op de steen. Ze krijgen meer onderwarmte, dus kijk na 10 minuten of de onderkant niet te donker wordt.')+CARE;},
     extra:function(){return '<div class="label">Tips &amp; trucs</div><h2>Strak resultaat</h2>'+
       '<ol class="plain"><li><b>Luchtbelletje in de fondant?</b> Prik het door met een naald en strijk het glad.</li>'+
-      '<li><b>Fondant plakt?</b> Gebruik iets meer maïzena, of laat je handen even afkoelen. Warme handen maken fondant zacht.</li>'+
+      '<li><b>Fondant plakt?</b> Bestuif met nog 5 g maïzena, of laat je handen even afkoelen. Warme handen maken fondant zacht.</li>'+
       '<li><b>Koekjes lopen uit?</b> Het deeg was te warm. Laat het langer rusten en leg de uitgestoken koekjes vóór het bakken in de koelkast.</li>'+
-      '<li><b>Fondant past niet precies?</b> Steek fondant en koekje met dezelfde uitsteker uit. De fondant krimpt niet, het koekje een klein beetje.</li></ol>'+
+      '<li><b>Fondant past niet precies?</b> Steek fondant en koekje met dezelfde uitsteker uit. Zo passen ze precies op elkaar.</li></ol>'+
       '<div class="tip">Maak de koekjes gerust een dag van tevoren. Gebakken koekjes zonder fondant blijven luchtdicht bewaard een week goed.</div>';}
   };
   }
@@ -490,9 +491,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     calc:function(st){
       var f=st.count/3, snel=st.method==='snel';
       var flour=Math.round(500*f), water=Math.round(315*f), yeast=snel?hlf(7*f):Math.max(0.5,hlf(1.5*f));
-      var rows=[['Pizza flour',flour+' g','type 00 / W250'],['Water',water+' g',snel?'warm, ±38°C':'room temperature'],['Salt',Math.round(10*f)+' g',''],['Dried yeast',yeast+' g',snel?zak(yeast):'a little yeast, slow rise']];
+      var rows=[['Pizza flour',flour+' g','type 00 / W250'],['Water',water+' g',snel?'warm, ±38°C':'room temperature'],['Salt',Math.round(10*f)+' g',''],['Dried yeast',yeast+' g',snel?zak(yeast):'slow rise']];
       if(snel)rows.push(['Olive oil',Math.round(10*f)+' g','makes the dough more supple']);
-      rows.push(['Semolina','for stretching','']);
+      rows.push(['Semolina',Math.round(15*st.count)+' g','for stretching']);
       var mix='In the KitchenAid with the dough hook, stir the <b>water ('+water+' g)</b> and <b>yeast</b> for 1 minute. Add the <b>flour ('+flour+' g)</b> and knead for 3–4 minutes on a low speed. Add the <b>salt</b>'+(snel?' and <b>olive oil</b>':'')+' and knead for 2 more minutes. Stop as soon as the dough is smooth and slightly elastic.';
       var steps=[['Mix','5 min',mix,'It doesn\'t have to be perfect.']];
       if(snel){
@@ -531,11 +532,11 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       if(cream)rows.push(['Whipping cream',cream+' ml','lukewarm, with the milk']);
       rows=rows.concat([['Flour',f1+' g','first part'],['Butter',Math.round(60*f)+' g','soft'],['Sugar',Math.round(60*f)+' g','less is fine, at least '+Math.max(5,Math.round(10*f))+' g'],['Dried yeast',yeast+' g',zak(yeast)],
         ['grp','Main dough'],['Egg',frac(egg)+' egg','≈ '+Math.round(50*f)+' g, beaten'],['Salt',salt+' g',''],['Flour',f2+' g','second part'],
-        ['grp','Glaze'],['Egg yolk',yolk+'×',''],['Greek yoghurt',yolk+' tbsp','or a little cream'],['Sesame / poppy seeds','to taste','optional']]);
+        ['grp','Glaze'],['Egg yolk',yolk+'×',''],['Greek yoghurt',yolk+' tbsp','or the same amount of cream'],['Sesame / poppy seeds',st.count+' g','1 g per roll, optional']]);
       var liquid=cream?milk+' ml milk and '+cream+' ml cream':milk+' ml milk';
       var steps=[
         ['Starter dough','30 min','Warm <b>'+liquid+'</b> until lukewarm. If you dip a finger in and want to say "ouch", it\'s too hot and will kill the yeast. Mix in a bowl with <b>'+f1+' g flour</b>, the butter, sugar and yeast. Mix briefly, then cover with a tea towel for 30 minutes.','After half an hour the starter dough will have grown a lot. That tells you straight away that your yeast is alive.'],
-        ['Knead','10 min','Add <b>'+frac(egg)+' egg</b>, <b>'+salt+' g salt</b> and <b>'+f2+' g flour</b>. Knead for ±10 minutes by hand, or ±8 minutes with the dough hook on a low speed. The dough may be a little sticky. If it\'s very sticky, it hasn\'t been kneaded long enough.','Kneading long enough is the secret of a fluffy roll.'],
+        ['Knead','10 min','Add <b>'+frac(egg)+' egg</b>, <b>'+salt+' g salt</b> and <b>'+f2+' g flour</b>. Knead for ±10 minutes by hand, or ±8 minutes with the dough hook on a low speed. The dough may be slightly tacky. If it\'s very sticky, it hasn\'t been kneaded long enough.','Kneading long enough is the secret of a fluffy roll.'],
         ['First rise','1–2 hours','Cover the bowl and let the dough double. The warmer the kitchen, the faster it goes.'],
         ['Shape','15 min','Knock the air out and divide the dough into <b>'+st.count+' pieces of ±'+st.size+' g</b>. Cup your hand over a piece and roll it around on the worktop to build tension in the dough. Place them on '+(trays>1?trays+' baking trays':'a baking tray')+' lined with baking paper.','Weigh the pieces so they are all the same size and bake evenly.'],
         ['Second rise','± 45 min','Cover again and let them double. Tip: in the oven with only the light on.'],
@@ -559,7 +560,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     planQ:'When do you want to slice the bread?',
     calc:function(st){
       var n=st.count, koel=st.method==='koel';
-      var rows=[['Wheat flour',(500*n)+' g','preferably organic'],['Water',(300*n)+' ml','lukewarm'],['Sourdough starter',(125*n)+' g','active, bubbly'],['Salt',(8*n)+' g',''],['Oil','a little','to grease the bowl']];
+      var rows=[['Wheat flour',(500*n)+' g','preferably organic'],['Water',(300*n)+' ml','lukewarm'],['Sourdough starter',(125*n)+' g','active, bubbly'],['Salt',(8*n)+' g',''],['Oil',(5*n)+' ml','to grease the bowl']];
       var steps=[
         ['Feed the starter','4–12 hours ahead','You need <b>'+(125*n)+' g active starter</b>. Feed it in time with equal parts flour and water, so it\'s full of bubbles when you mix.','Quick test: a spoonful of starter in a glass of water floats when it\'s ready.'],
         ['Mix','5 min + 30 min rest','Mix the <b>lukewarm water ('+(300*n)+' ml)</b> with the <b>flour</b>, <b>starter</b> and <b>salt</b>. Knead for 5 minutes with the dough hooks on the middle speed until supple. Cover with a damp tea towel and leave for 30 minutes.'],
@@ -577,7 +578,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       return HEAD()+'<h4>In the cast-iron pot</h4><div class="oven"><div><strong>240°</strong><span>preheated</span></div><div><strong>25</strong><span>min lid on</span></div><div><strong>15–20</strong><span>min lid off</span></div></div>'+
       '<div class="tip a">The lid traps the steam. That lets the bread rise well before the crust sets.</div>'+
       '<div class="tip">Done when it sounds hollow when you tap the bottom.'+(st.count>1?' One pot? Bake the loaves in turn and keep the next one waiting in its banneton in the fridge.':'')+'</div>'+
-      STONE('No cast-iron pot? Bake straight on the stone. Heat the stone with the oven for 45 minutes at 240°C, with a metal tray at the bottom of the oven. Put the bread on baking paper on the stone, pour half a cup of hot water into the tray and bake for 20 minutes. Remove the tray and bake for another 20–25 minutes.')+CARE;},
+      STONE('No cast-iron pot? Bake straight on the stone. Heat the stone with the oven for 45 minutes at 240°C, with a metal tray at the bottom of the oven. Put the bread on baking paper on the stone, pour <b>120 ml hot water</b> into the tray and bake for 20 minutes. Remove the tray and bake for another 20–25 minutes.')+CARE;},
     extra:function(){return '<div class="label">No starter yet?</div><h2>Make your own starter</h2>'+
       '<p>This takes about a week. You need wholemeal flour and lukewarm water.</p>'+
       '<ol class="plain"><li><b>Day 1:</b> weigh a clean jar and note the weight. Mix 50 g wholemeal flour with 50 ml lukewarm water into a smooth paste. Cover loosely and keep somewhere warm, out of draughts and sunlight.</li>'+
@@ -598,17 +599,17 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       var rows, steps, blocks, marks, total;
       var bakeStep=K()
         ?['Score & bake','± 20 min'+(batches>1?' per round':''),'Put the baguettes seam side down on baking paper on your peel. Score each one with a single quick, confident cut at <b>45°</b> along its length. Mist them with the spray bottle, slide them onto the pizza stone and close the dome. Bake for <b>± 20 minutes at 240–250°C</b>.'+(batches>1?' Bake in <b>'+batches+' rounds</b> of '+per+'.':''),'Check after 16 minutes. On the stone the bottoms bake faster.']
-        :['Score & bake','20 min'+(batches>1?' per round':''),'Put the baguettes seam side down on baking paper on your peel. Score each one with a single quick, confident cut at <b>45°</b> along its length. Slide them onto the stone and immediately pour <b>¾ cup boiling water</b> into the hot pan. Bake for <b>10 minutes at 250°C</b> with steam. Open the door briefly to let the steam out, turn the oven down to <b>230°C</b> and bake for another ±10 minutes until nicely browned.'+(batches>1?' Bake in <b>'+batches+' rounds</b> of '+per+'.':''),'Is the dough soft? Chill the baguettes for 15 minutes first, so they\'re easier to score.'];
+        :['Score & bake','20 min'+(batches>1?' per round':''),'Put the baguettes seam side down on baking paper on your peel. Score each one with a single quick, confident cut at <b>45°</b> along its length. Slide them onto the stone and immediately pour <b>175 ml boiling water</b> into the hot pan. Bake for <b>10 minutes at 250°C</b> with steam. Open the door briefly to let the steam out, turn the oven down to <b>230°C</b> and bake for another ±10 minutes until nicely browned.'+(batches>1?' Bake in <b>'+batches+' rounds</b> of '+per+'.':''),'Is the dough soft? Chill the baguettes for 15 minutes first, so they\'re easier to score.'];
       var shape=['Shape & proof',zd?'1 hour':'45 min','Turn a piece bottom side up and press it flat into a long rectangle. Fold the top ⅔ down and press firmly, turn 180° and repeat. Press the middle in with your thumb, fold it in half and seal the seam with the side of your hand. Roll from the centre outwards to <b>±30 cm</b> with tapered ends, using as little flour as possible. Lay them seam side down in the dusted cloth, with pleats for support, and let them proof for '+(zd?'1 hour':'±45 minutes')+'.','Poke test: press gently into the dough with a finger. If a slight dent remains and slowly springs back, it\'s ready.'];
       if(!zd){
         var fl=r1(515*f), w1=r1(350*f), w2=r1(10*f), w3=r1(80*f), salt=r1(10*f), y=Math.round(3*f*10)/10;
         rows=[['grp','Dough'],['Bread flour',fl+' g','high-protein flour, e.g. Manitoba'],['Water',(w1+w2+w3)+' g','split: '+w1+' + '+w2+' + '+w3+' g'],['Salt',salt+' g',''],['Instant dried yeast',y+' g',''],
-          ['grp','You need'],['Flour + rice flour','50/50, for the cloth',''],K()?['Spray bottle','with water','']:['Cast-iron pan','or lava rocks, for steam','']];
+          ['grp','You need'],['Flour',(10*n)+' g','for the cloth'],['Rice flour',(10*n)+' g','for the cloth'],K()?['Spray bottle','1','filled with water']:['Cast-iron pan','1','or a tray of lava rocks, for steam']];
         steps=[
           ['Autolyse','1 hour','Mix <b>'+fl+' g flour</b> with <b>'+w1+' g water</b> until no dry flour is left. Cover and rest for 1 hour.','Warm kitchen? Put the bowl in the fridge.'],
           ['Mix & knead','± 10 min','Add <b>'+salt+' g salt</b>, <b>'+y+' g yeast</b> and <b>'+w2+' g water</b> and mix with the dough hook on a low speed. Turn the KitchenAid up and add the last <b>'+w3+' g water</b> a splash at a time. Wait each time until it\'s absorbed. Keep kneading until the dough is smooth and strong.','Windowpane test: stretch a small piece of dough. If you can see light through it without it tearing, it\'s good.'],
           ['Rise & fold','1 hour','Put the dough in a lightly oiled bowl and let it rise for 30 minutes. Stretch and fold it once all round, turn it folded side down and rest for another 30 minutes.','The dough is very sticky, that\'s normal at 85% hydration. Don\'t add extra flour, work with a scraper.'],
-          ['Divide & pre-shape','20 min rest','Dust the cloth with the flour and rice flour. Turn the dough onto the worktop, press it evenly flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold the top ⅔ down and the bottom ⅔ up, fold it closed and seal the seam. Rest, covered, for 20 minutes.'],
+          ['Divide & pre-shape','20 min rest','Dust the cloth with the <b>'+(10*n)+' g flour and '+(10*n)+' g rice flour</b>. Turn the dough onto the worktop, press it evenly flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold the top ⅔ down and the bottom ⅔ up, fold it closed and seal the seam. Rest, covered, for 20 minutes.'],
           shape, bakeStep];
         blocks=[['Autolyse',60],['Mix & knead',15],['Rise & fold',60],['Divide & pre-shape',25],['Shape & proof',50],['Bake'+(batches>1?' ('+batches+' rounds)':''),bake],['Cool on a rack',25]];
         total='Total dough <b>± '+r1(968*f).toLocaleString(LOC)+' g</b></span><span>Hydration <b>85%</b>';
@@ -616,14 +617,14 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         var fl2=r1(450*f), wa=r1(270*f), wb=r1(45*f), salt2=r1(9*f), lev=r1(135*f), feed=r1(55*f);
         rows=[['grp','Levain · 4–5 hours ahead'],['Starter',feed+' g','active'],['Flour',feed+' g',''],['Water',feed+' g',''],
           ['grp','Dough'],['Bread flour or T65',fl2+' g',''],['Water',(wa+wb)+' g','cold, split: '+wa+' + '+wb+' g'],['Active levain',lev+' g','at its peak'],['Salt',salt2+' g',''],
-          ['grp','You need'],['Flour + rice flour','50/50, for the cloth',''],K()?['Spray bottle','with water','']:['Cast-iron pan','or lava rocks, for steam','']];
+          ['grp','You need'],['Flour',(10*n)+' g','for the cloth'],['Rice flour',(10*n)+' g','for the cloth'],K()?['Spray bottle','1','filled with water']:['Cast-iron pan','1','or a tray of lava rocks, for steam']];
         steps=[
           ['Levain','4–5 hours','Feed your starter 1:1:1: <b>'+feed+' g starter, '+feed+' g flour and '+feed+' g water</b>. Let it peak at room temperature: domed, full of bubbles and smelling slightly sour.','Time it so the levain peaks about 1 hour after you make the autolyse.'],
           ['Autolyse','1 hour','Mix <b>'+fl2+' g flour</b> with <b>'+wa+' g cold water</b> until no dry flour is left. Cover and rest for 1 hour.'],
           ['Mix & knead','± 10 min','Add <b>'+lev+' g levain</b> and <b>'+salt2+' g salt</b>. Knead for 5 minutes on a low speed and 2 minutes on the middle speed. Add the last <b>'+wb+' g water</b> over ±2 minutes. Keep kneading until the dough is smooth and passes the windowpane test.','Aim for a dough temperature of ±24°C. Then the rising times below will be right.'],
           ['Bulk rise','3–3.5 hours','Put the dough in a lightly oiled rectangular container, smooth side up. Stretch and fold it once after 1.5 hours. It\'s ready when it has risen by ±20%, with bubbles on the sides and top. It doesn\'t need to double.'],
           ['Cold rise','15–17 hours','Put the container in the fridge, covered. The long cold rise gives the deep flavour.'],
-          ['Divide & pre-shape','30 + 30 min','Leave the dough on the counter for 30 minutes. Dust the cloth with the flour and rice flour. Turn the dough out, press it gently flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold them like a letter and seal the seam. Rest, covered, for 30 minutes.'],
+          ['Divide & pre-shape','30 + 30 min','Leave the dough on the counter for 30 minutes. Dust the cloth with the <b>'+(10*n)+' g flour and '+(10*n)+' g rice flour</b>. Turn the dough out, press it gently flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold them like a letter and seal the seam. Rest, covered, for 30 minutes.'],
           shape, bakeStep];
         blocks=[['Feed the levain',210],['Autolyse',60],['Mix & knead',15],['Bulk rise',195],['Cold rise (fridge)',960],['On the counter',30],['Divide & pre-shape',40],['Shape & proof',70],['Bake'+(batches>1?' ('+batches+' rounds)':''),bake],['Cool on a rack',25]];
         total='Total dough <b>± '+r1(909*f).toLocaleString(LOC)+' g</b></span><span>Hydration <b>74%</b>';
@@ -632,7 +633,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       return {rows:rows,total:total+'</span><span>Rounds <b>'+batches+' × (max '+per+')</b>',flour:zd?r1(450*f):r1(515*f),steps:steps,blocks:blocks,marks:marks};
     },
     oven:function(st){if(K())return HEAD()+BGE('250°','± 20','Make the baguettes ±30 cm so they fit on the stone, and bake 2 at a time. Slide them on baking paper onto the stone and close the dome. Check after 16 minutes.','No steam tray needed, because the closed BGE holds moisture. Mist the baguettes with a spray bottle just before baking so the cuts open up better.')+CARE;
-      var b=Math.ceil(st.count/2);return HEAD()+'<h4>On the stone, with steam</h4><div class="oven"><div><strong>250°</strong><span>10 min steam</span></div><div><strong>230°</strong><span>±10 min more</span></div><div><strong>¾ cup</strong><span>boiling water</span></div></div>'+
+      var b=Math.ceil(st.count/2);return HEAD()+'<h4>On the stone, with steam</h4><div class="oven"><div><strong>250°</strong><span>10 min steam</span></div><div><strong>230°</strong><span>±10 min more</span></div><div><strong>175 ml</strong><span>boiling water</span></div></div>'+
       '<div class="tip a">Preheat the oven to <b>260°C</b>, with the pizza stone on the middle shelf and a cast-iron pan or tray of lava rocks at the bottom. The longer you preheat, the crispier the crust. A round stone fits 2 baguettes of ±30 cm side by side.</div>'+
       '<div class="tip">Fan oven? Switch it off just before you load the baguettes, otherwise the fan sets the crust too early. Pour in the water and bake for 8 minutes with the oven off. Open the door briefly, switch the oven back on at 250°C and bake for another ±10 minutes.</div>'+
       (b>1?'<div class="tip">'+b+' rounds: keep the next baguettes in the fridge meanwhile, so they don\'t over-proof.</div>':'')+CARE;},
@@ -641,7 +642,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       '<li><b>Uneven crumb:</b> usually the shaping. Press evenly all over and taper both ends the same.</li>'+
       '<li><b>Crust not crisp:</b> not enough steam or the oven isn\'t hot enough. Preheat longer and make sure there\'s real steam in the first minutes.</li>'+
       '<li><b>Dough tears when shaping:</b> too cold or too tight. Let it rest a few minutes longer.</li></ol>'+
-      '<div class="tip">A pleated linen cloth keeps the baguettes in shape. Dust it with half flour, half rice flour: rice flour doesn\'t stick.</div>'+
+      '<div class="tip">A pleated linen cloth keeps the baguettes in shape. Dust it with equal parts flour and rice flour: rice flour doesn\'t stick.</div>'+
       '<div class="tip a"><b>Storing:</b> best on the day itself, the crust softens overnight. Freeze cooled baguettes for up to 1 month in an airtight bag. To reheat: straight from frozen, 10–12 minutes at 180°C.</div>';}
   };
 
@@ -654,10 +655,11 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     planQ:'When do they need to be ready?',
     calc:function(st){
       var n=st.count, f=n/20, txt=st.tekst==='ja';
-      var KL={roze:'a touch of pink gel colour',ivoor:'a tiny amount of yellow or brown gel colour',blauw:'a touch of blue gel colour',geel:'a touch of yellow gel colour'};
       var fond=Math.ceil(n*15*1.25/10)*10, trays=Math.ceil(n/20), flour=Math.round(200*f);
-      var rows=[['grp','Cookie dough'],['Butter',Math.round(150*f)+' g','unsalted, at room temperature'],['Caster sugar',Math.round(100*f)+' g',''],['Egg yolk',Math.max(1,Math.round(f))+'×',''],['Plain flour',flour+' g','plus extra for rolling'],
-        ['grp','Finishing'],['Fondant',fond+' g','white, including scraps'],['Gel colour',st.kleur==='ivoor'?'very little':'a touch',{roze:'pink',ivoor:'yellow or brown',blauw:'blue',geel:'yellow'}[st.kleur]],['Edible glue','a little','or water or apricot jam, to stick'],['Cornflour or icing sugar','a little','for rolling']];
+      var drops=st.kleur==='ivoor'?Math.max(1,Math.ceil(fond/200)):Math.max(1,Math.ceil(fond/50)), glue=Math.max(5,Math.round(n*0.5)), mz=Math.max(10,Math.ceil(fond*0.1/5)*5), roll=Math.max(10,Math.round(20*f/5)*5);
+      var KN={roze:'pink',ivoor:'yellow',blauw:'blue',geel:'yellow'}, KL={}; KL[st.kleur]=drops+' drop'+(drops>1?'s':'')+' of '+KN[st.kleur]+' gel colour';
+      var rows=[['grp','Cookie dough'],['Butter',Math.round(150*f)+' g','unsalted, at room temperature'],['Caster sugar',Math.round(100*f)+' g',''],['Egg yolk',Math.max(1,Math.round(f))+'×',''],['Plain flour',flour+' g',''],['Flour for rolling',roll+' g',''],
+        ['grp','Finishing'],['Fondant',fond+' g','white, including scraps'],['Gel colour',drops+' drop'+(drops>1?'s':''),KN[st.kleur]+(st.kleur==='ivoor'?', for a warm ivory tint':'')],['Edible glue',glue+' ml','or water or apricot jam, to stick'],['Cornflour',mz+' g','for rolling the fondant']];
       if(txt)rows.push(['Letter stamps','1 set','for the text']);
       rows.push(['Scalloped cutter','Ø 7 cm','for cookie and fondant']);
       var steps=[
@@ -665,9 +667,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         ['Rest','1 hour','Press the dough into a flat disc, wrap it in cling film and chill for 1 hour.'],
         ['Roll & cut','20 min','Preheat the oven to <b>175°C</b>. Roll the dough out between two sheets of baking paper to <b>5 mm</b> thick. Cut out <b>'+n+' '+(n===1?'cookie':'cookies')+'</b> with the scalloped cutter and place them on baking paper on '+(trays>1?trays+' baking trays':'a baking tray')+'. Knead the scraps together and roll out again.','Chill the cut cookies for 10 minutes before they go in the oven. That keeps the scallops sharp.'],
         ['Bake','12–15 min'+(trays>1?' per tray':''),'Bake until the edges just turn light golden. Then let them <b>cool completely</b> on a rack, at least 45 minutes.','Fondant on a warm cookie melts and turns sticky. Really wait until they\'re cold.'],
-        ['Colour & roll the fondant','15 min','Knead the <b>'+fond+' g fondant</b> until supple. Add <b>'+KL[st.kleur]+'</b> with a toothpick and knead until the colour is even. Roll the fondant out on a little cornflour to <b>3 mm</b> and cut circles with the same cutter.','Go lighter rather than darker: fondant deepens a little after an hour. Keep the fondant you\'re not using covered so it doesn\'t dry out.']];
+        ['Colour & roll the fondant','15 min','Knead the <b>'+fond+' g fondant</b> until supple. Add <b>'+KL[st.kleur]+'</b> and knead until the colour is even. Roll the fondant out on <b>'+mz+' g cornflour</b> to <b>3 mm</b> and cut circles with the same cutter.','Go lighter rather than darker: fondant turns slightly darker after an hour. Keep the fondant you\'re not using covered so it doesn\'t dry out.']];
       if(txt)steps.push(['Stamp the text','± 1 min per cookie','Press the text into the <b>fresh, soft fondant</b> with the letter stamps, right after cutting. Press straight and evenly, not too deep.','Keep it short: ±14 characters on the first line and ±22 on the second fits nicely on a 7 cm cookie.']);
-      steps.push(['Stick & dry','1–2 hours','Brush each cookie thinly with edible glue, a little water or apricot jam. Lay the fondant on top and press gently with a flat hand. Let the cookies dry for 1–2 hours before packing.','Store airtight, cool and dry, for up to ±2 weeks. Not in the fridge: the fondant will sweat.']);
+      steps.push(['Stick & dry','1–2 hours','Brush the cookies thinly with the <b>'+glue+' ml edible glue</b>, water or apricot jam. Lay the fondant on top and press gently with a flat hand. Let the cookies dry for 1–2 hours before packing.','Store airtight, cool and dry, for up to ±2 weeks. Not in the fridge: the fondant will sweat.']);
       var bake=15*trays+5;
       var blocks=[['Make the dough',10],['Rest the dough (fridge)',60],['Roll & cut',20],['Bake'+(trays>1?' ('+trays+' trays)':''),bake],['Cool',45],['Colour & roll the fondant',15+Math.round(n*0.5)]];
       if(txt)blocks.push(['Stamp the text',Math.round(n*1)]);
@@ -683,9 +685,9 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       STONE('Put the cookies on baking paper on the stone. They get more heat from below, so check after 10 minutes that the bottoms aren\'t getting too dark.')+CARE;},
     extra:function(){return '<div class="label">Tips &amp; tricks</div><h2>A clean finish</h2>'+
       '<ol class="plain"><li><b>Air bubble in the fondant?</b> Prick it with a needle and smooth it over.</li>'+
-      '<li><b>Fondant sticking?</b> Use a little more cornflour, or cool your hands for a moment. Warm hands soften fondant.</li>'+
+      '<li><b>Fondant sticking?</b> Dust with another 5 g cornflour, or cool your hands for a moment. Warm hands soften fondant.</li>'+
       '<li><b>Cookies spreading?</b> The dough was too warm. Rest it longer and chill the cut cookies before baking.</li>'+
-      '<li><b>Fondant doesn\'t fit exactly?</b> Cut fondant and cookie with the same cutter. The fondant doesn\'t shrink, the cookie shrinks slightly.</li></ol>'+
+      '<li><b>Fondant doesn\'t fit exactly?</b> Cut fondant and cookie with the same cutter. That way they match exactly.</li></ol>'+
       '<div class="tip">Feel free to bake the cookies a day ahead. Baked cookies without fondant keep well for a week in an airtight tin.</div>';}
   };
   }
