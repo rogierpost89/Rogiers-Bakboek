@@ -139,8 +139,13 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-
 .oven span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
 h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0}
 .card ol.plain{margin:.4rem 0 0;padding-left:1.2rem}
-footer{text-align:center;font-size:.85rem;color:var(--muted);font-style:italic;font-family:var(--display)}
-footer a{color:inherit}
+.lang{position:absolute;z-index:2;top:calc(12px + env(safe-area-inset-top, 0px));right:max(12px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:1fr 1fr;width:96px;padding:3px;border-radius:999px;background:rgba(255,253,249,.88);border:1px solid var(--paper-edge);box-shadow:0 4px 14px -6px rgba(40,20,5,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.lang::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:var(--accent);transition:transform .28s cubic-bezier(.4,.1,.2,1)}
+.lang[data-lang="en"]::before{transform:translateX(100%)}
+.lang button{position:relative;z-index:1;border:0;background:none;cursor:pointer;padding:.38rem 0;font-family:var(--body);font-size:.8rem;font-weight:500;letter-spacing:.08em;color:var(--muted)}
+.lang button[aria-pressed="true"]{color:var(--bg)}
+.lang button:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:999px}
+@media (prefers-reduced-motion:reduce){.lang::before{transition:none}}
 </style>
 
 <style>html,body{margin:0}html{background:#fffaf0}img{max-width:100%}[hidden]{display:none!important}
@@ -149,16 +154,19 @@ footer a{color:inherit}
 <body>
 <header class="hero">
   <div class="art" id="art"></div>
+  <div class="lang" id="lang" role="group" aria-label="Taal" data-lang="nl">
+    <button type="button" id="l-nl" data-lang="nl" aria-pressed="true">NL</button>
+    <button type="button" id="l-en" data-lang="en" aria-pressed="false">EN</button>
+  </div>
   <div class="hero-shade"></div>
   <div class="hero-text">
-    <div class="stripes" id="stripes"><i></i><i></i><i></i></div>
     <div class="brand">Rogier's Bakboek</div>
     <h1 id="heroTitle">Bakboek</h1>
     <p id="heroSub"></p>
   </div>
 </header>
 
-<nav class="tabs" aria-label="Recepten">
+<nav class="tabs" id="nav" aria-label="Recepten">
   <a href="#pizza" data-tab="pizza">Pizza<small>deegbollen</small></a>
   <a href="#bolletjes" data-tab="bolletjes">Bolletjes<small>wit &amp; zacht</small></a>
   <a href="#zuurdesem" data-tab="zuurdesem">Zuurdesem<small>brood</small></a>
@@ -188,14 +196,14 @@ footer a{color:inherit}
   </section>
 
   <section class="card">
-    <div class="label">Boodschappen</div>
-    <h2>Ingrediënten</h2>
+    <div class="label" id="lShop">Boodschappen</div>
+    <h2 id="lIng">Ingrediënten</h2>
     <ul class="ing" id="ing"></ul>
     <div class="total" id="total"></div>
   </section>
 
   <section class="card">
-    <div class="label">Terugrekenen</div>
+    <div class="label" id="lBack">Terugrekenen</div>
     <h2 id="planQ"></h2>
     <div class="plan-in">
       <input type="time" id="eat" aria-label="Tijd dat het klaar moet zijn">
@@ -205,15 +213,14 @@ footer a{color:inherit}
   </section>
 
   <section class="card">
-    <div class="label">Werkwijze</div>
-    <h2>Zo maak je het</h2>
+    <div class="label" id="lMethod">Werkwijze</div>
+    <h2 id="lMake">Zo maak je het</h2>
     <div class="steps" id="steps"></div>
   </section>
 
   <section class="card" id="ovenCard"></section>
   <section class="card" id="extraCard" hidden></section>
 
-  <footer id="foot"></footer>
 </main>
 
 <script>
@@ -225,17 +232,19 @@ footer a{color:inherit}
   var zak=function(g){if(g<6.5)return 'minder dan 1 zakje';var z=hlf(g/7);return z<=1?'± 1 zakje':'± '+frac(z)+' zakjes (7 g)'};
   var FLOUR_MAX=1350;
 
-  var state={tab:'pizza',mode:'oven',
+  var state={tab:'pizza',mode:'oven',lang:'nl',
     pizza:{count:3,method:'snel',eat:'18:30'},
     bolletjes:{count:10,size:125,liq:'room',eat:'18:00'},
     zuurdesem:{count:1,method:'koel',eat:'12:00'},
     stokbrood:{count:3,method:'gist',eat:'18:00'}};
-  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){if(s.mode==='bge'||s.mode==='oven')state.mode=s.mode;['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
+  try{var s=JSON.parse(localStorage.getItem('bakboek')||'null');if(s){if(s.mode==='bge'||s.mode==='oven')state.mode=s.mode;if(s.lang==='en'||s.lang==='nl')state.lang=s.lang;['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(k){if(s[k])Object.assign(state[k],s[k])});}}catch(e){}
   function save(){try{localStorage.setItem('bakboek',JSON.stringify(state))}catch(e){}}
 
   /* ---------- Recepten ---------- */
   var R={};
 
+  function defNL(R){
+  var LOC='nl-NL';
   var K=function(){return state.mode==='bge'};
   var HEAD=function(){return '<div class="label">Bakken</div><h2>'+(K()?'Op de kamado':'In de oven')+'</h2>'};
   var CARE='<div class="tip a">Leg de steen altijd koud in de oven of BGE en warm hem mee op. Een koude steen in een hete oven kan barsten. Giet nooit water op de steen.</div>';
@@ -303,7 +312,7 @@ footer a{color:inherit}
         ['Vormen','15 min','Sla de lucht eruit en verdeel het deeg in <b>'+st.count+' stukjes van ±'+st.size+' g</b>. Leg je hand als een kommetje over een stukje en draai het over het aanrecht rond, zo zet je het deeg op spanning. Leg ze op '+(trays>1?trays+' bakplaten':'een bakplaat')+' met bakpapier.','Weeg de stukjes af, dan worden ze allemaal even groot en even snel gaar.'],
         ['Tweede rijs','± 45 min','Dek weer af en laat ze verdubbelen. Handig: in de oven met alleen het lampje aan.'],
         ['Insmeren & bakken',K()?'15–18 min':'12–15 min','Klop <b>'+yolk+' eidooier'+(yolk>1?'s':'')+'</b> los met <b>'+yolk+' el Griekse yoghurt</b> en smeer de bolletjes in. Strooi er eventueel sesam of maanzaad over. '+(K()?'Schuif ze op bakpapier op de pizzasteen in de kamado en bak 15–18 minuten op <b>190°C</b>.':'Bak 12–15 minuten op <b>180°C</b>.')]];
-      return {rows:rows,total:'Totaal deeg <b>± '+(st.count*st.size).toLocaleString('nl-NL')+' g</b></span><span>Bakplaten <b>'+trays+' × (±'+per+' per plaat)</b>',flour:f1+f2,steps:steps,
+      return {rows:rows,total:'Totaal deeg <b>± '+(st.count*st.size).toLocaleString(LOC)+' g</b></span><span>Bakplaten <b>'+trays+' × (±'+per+' per plaat)</b>',flour:f1+f2,steps:steps,
         blocks:[['Voordeeg maken',35],['Kneden',15],['Eerste rijs',90],['Vormen',15],[K()?'Tweede rijs':'Tweede rijs + oven voorverwarmen',45],['Bakken'+(trays>1?' ('+trays+' rondes)':''),(K()?18:15)*trays+5]],marks:K()?[['Kamado aansteken + steen opwarmen',-((18*trays+5)+60)]]:[],
         foot:'Naar het recept uit de WhatsApp-groep · basis 10 bolletjes van 125 g'};
     },
@@ -334,7 +343,7 @@ footer a{color:inherit}
         ['Bakken','40–45 min',(K()?'Stook de kamado op tot <b>230°C</b> met de <b>gietijzeren pan en deksel</b> op de pizzasteen.':'Verwarm de oven met de <b>gietijzeren pan en deksel</b> erin voor op <b>240°C</b>.')+' Keer het deeg op bakpapier, gladde kant boven, en maak met een scherp mesje één snede over het midden. Til het met het bakpapier in de hete pan. Bak <b>25 minuten met deksel</b> en daarna <b>15–20 minuten zonder</b>, tot het brood goudbruin is.','Laat het brood helemaal afkoelen voordat je het aansnijdt. Binnenin bakt het nog na.']];
       var bake=45*n;
       var blocks=[['Mengen + rust',35],['Vouwen',10],[koel?'Koude rijs (koelkast)':'Rijzen',koel?720:180],['Vormen',10],['Rijzen in rijsmand',90],['Bakken'+(n>1?' ('+n+' broden na elkaar)':''),bake],['Afkoelen',60]];
-      return {rows:rows,total:'Totaal deeg <b>± '+(933*n).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
+      return {rows:rows,total:'Totaal deeg <b>± '+(933*n).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
         marks:[['Starter voeden',-99999],K()?['Kamado aansteken, pan op de steen',-(bake+60+60)]:['Oven + pan voorverwarmen',-(bake+60+45)]],
         foot:'Naar het Allerhande-recept voor <a href="https://www.ah.nl/allerhande/recept/R-R1201850/biologisch-zuurdesembrood-bakken" target="_blank" rel="noopener">biologisch zuurdesembrood</a> · basis 1 brood'};
     },
@@ -376,7 +385,7 @@ footer a{color:inherit}
           ['Delen & voorvormen','20 min rust','Bestuif de doek met de bloem en rijstbloem. Keer het deeg op het werkblad, druk het gelijkmatig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw de bovenkant ⅔ naar beneden en de onderkant ⅔ omhoog, vouw het dicht en sluit de naad. Laat ze 20 minuten afgedekt rusten.'],
           shape, bakeStep];
         blocks=[['Autolyse',60],['Mengen & kneden',15],['Rijzen & vouwen',60],['Delen & voorvormen',25],['Vormen & narijzen',50],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
-        total='Totaal deeg <b>± '+r1(968*f).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>85%</b>';
+        total='Totaal deeg <b>± '+r1(968*f).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>85%</b>';
       }else{
         var fl2=r1(450*f), wa=r1(270*f), wb=r1(45*f), salt2=r1(9*f), lev=r1(135*f), feed=r1(55*f);
         rows=[['grp','Levain · 4–5 uur vooraf'],['Starter',feed+' g','actief'],['Bloem',feed+' g',''],['Water',feed+' g',''],
@@ -391,7 +400,7 @@ footer a{color:inherit}
           ['Delen & voorvormen','30 + 30 min','Laat het deeg 30 minuten op het aanrecht staan. Bestuif de doek met de bloem en rijstbloem. Keer het deeg om, druk het voorzichtig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw ze als een brief en sluit de naad. Laat ze 30 minuten afgedekt rusten.'],
           shape, bakeStep];
         blocks=[['Levain voeden',270],['Autolyse',60],['Mengen & kneden',15],['Bulkrijs',195],['Koude rijs (koelkast)',960],['Op het aanrecht',30],['Delen & voorvormen',40],['Vormen & narijzen',70],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
-        total='Totaal deeg <b>± '+r1(909*f).toLocaleString('nl-NL')+' g</b></span><span>Hydratatie <b>74%</b>';
+        total='Totaal deeg <b>± '+r1(909*f).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>74%</b>';
       }
       marks=[K()?['Kamado aansteken + steen opwarmen',-(25+bake+60)]:['Oven + steen + pan voorverwarmen op 260°C',-(25+bake+60)]];
       return {rows:rows,total:total+'</span><span>Rondes <b>'+batches+' × (max '+per+')</b>',flour:zd?r1(450*f):r1(515*f),steps:steps,blocks:blocks,marks:marks,
@@ -402,7 +411,7 @@ footer a{color:inherit}
       '<div class="tip a">Verwarm de oven voor op <b>260°C</b>, met de pizzasteen op het middelste rooster en een gietijzeren pan of bak met lavastenen onderin. Hoe langer je voorverwarmt, hoe krokanter de korst.</div>'+
       '<div class="tip">Heteluchtoven? Zet hem uit vlak voordat je de baguettes erin schuift, anders hardt de ventilator de korst te snel uit. Giet het water erin en bak 8 minuten met de oven uit. Open de deur even, zet de oven weer aan op 250°C en bak nog ±10 minuten.</div>'+
       (b>1?'<div class="tip">'+b+' rondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+CARE;},
-    extra:function(){return '<div class="label">Tips van Erin</div><h2>Als het niet lukt</h2>'+
+    extra:function(){return '<div class="label">Tips &amp; trucs</div><h2>Als het niet lukt</h2>'+
       '<ol class="plain"><li><b>Kruim te dicht:</b> te kort gerezen of te weinig gekneed. Doe de vliestest en vergeet het vouwen niet.</li>'+
       '<li><b>Kruim ongelijk:</b> meestal het vormen. Druk overal even hard en laat beide uiteinden even taps toelopen.</li>'+
       '<li><b>Korst niet krokant:</b> te weinig stoom of de oven niet heet genoeg. Verwarm langer voor en zorg dat er in de eerste minuten echt stoom is.</li>'+
@@ -411,11 +420,220 @@ footer a{color:inherit}
       '<div class="tip a"><b>Bewaren:</b> het lekkerst op de dag zelf, de korst wordt \'s nachts zacht. Vries afgekoelde baguettes tot 1 maand in een luchtdichte zak. Opwarmen: zonder ontdooien 10–12 minuten op 180°C.</div>';}
   };
 
+  }
+
+  function defEN(R){
+  var zak=function(g){if(g<6.5)return 'less than 1 sachet';var z=hlf(g/7);return z<=1?'± 1 sachet':'± '+frac(z)+' sachets (7 g)'};
+  var LOC='en-GB';
+  var K=function(){return state.mode==='bge'};
+  var HEAD=function(){return '<div class="label">Baking</div><h2>'+(K()?'On the kamado':'In the oven')+'</h2>'};
+  var CARE='<div class="tip a">Always put the stone in cold and let it heat up with the oven or BGE. A cold stone in a hot oven can crack. Never pour water on the stone.</div>';
+  var STONE=function(t){return '<h4>On the pizza stone in the oven</h4><p>'+t+'</p>'};
+  var BGE=function(temp,time,what,tips){return '<h4>Big Green Egg (kamado), on the pizza stone</h4><div class="oven"><div><strong>'+temp+'</strong><span>dome thermometer</span></div><div><strong>'+time+'</strong><span>minutes</span></div><div><strong>indirect</strong><span>convEGGtor</span></div></div>'+
+    '<ol class="plain"><li>Put the <b>convEGGtor</b> (indirect plate) in first</li><li>Place the <b>grid</b> on top</li><li>Put the <b>pizza stone</b> on the grid and bring it up to '+temp+'C. Let the temperature settle for 20–30 minutes.</li><li>'+what+'</li></ol>'+(tips?'<div class="tip">'+tips+'</div>':'')};
+
+  R.pizza={
+    title:'Pizza<em> dough</em>', sub:'Neapolitan · oven or kamado',
+    cTitle:'Number of dough balls', min:1, max:20,
+    unit:function(st){return (st.count===1?'ball':'balls')+' of ±270 g'},
+    toggles:[{key:'method',opts:[['snel','Quick','± 1 hour'],['lang','Slow','8-hour rise']]}],
+    planQ:'When do you want to eat?',
+    calc:function(st){
+      var f=st.count/3, snel=st.method==='snel';
+      var flour=Math.round(500*f), water=Math.round(315*f), yeast=snel?hlf(7*f):Math.max(0.5,hlf(1.5*f));
+      var rows=[['Pizza flour',flour+' g','type 00 / W250'],['Water',water+' g',snel?'warm, ±38°C':'room temperature'],['Salt',Math.round(10*f)+' g',''],['Dried yeast',yeast+' g',snel?zak(yeast):'a little yeast, slow rise']];
+      if(snel)rows.push(['Olive oil',Math.round(10*f)+' g','makes the dough more supple']);
+      rows.push(['Semolina','for stretching','']);
+      var mix='In the KitchenAid with the dough hook, stir the <b>water ('+water+' g)</b> and <b>yeast</b> for 1 minute. Add the <b>flour ('+flour+' g)</b> and knead for 3–4 minutes on a low speed. Add the <b>salt</b>'+(snel?' and <b>olive oil</b>':'')+' and knead for 2 more minutes. Stop as soon as the dough is smooth and slightly elastic.';
+      var steps=[['Mix','5 min',mix,'It doesn\'t have to be perfect.']];
+      if(snel){
+        steps.push(['Quick rise','30 min','Shape it into a ball and put it in a lightly oiled bowl. Cover with a <b>damp tea towel</b> and leave it somewhere warm, 24–28°C, for example in the oven with only the light on. The dough should roughly double.','Below 21°C the dough rises too slowly for this quick method.']);
+        steps.push(['Shape the balls','15 min','Divide into <b>'+st.count+' '+(st.count===1?'ball':'balls')+' of ±270 g</b>. Let them rest, covered, for another 10–15 minutes.']);
+      }else{
+        steps.push(['Long rise','8 hours','Put the dough in a lightly oiled bowl, cover with a <b>damp tea towel</b> and let it rise for 8 hours at room temperature (±20°C). The long rise gives more flavour and a supple dough, without oil.']);
+        steps.push(['Shape the balls','1 hour before baking','Divide into <b>'+st.count+' '+(st.count===1?'ball':'balls')+' of ±270 g</b>. Let them proof, covered, for 1 hour before baking.']);
+      }
+      steps.push(['Stretch & bake','','Dust the worktop with <b>semolina</b> and press the ball out from the centre. Leave the rim thick for an airy crust. Top and bake straight away.','Semolina sticks less than ordinary flour, so the pizza slides off the peel easily.']);
+      var bake=st.count*(K()?5:10);
+      var blocks=snel?[['Make the dough',10],['Quick rise',30],['Shape balls + rest',15],['Bake the pizzas',bake]]:[['Make the dough',10],['Long rise',480],['Shape balls + proof',60],['Bake the pizzas',bake]];
+      return {rows:rows,total:'Total dough <b>± '+Math.round(st.count*270)+' g</b>',flour:flour,steps:steps,blocks:blocks,
+        marks:[K()?['Light the kamado + heat the stone',-(bake+60)]:['Preheat oven + pizza stone',-(bake+45)]]};
+    },
+    oven:function(st){if(K())return HEAD()+BGE('350°','± 4','Slide the pizza onto the stone with a semolina-dusted peel and close the dome. Give it a quarter turn halfway.','Bake the pizzas one at a time. After each pizza the stone needs a moment to get back up to temperature.')+CARE;
+      return HEAD()+'<h4>Fan oven</h4><div class="oven"><div><strong>250°</strong><span>maximum</span></div><div><strong>8–10</strong><span>minutes</span></div><div><strong>stone</strong><span>heat with oven</span></div></div>'+
+      '<div class="tip">Put your <b>pizza stone</b> on the middle shelf of the cold oven and let it heat up with the oven for at least 45 minutes at 250°C. Slide the pizza onto the stone with a semolina-dusted peel.</div>'+
+      CARE;}
+  };
+
+  R.bolletjes={
+    title:'White <em>Rolls</em>', sub:'Soft · fluffy · fresh from the oven',
+    cTitle:'Number of rolls', min:1, max:40,
+    unit:function(st){return (st.count===1?'roll':'rolls')+' of ±'+st.size+' g'},
+    toggles:[{key:'size',num:true,opts:[[80,'Small','±80 g'],[125,'Regular','±125 g'],[155,'Large','±155 g · burger']]},
+             {key:'liq',opts:[['room','Milk + cream','richer, softer'],['melk','Milk only','lighter']]}],
+    planQ:'When do you want to eat?',
+    calc:function(st){
+      var f=st.count*st.size/1250, room=st.liq==='room';
+      var milk=room?r5(200*f):r5(400*f), cream=room?r5(200*f):0;
+      var f1=Math.round(300*f), f2=Math.round(350*f), yeast=hlf(8*f), salt=Math.round(12*f);
+      var egg=Math.max(0.5,hlf(f)), yolk=Math.max(1,Math.round(f));
+      var per=st.size===80?16:st.size===125?12:9, trays=Math.ceil(st.count/per);
+      var rows=[['grp','Starter dough'],['Milk',milk+' ml','lukewarm']];
+      if(cream)rows.push(['Whipping cream',cream+' ml','lukewarm, with the milk']);
+      rows=rows.concat([['Flour',f1+' g','first part'],['Butter',Math.round(60*f)+' g','soft'],['Sugar',Math.round(60*f)+' g','less is fine, at least '+Math.max(5,Math.round(10*f))+' g'],['Dried yeast',yeast+' g',zak(yeast)],
+        ['grp','Main dough'],['Egg',frac(egg)+' egg','≈ '+Math.round(50*f)+' g, beaten'],['Salt',salt+' g',''],['Flour',f2+' g','second part'],
+        ['grp','Glaze'],['Egg yolk',yolk+'×',''],['Greek yoghurt',yolk+' tbsp','or a little cream'],['Sesame / poppy seeds','to taste','optional']]);
+      var liquid=cream?milk+' ml milk and '+cream+' ml cream':milk+' ml milk';
+      var steps=[
+        ['Starter dough','30 min','Warm <b>'+liquid+'</b> until lukewarm. If you dip a finger in and want to say "ouch", it\'s too hot and will kill the yeast. Mix in a bowl with <b>'+f1+' g flour</b>, the butter, sugar and yeast. Mix briefly, then cover with a tea towel for 30 minutes.','After half an hour the starter dough will have grown a lot. That tells you straight away that your yeast is alive.'],
+        ['Knead','10 min','Add <b>'+frac(egg)+' egg</b>, <b>'+salt+' g salt</b> and <b>'+f2+' g flour</b>. Knead for ±10 minutes by hand, or ±8 minutes with the dough hook on a low speed. The dough may be a little sticky. If it\'s very sticky, it hasn\'t been kneaded long enough.','Kneading long enough is the secret of a fluffy roll.'],
+        ['First rise','1–2 hours','Cover the bowl and let the dough double. The warmer the kitchen, the faster it goes.'],
+        ['Shape','15 min','Knock the air out and divide the dough into <b>'+st.count+' pieces of ±'+st.size+' g</b>. Cup your hand over a piece and roll it around on the worktop to build tension in the dough. Place them on '+(trays>1?trays+' baking trays':'a baking tray')+' lined with baking paper.','Weigh the pieces so they are all the same size and bake evenly.'],
+        ['Second rise','± 45 min','Cover again and let them double. Tip: in the oven with only the light on.'],
+        ['Glaze & bake',K()?'15–18 min':'12–15 min','Beat <b>'+yolk+' egg yolk'+(yolk>1?'s':'')+'</b> with <b>'+yolk+' tbsp Greek yoghurt</b> and brush the rolls. Sprinkle with sesame or poppy seeds if you like. '+(K()?'Slide them on baking paper onto the pizza stone in the kamado and bake for 15–18 minutes at <b>190°C</b>.':'Bake for 12–15 minutes at <b>180°C</b>.')]];
+      return {rows:rows,total:'Total dough <b>± '+(st.count*st.size).toLocaleString(LOC)+' g</b></span><span>Baking trays <b>'+trays+' × (±'+per+' per tray)</b>',flour:f1+f2,steps:steps,
+        blocks:[['Make the starter dough',35],['Knead',15],['First rise',90],['Shape',15],[K()?'Second rise':'Second rise + preheat oven',45],['Bake'+(trays>1?' ('+trays+' rounds)':''),(K()?18:15)*trays+5]],marks:K()?[['Light the kamado + heat the stone',-((18*trays+5)+60)]]:[]};
+    },
+    oven:function(){if(K())return HEAD()+BGE('190°','15–18','Slide the rolls on baking paper onto the stone and close the dome. Check the bottoms after 10 minutes.','Fewer rolls fit on the round stone than on a baking tray. Plan an extra round and keep the rest cool in the meantime.')+CARE;
+      return HEAD()+'<h4>On a baking tray</h4><div class="oven"><div><strong>180°</strong><span>top/bottom heat</span></div><div><strong>12–15</strong><span>minutes</span></div><div><strong>middle</strong><span>shelf</span></div></div>'+
+      '<div class="tip a">Proofing them in the oven with only the light on? Take them out first before you preheat.</div>'+
+      '<div class="tip">Fan oven: set it to ±170°C. They\'re done when golden brown and they sound hollow when you tap the bottom. Check after 12 minutes the first time.</div>'+
+      '<div class="tip">Several trays? Bake them one at a time and keep the next tray somewhere cool so they don\'t over-proof.</div>'+
+      STONE('Heat the stone with the oven for 45 minutes at 180°C. Proof the rolls on baking paper and slide them, paper and all, onto the stone with a board or your pizza peel. They get more heat from below, so check after 10 minutes that the bottoms aren\'t getting too dark.')+CARE;}
+  };
+
+  R.zuurdesem={
+    title:'Sourdough <em>Bread</em>', sub:'Starter · banneton · cast-iron pot',
+    cTitle:'Number of loaves', min:1, max:4,
+    unit:function(st){return (st.count===1?'loaf':'loaves')+' of ±930 g dough'},
+    toggles:[{key:'method',opts:[['koel','Fridge','12 h · bake tomorrow'],['dag','Same day','3 h rise']]}],
+    planQ:'When do you want to slice the bread?',
+    calc:function(st){
+      var n=st.count, koel=st.method==='koel';
+      var rows=[['Wheat flour',(500*n)+' g','preferably organic'],['Water',(300*n)+' ml','lukewarm'],['Sourdough starter',(125*n)+' g','active, bubbly'],['Salt',(8*n)+' g',''],['Oil','a little','to grease the bowl']];
+      var steps=[
+        ['Feed the starter','4–12 hours ahead','You need <b>'+(125*n)+' g active starter</b>. Feed it in time with equal parts flour and water, so it\'s full of bubbles when you mix.','Quick test: a spoonful of starter in a glass of water floats when it\'s ready.'],
+        ['Mix','5 min + 30 min rest','Mix the <b>lukewarm water ('+(300*n)+' ml)</b> with the <b>flour</b>, <b>starter</b> and <b>salt</b>. Knead for 5 minutes with the dough hooks on the middle speed until supple. Cover with a damp tea towel and leave for 30 minutes.'],
+        ['Fold','5 min','Wet your hands. Gently stretch a piece of dough at the edge and fold it inwards. Work your way around until the whole edge is folded in. Put the dough in a lightly oiled bowl and cover with a damp tea towel.'],
+        koel?['Cold rise','12 hours','Put the bowl in the fridge for 12 hours. The cold rise gives a fuller, tangier flavour, and the dough is easier to shape afterwards.']
+            :['Rise','3 hours','Let the dough rise for 3 hours somewhere warm. The warmer the kitchen, the faster it goes.'],
+        ['Shape & banneton','1.5 hours','Turn the dough onto a lightly floured worktop'+(n>1?' and divide it into <b>'+n+' equal pieces</b>':'')+'. Shape a ball by tucking the bottom inwards with turning movements. Place it seam side up in a floured banneton and pinch the seam closed. Let it rise for 1.5 hours somewhere warm.','No banneton? A clean, floured tea towel in a colander or bowl works too. The dough is ready when it springs back slowly after a gentle poke.'],
+        ['Bake','40–45 min',(K()?'Heat the kamado to <b>230°C</b> with the <b>cast-iron pot and lid</b> on the pizza stone.':'Preheat the oven to <b>240°C</b> with the <b>cast-iron pot and lid</b> inside.')+' Turn the dough out onto baking paper, smooth side up, and make one cut across the middle with a sharp blade. Lift it on the paper into the hot pot. Bake <b>25 minutes with the lid on</b>, then <b>15–20 minutes without</b>, until golden brown.','Let the bread cool completely before slicing. It keeps baking on the inside.']];
+      var bake=45*n;
+      var blocks=[['Mix + rest',35],['Fold',10],[koel?'Cold rise (fridge)':'Rise',koel?720:180],['Shape',10],['Rise in banneton',90],['Bake'+(n>1?' ('+n+' loaves in turn)':''),bake],['Cool',60]];
+      return {rows:rows,total:'Total dough <b>± '+(933*n).toLocaleString(LOC)+' g</b></span><span>Hydration <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
+        marks:[['Feed the starter',-99999],K()?['Light the kamado, pot on the stone',-(bake+60+60)]:['Preheat oven + pot',-(bake+60+45)]]};
+    },
+    oven:function(st){if(K())return HEAD()+BGE('230°','40–45','Put the cast-iron pot on the stone and let it heat up for 30 minutes. Bake 25 minutes with the pot lid on and 15–20 minutes without, keeping the BGE dome closed.','It also works without a pot: put the bread on baking paper straight on the stone. The closed BGE holds plenty of moisture by itself.')+CARE;
+      return HEAD()+'<h4>In the cast-iron pot</h4><div class="oven"><div><strong>240°</strong><span>preheated</span></div><div><strong>25</strong><span>min lid on</span></div><div><strong>15–20</strong><span>min lid off</span></div></div>'+
+      '<div class="tip a">The lid traps the steam. That lets the bread rise well before the crust sets.</div>'+
+      '<div class="tip">Done when it sounds hollow when you tap the bottom.'+(st.count>1?' One pot? Bake the loaves in turn and keep the next one waiting in its banneton in the fridge.':'')+'</div>'+
+      STONE('No cast-iron pot? Bake straight on the stone. Heat the stone with the oven for 45 minutes at 240°C, with a metal tray at the bottom of the oven. Put the bread on baking paper on the stone, pour half a cup of hot water into the tray and bake for 20 minutes. Remove the tray and bake for another 20–25 minutes.')+CARE;},
+    extra:function(){return '<div class="label">No starter yet?</div><h2>Make your own starter</h2>'+
+      '<p>This takes about a week. You need wholemeal flour and lukewarm water.</p>'+
+      '<ol class="plain"><li><b>Day 1:</b> weigh a clean jar and note the weight. Mix 50 g wholemeal flour with 50 ml lukewarm water into a smooth paste. Cover loosely and keep somewhere warm, out of draughts and sunlight.</li>'+
+      '<li><b>Days 2 to 7:</b> stir in 50 g wholemeal flour and 50 ml lukewarm water every day.</li>'+
+      '<li><b>Ready:</b> after ±7 days it\'s full of bubbles and smells slightly sour. A grey layer of liquid on top is normal; stir it in.</li></ol>'+
+      '<div class="tip">Not baking every week? Keep the starter covered in the fridge and feed it every 7 to 14 days. Never fill the jar more than three-quarters, because it rises.</div>';}
+  };
+
+  R.stokbrood={
+    title:'French <em>Baguette</em>', sub:'Crisp crust · open crumb · steam',
+    cTitle:'Number of baguettes', min:1, max:12,
+    unit:function(st){return (st.count===1?'baguette':'baguettes')+' of ±'+(st.method==='zd'?300:320)+' g · ±30 cm for your pizza stone'},
+    toggles:[{key:'method',opts:[['gist','With yeast','1 day · 85% hydration'],['zd','Sourdough','2 days · 74% hydration']]}],
+    planQ:'When do you want to eat?',
+    calc:function(st){
+      var n=st.count, f=n/3, zd=st.method==='zd', r1=function(x){return Math.round(x)};
+      var per=K()?2:3, batches=Math.ceil(n/per), bake=20*batches;
+      var rows, steps, blocks, marks, total;
+      var bakeStep=K()
+        ?['Score & bake','± 20 min'+(batches>1?' per round':''),'Put the baguettes seam side down on baking paper on your peel. Score each one with a single quick, confident cut at <b>45°</b> along its length. Mist them with the spray bottle, slide them onto the pizza stone and close the dome. Bake for <b>± 20 minutes at 240–250°C</b>.'+(batches>1?' Bake in <b>'+batches+' rounds</b> of '+per+'.':''),'Check after 16 minutes. On the stone the bottoms bake faster.']
+        :['Score & bake','20 min'+(batches>1?' per round':''),'Put the baguettes seam side down on baking paper on your peel. Score each one with a single quick, confident cut at <b>45°</b> along its length. Slide them onto the stone and immediately pour <b>¾ cup boiling water</b> into the hot pan. Bake for <b>10 minutes at 250°C</b> with steam. Open the door briefly to let the steam out, turn the oven down to <b>230°C</b> and bake for another ±10 minutes until nicely browned.'+(batches>1?' Bake in <b>'+batches+' rounds</b> of '+per+'.':''),'Is the dough soft? Chill the baguettes for 15 minutes first, so they\'re easier to score.'];
+      var shape=['Shape & proof',zd?'1 hour':'45 min','Turn a piece bottom side up and press it flat into a long rectangle. Fold the top ⅔ down and press firmly, turn 180° and repeat. Press the middle in with your thumb, fold it in half and seal the seam with the side of your hand. Roll from the centre outwards to <b>±30 cm</b> with tapered ends, using as little flour as possible. Lay them seam side down in the dusted cloth, with pleats for support, and let them proof for '+(zd?'1 hour':'±45 minutes')+'.','Poke test: press gently into the dough with a finger. If a slight dent remains and slowly springs back, it\'s ready.'];
+      if(!zd){
+        var fl=r1(515*f), w1=r1(350*f), w2=r1(10*f), w3=r1(80*f), salt=r1(10*f), y=Math.round(3*f*10)/10;
+        rows=[['grp','Dough'],['Bread flour',fl+' g','high-protein flour, e.g. Manitoba'],['Water',(w1+w2+w3)+' g','split: '+w1+' + '+w2+' + '+w3+' g'],['Salt',salt+' g',''],['Instant dried yeast',y+' g',''],
+          ['grp','You need'],['Flour + rice flour','50/50, for the cloth',''],K()?['Spray bottle','with water','']:['Cast-iron pan','or lava rocks, for steam','']];
+        steps=[
+          ['Autolyse','1 hour','Mix <b>'+fl+' g flour</b> with <b>'+w1+' g water</b> until no dry flour is left. Cover and rest for 1 hour.','Warm kitchen? Put the bowl in the fridge.'],
+          ['Mix & knead','± 10 min','Add <b>'+salt+' g salt</b>, <b>'+y+' g yeast</b> and <b>'+w2+' g water</b> and mix with the dough hook on a low speed. Turn the KitchenAid up and add the last <b>'+w3+' g water</b> a splash at a time. Wait each time until it\'s absorbed. Keep kneading until the dough is smooth and strong.','Windowpane test: stretch a small piece of dough. If you can see light through it without it tearing, it\'s good.'],
+          ['Rise & fold','1 hour','Put the dough in a lightly oiled bowl and let it rise for 30 minutes. Stretch and fold it once all round, turn it folded side down and rest for another 30 minutes.','The dough is very sticky, that\'s normal at 85% hydration. Don\'t add extra flour, work with a scraper.'],
+          ['Divide & pre-shape','20 min rest','Dust the cloth with the flour and rice flour. Turn the dough onto the worktop, press it evenly flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold the top ⅔ down and the bottom ⅔ up, fold it closed and seal the seam. Rest, covered, for 20 minutes.'],
+          shape, bakeStep];
+        blocks=[['Autolyse',60],['Mix & knead',15],['Rise & fold',60],['Divide & pre-shape',25],['Shape & proof',50],['Bake'+(batches>1?' ('+batches+' rounds)':''),bake],['Cool on a rack',25]];
+        total='Total dough <b>± '+r1(968*f).toLocaleString(LOC)+' g</b></span><span>Hydration <b>85%</b>';
+      }else{
+        var fl2=r1(450*f), wa=r1(270*f), wb=r1(45*f), salt2=r1(9*f), lev=r1(135*f), feed=r1(55*f);
+        rows=[['grp','Levain · 4–5 hours ahead'],['Starter',feed+' g','active'],['Flour',feed+' g',''],['Water',feed+' g',''],
+          ['grp','Dough'],['Bread flour or T65',fl2+' g',''],['Water',(wa+wb)+' g','cold, split: '+wa+' + '+wb+' g'],['Active levain',lev+' g','at its peak'],['Salt',salt2+' g',''],
+          ['grp','You need'],['Flour + rice flour','50/50, for the cloth',''],K()?['Spray bottle','with water','']:['Cast-iron pan','or lava rocks, for steam','']];
+        steps=[
+          ['Levain','4–5 hours','Feed your starter 1:1:1: <b>'+feed+' g starter, '+feed+' g flour and '+feed+' g water</b>. Let it peak at room temperature: domed, full of bubbles and smelling slightly sour.','Time it so the levain peaks about 1 hour after you make the autolyse.'],
+          ['Autolyse','1 hour','Mix <b>'+fl2+' g flour</b> with <b>'+wa+' g cold water</b> until no dry flour is left. Cover and rest for 1 hour.'],
+          ['Mix & knead','± 10 min','Add <b>'+lev+' g levain</b> and <b>'+salt2+' g salt</b>. Knead for 5 minutes on a low speed and 2 minutes on the middle speed. Add the last <b>'+wb+' g water</b> over ±2 minutes. Keep kneading until the dough is smooth and passes the windowpane test.','Aim for a dough temperature of ±24°C. Then the rising times below will be right.'],
+          ['Bulk rise','3–3.5 hours','Put the dough in a lightly oiled rectangular container, smooth side up. Stretch and fold it once after 1.5 hours. It\'s ready when it has risen by ±20%, with bubbles on the sides and top. It doesn\'t need to double.'],
+          ['Cold rise','15–17 hours','Put the container in the fridge, covered. The long cold rise gives the deep flavour.'],
+          ['Divide & pre-shape','30 + 30 min','Leave the dough on the counter for 30 minutes. Dust the cloth with the flour and rice flour. Turn the dough out, press it gently flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold them like a letter and seal the seam. Rest, covered, for 30 minutes.'],
+          shape, bakeStep];
+        blocks=[['Feed the levain',270],['Autolyse',60],['Mix & knead',15],['Bulk rise',195],['Cold rise (fridge)',960],['On the counter',30],['Divide & pre-shape',40],['Shape & proof',70],['Bake'+(batches>1?' ('+batches+' rounds)':''),bake],['Cool on a rack',25]];
+        total='Total dough <b>± '+r1(909*f).toLocaleString(LOC)+' g</b></span><span>Hydration <b>74%</b>';
+      }
+      marks=[K()?['Light the kamado + heat the stone',-(25+bake+60)]:['Preheat oven + stone + pan to 260°C',-(25+bake+60)]];
+      return {rows:rows,total:total+'</span><span>Rounds <b>'+batches+' × (max '+per+')</b>',flour:zd?r1(450*f):r1(515*f),steps:steps,blocks:blocks,marks:marks};
+    },
+    oven:function(st){if(K())return HEAD()+BGE('250°','± 20','Make the baguettes ±30 cm so they fit on the stone, and bake 2 at a time. Slide them on baking paper onto the stone and close the dome. Check after 16 minutes.','No steam tray needed, because the closed BGE holds moisture. Mist the baguettes with a spray bottle just before baking so the cuts open up better.')+CARE;
+      var b=Math.ceil(st.count/3);return HEAD()+'<h4>On the stone, with steam</h4><div class="oven"><div><strong>250°</strong><span>10 min steam</span></div><div><strong>230°</strong><span>±10 min more</span></div><div><strong>¾ cup</strong><span>boiling water</span></div></div>'+
+      '<div class="tip a">Preheat the oven to <b>260°C</b>, with the pizza stone on the middle shelf and a cast-iron pan or tray of lava rocks at the bottom. The longer you preheat, the crispier the crust.</div>'+
+      '<div class="tip">Fan oven? Switch it off just before you load the baguettes, otherwise the fan sets the crust too early. Pour in the water and bake for 8 minutes with the oven off. Open the door briefly, switch the oven back on at 250°C and bake for another ±10 minutes.</div>'+
+      (b>1?'<div class="tip">'+b+' rounds: keep the next baguettes in the fridge meanwhile, so they don\'t over-proof.</div>':'')+CARE;},
+    extra:function(){return '<div class="label">Tips &amp; tricks</div><h2>When it doesn\'t work</h2>'+
+      '<ol class="plain"><li><b>Crumb too tight:</b> under-proofed or not kneaded enough. Do the windowpane test and don\'t skip the folds.</li>'+
+      '<li><b>Uneven crumb:</b> usually the shaping. Press evenly all over and taper both ends the same.</li>'+
+      '<li><b>Crust not crisp:</b> not enough steam or the oven isn\'t hot enough. Preheat longer and make sure there\'s real steam in the first minutes.</li>'+
+      '<li><b>Dough tears when shaping:</b> too cold or too tight. Let it rest a few minutes longer.</li></ol>'+
+      '<div class="tip">A pleated linen cloth keeps the baguettes in shape. Dust it with half flour, half rice flour: rice flour doesn\'t stick.</div>'+
+      '<div class="tip a"><b>Storing:</b> best on the day itself, the crust softens overnight. Freeze cooled baguettes for up to 1 month in an airtight bag. To reheat: straight from frozen, 10–12 minutes at 180°C.</div>';}
+  };
+  }
+
+  function setLang(l){R={};(l==='en'?defEN:defNL)(R);}
+  setLang(state.lang);
+
   /* ---------- Hero art ---------- */
-  var ALT={pizza:'Napolitaanse pizza margherita op een terras aan de Amalfikust',bolletjes:'Mandje met witte bolletjes in een bakkerij',zuurdesem:'Zuurdesembrood met een snee op een houten plank',stokbrood:'Franse stokbroden op een houten tafel bij het raam'};
+  var T={
+    nl:{loc:'nl-NL',nav:'Recepten',tabs:{pizza:['Pizza','deegbollen'],bolletjes:['Bolletjes','wit & zacht'],zuurdesem:['Zuurdesem','brood'],stokbrood:['Stokbrood','baguette']},
+      where:'Waar bak je?',oven:['Oven','bakplaat of steen'],bge:['Kamado','Big Green Egg'],how:'Hoeveel maak je?',less:'Eén minder',more:'Eén meer',
+      shop:'Boodschappen',ing:'Ingrediënten',back:'Terugrekenen',eatAria:'Tijd dat het klaar moet zijn',method:'Werkwijze',make:'Zo maak je het',langLabel:'Taal',
+      warn:function(g){return 'Let op: '+g+' g bloem past niet in één KitchenAid-kom. Maak het deeg in twee porties.'},
+      eat:'Smakelijk eten',slice:'Aansnijden',day0:'Op de dag zelf',day1:'De dag ervoor',dayN:function(n){return n+' dagen ervoor'},
+      start:function(when,t,h,m){return 'Begin '+when+'om '+t+' (±'+h+' u'+(m?' '+m+' min':'')+')'},
+      alt:{pizza:'Napolitaanse pizza margherita op een terras aan de Amalfikust',bolletjes:'Mandje met witte bolletjes in een bakkerij',zuurdesem:'Zuurdesembrood met een snee op een houten plank',stokbrood:'Franse stokbroden op een houten tafel bij het raam'}},
+    en:{loc:'en-GB',nav:'Recipes',tabs:{pizza:['Pizza','dough balls'],bolletjes:['Rolls','white & soft'],zuurdesem:['Sourdough','loaf'],stokbrood:['Baguette','French']},
+      where:'Where are you baking?',oven:['Oven','tray or stone'],bge:['Kamado','Big Green Egg'],how:'How many?',less:'One fewer',more:'One more',
+      shop:'Shopping list',ing:'Ingredients',back:'Plan backwards',eatAria:'Time it needs to be ready',method:'Method',make:'How to make it',langLabel:'Language',
+      warn:function(g){return 'Note: '+g+' g of flour won\'t fit in one KitchenAid bowl. Make the dough in two batches.'},
+      eat:'Enjoy your meal',slice:'Slice the bread',day0:'On the day',day1:'The day before',dayN:function(n){return n+' days before'},
+      start:function(when,t,h,m){return 'Start '+when+'at '+t+' (±'+h+' h'+(m?' '+m+' min':'')+')'},
+      alt:{pizza:'Neapolitan margherita pizza on a terrace on the Amalfi Coast',bolletjes:'Basket of white bread rolls in a bakery',zuurdesem:'Sourdough loaf with a slice on a wooden board',stokbrood:'French baguettes on a wooden table by the window'}}
+  };
+  var L=function(){return T[state.lang]};
+  function applyUI(){
+    var t=L(); document.documentElement.lang=state.lang;
+    $('nav').setAttribute('aria-label',t.nav);
+    document.querySelectorAll('.tabs a').forEach(function(a){var x=t.tabs[a.dataset.tab];a.innerHTML=x[0].replace('&','&amp;')+'<small>'+x[1].replace('&','&amp;')+'</small>'});
+    $('modeLabel').textContent=t.where;
+    $('m-oven').innerHTML=t.oven[0]+'<small>'+t.oven[1]+'</small>'; $('m-bge').innerHTML=t.bge[0]+'<small>'+t.bge[1]+'</small>';
+    $('cLabel').textContent=t.how; $('min').setAttribute('aria-label',t.less); $('plus').setAttribute('aria-label',t.more);
+    $('lShop').textContent=t.shop; $('lIng').textContent=t.ing; $('lBack').textContent=t.back; $('eat').setAttribute('aria-label',t.eatAria);
+    $('lMethod').textContent=t.method; $('lMake').textContent=t.make;
+    $('lang').dataset.lang=state.lang; $('lang').setAttribute('aria-label',t.langLabel);
+    $('l-nl').setAttribute('aria-pressed',state.lang==='nl'); $('l-en').setAttribute('aria-pressed',state.lang==='en');
+    var img=$('art').querySelector('img'); if(img)img.alt=t.alt[state.tab];
+  }
   function art(tab){
     var el=$('art'); if(el.dataset.tab===tab)return; el.dataset.tab=tab;
-    el.innerHTML='<img src="img/'+tab+'.webp" alt="'+ALT[tab]+'" width="1400" height="782" decoding="async">';
+    el.innerHTML='<img src="img/'+tab+'.webp" alt="'+L().alt[tab]+'" width="1400" height="782" decoding="async">';
   }
   ['pizza','bolletjes','zuurdesem','stokbrood'].forEach(function(t){var i=new Image();i.src='img/'+t+'.webp'});
 
@@ -424,22 +642,20 @@ footer a{color:inherit}
     var tab=state.tab, rc=R[tab], st=state[tab], out=rc.calc(st);
     document.body.dataset.tab=tab;
     document.querySelectorAll('.tabs a').forEach(function(a){if(a.dataset.tab===tab)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
-    art(tab);
+    art(tab); applyUI();
     $('switch').dataset.mode=state.mode;
     $('m-oven').setAttribute('aria-pressed',state.mode==='oven'); $('m-bge').setAttribute('aria-pressed',state.mode==='bge');
     $('heroTitle').innerHTML=rc.title; $('heroSub').textContent=rc.sub;
-    var sp=$('stripes').children; rc.stripes.forEach(function(c,i){sp[i].style.background=c});
     $('cTitle').textContent=rc.cTitle; $('count').textContent=st.count; $('countSub').textContent=rc.unit(st);
     $('toggles').innerHTML=rc.toggles.map(function(t){return '<div class="seg" role="group">'+t.opts.map(function(o){
       return '<button type="button" id="t-'+tab+'-'+t.key+'-'+o[0]+'" data-key="'+t.key+'" data-val="'+o[0]+'" data-num="'+(t.num?1:0)+'" aria-pressed="'+(st[t.key]==o[0])+'">'+o[1]+'<small>'+o[2]+'</small></button>'}).join('')+'</div>'}).join('');
-    var w=$('warn'); if(out.flour>FLOUR_MAX){w.hidden=false;w.textContent='Let op: '+out.flour.toLocaleString('nl-NL')+' g bloem past niet in één KitchenAid-kom. Maak het deeg in twee porties.'}else w.hidden=true;
+    var w=$('warn'); if(out.flour>FLOUR_MAX){w.hidden=false;w.textContent=L().warn(out.flour.toLocaleString(L().loc))}else w.hidden=true;
     $('ing').innerHTML=out.rows.map(function(r){if(r[0]==='grp')return '<li class="grp">'+r[1]+'</li>';
       return '<li><span>'+r[0]+(r[2]?'<span class="note">'+r[2]+'</span>':'')+'</span><span class="amt">'+r[1]+'</span></li>'}).join('');
     $('total').innerHTML='<span>'+out.total+'</span>';
     $('steps').innerHTML=out.steps.map(function(s,i){return '<div class="step"><div class="num">'+(i+1)+'</div><div><h3>'+s[0]+(s[1]?'<span>'+s[1]+'</span>':'')+'</h3><p>'+s[2]+'</p>'+(s[3]?'<div class="tip">'+s[3]+'</div>':'')+'</div></div>'}).join('');
     $('ovenCard').innerHTML=rc.oven(st);
     var ex=$('extraCard'); if(rc.extra){ex.hidden=false;ex.innerHTML=rc.extra()}else{ex.hidden=true;ex.innerHTML=''}
-    $('foot').innerHTML=out.foot;
     $('planQ').textContent=rc.planQ; $('eat').value=st.eat;
     plan(out); save();
   }
@@ -451,22 +667,23 @@ footer a{color:inherit}
     var start=eat-total;
     out.marks.forEach(function(mk){var m=mk[1]===-99999?start-360:eat+mk[1];items.push({m:m,txt:mk[0],mk:true})});
     items.sort(function(a,b){return a.m-b.m});
-    items.push({m:eat,txt:state.tab==='zuurdesem'?'Aansnijden':'Smakelijk eten',go:true});
+    items.push({m:eat,txt:state.tab==='zuurdesem'?L().slice:L().eat,go:true});
     var fmt=function(m){m=((m%1440)+1440)%1440;return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0')};
-    var dayName=function(d){return d===0?'Op de dag zelf':d===-1?'De dag ervoor':(-d)+' dagen ervoor'};
+    var dayName=function(d){return d===0?L().day0:d===-1?L().day1:L().dayN(-d)};
     var dayOf=function(m){return Math.floor(m/1440)};
     var multi=dayOf(items[0].m)!==dayOf(eat), last=null, html='';
     items.forEach(function(it){var d=dayOf(it.m);if(multi&&d!==last){html+='<li class="day">'+dayName(d)+'</li>';last=d}
       html+='<li class="'+(it.mk?'mk':'')+(it.go?' go':'')+'"><time>'+fmt(it.m)+'</time><span>'+it.txt+'</span></li>'});
     $('tl').innerHTML=html;
     var first=items[0].m, dur=eat-first;
-    $('startAt').textContent='Begin '+(dayOf(first)<dayOf(eat)?dayName(dayOf(first)).toLowerCase()+' ':'')+'om '+fmt(first)+' (±'+Math.floor(dur/60)+' u'+(dur%60?' '+(dur%60)+' min':'')+')';
+    $('startAt').textContent=L().start(dayOf(first)<dayOf(eat)?dayName(dayOf(first)).toLowerCase()+' ':'',fmt(first),Math.floor(dur/60),dur%60);
   }
 
   /* ---------- Events ---------- */
   $('min').onclick=function(){var st=state[state.tab];if(st.count>R[state.tab].min){st.count--;render()}};
   $('plus').onclick=function(){var st=state[state.tab];if(st.count<R[state.tab].max){st.count++;render()}};
   $('toggles').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;state[state.tab][b.dataset.key]=b.dataset.num==='1'?+b.dataset.val:b.dataset.val;render()});
+  $('lang').addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.dataset.lang===state.lang)return;state.lang=b.dataset.lang;setLang(state.lang);render()});
   $('switch').addEventListener('click',function(e){var b=e.target.closest('button');if(!b||b.dataset.mode===state.mode)return;state.mode=b.dataset.mode;render()});
   $('eat').addEventListener('input',function(){state[state.tab].eat=this.value||'18:00';plan(R[state.tab].calc(state[state.tab]));save()});
   function fromHash(){var h=location.hash.replace('#','');if(R[h]){state.tab=h}render()}

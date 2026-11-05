@@ -19,6 +19,7 @@ Een kleine web-app met mijn favoriete bakrecepten. Kies hoeveel je wilt maken en
 - Plant terug vanaf het moment dat je wilt eten, met starttijden per stap
 - Waarschuwt als het deeg niet meer in één KitchenAid-kom past
 - Schakelaar **Oven / Kamado**: je ziet alleen de werkwijze die je kiest, inclusief bakken op de pizzasteen
+- Schakelaar **NL / EN**: de hele app in het Nederlands of Engels
 - Onthoudt je laatste keuzes per recept
 
 ## Op je beginscherm zetten
