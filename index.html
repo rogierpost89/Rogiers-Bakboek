@@ -256,7 +256,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     title:'Pizza<em> deeg</em>', sub:'Napolitaans · oven of kamado', stripes:['#4a7a5a','#efe7da','#b03a30'],
     cTitle:'Aantal pizzabollen', min:1, max:20,
     unit:function(st){return (st.count===1?'bol':'bollen')+' van ±270 g'},
-    toggles:[{key:'method',opts:[['snel','Snel','± 1 uur'],['lang','Langzaam','8 uur rijzen']]}],
+    toggles:[{key:'method',opts:[['snel','Snel','± 2 uur'],['lang','Langzaam','8 uur rijzen']]}],
     planQ:'Wanneer wil je eten?',
     calc:function(st){
       var f=st.count/3, snel=st.method==='snel';
@@ -267,15 +267,15 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       var mix='Doe in de KitchenAid met deeghaak het <b>water ('+water+' g)</b> en de <b>gist</b> en roer 1 minuut. Voeg de <b>bloem ('+flour+' g)</b> toe en kneed 3–4 minuten op een lage stand. Voeg het <b>zout</b>'+(snel?' en de <b>olijfolie</b>':'')+' toe en kneed nog 2 minuten. Stop zodra het deeg glad en licht elastisch is.';
       var steps=[['Mengen','5 min',mix,'Niet perfect is prima.']];
       if(snel){
-        steps.push(['Snelle rijs','30 min','Maak er een bal van en leg hem in een licht ingevette kom. Dek af met een <b>natte theedoek</b> en zet hem op een warme plek van 24–28°C, bijvoorbeeld in de oven met alleen het lampje aan. Het deeg moet ongeveer verdubbelen.','Onder de 21°C rijst het deeg te traag voor deze snelle methode.']);
-        steps.push(['Bollen maken','15 min','Verdeel in <b>'+st.count+' '+(st.count===1?'bol':'bollen')+' van ±270 g</b>. Laat ze nog 10–15 minuten afgedekt rusten.']);
+        steps.push(['Eerste rijs','60 min','Maak er een bal van en leg hem in een licht ingevette kom. Dek af met een <b>natte theedoek</b> en zet hem op een warme plek van 24–28°C, bijvoorbeeld in de oven met alleen het lampje aan. Het deeg moet ongeveer verdubbelen.','Kouder dan 21°C? Geef het deeg dan 75–90 minuten.']);
+        steps.push(['Bollen maken','10 min + 30–45 min rust','Verdeel in <b>'+st.count+' '+(st.count===1?'bol':'bollen')+' van ±270 g</b>. Laat ze 30–45 minuten afgedekt rusten. Dan ontspant het deeg en rek je het makkelijk uit zonder dat het terugtrekt.']);
       }else{
         steps.push(['Lange rijs','8 uur','Leg het deeg in een licht ingevette kom, dek af met een <b>natte theedoek</b> en laat het 8 uur rijzen op kamertemperatuur (±20°C). De lange rijs geeft meer smaak en een soepel deeg, zonder olie.']);
         steps.push(['Bollen maken','1 uur voor bakken','Verdeel in <b>'+st.count+' '+(st.count===1?'bol':'bollen')+' van ±270 g</b>. Laat ze afgedekt 1 uur narijzen voordat je gaat bakken.']);
       }
       steps.push(['Uitrekken & bakken','','Bestrooi het aanrecht met <b>semolabloem</b> en druk de bol vanuit het midden naar buiten uit. Laat de rand dik voor een luchtige korst. Beleg en bak direct.','Semola plakt minder dan gewone bloem, zo glijdt de pizza makkelijk van de schep.']);
       var bake=st.count*(K()?5:10);
-      var blocks=snel?[['Deeg maken',10],['Snelle rijs',30],['Bollen maken + rust',15],['Pizza\'s bakken',bake]]:[['Deeg maken',10],['Lange rijs',480],['Bollen maken + narijzen',60],['Pizza\'s bakken',bake]];
+      var blocks=snel?[['Deeg maken',10],['Eerste rijs',60],['Bollen maken',10],['Bollen laten rusten',40],['Pizza\'s bakken',bake]]:[['Deeg maken',10],['Lange rijs',480],['Bollen maken + narijzen',60],['Pizza\'s bakken',bake]];
       return {rows:rows,total:'Totaal deeg <b>± '+Math.round(st.count*270)+' g</b>',flour:flour,steps:steps,blocks:blocks,
         marks:[K()?['Kamado aansteken + steen opwarmen',-(bake+60)]:['Oven + pizzasteen voorverwarmen',-(bake+45)]],
         foot:'Jouw eigen pizzadeegrecept · basis 3 bollen van 270 g'};
@@ -337,12 +337,12 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         ['Starter voeden','4–12 uur vooraf','Je hebt <b>'+(125*n)+' g actieve starter</b> nodig. Voed hem op tijd met gelijke delen bloem en water, zodat hij op het moment van mengen vol bubbels zit.','Testje: een lepel starter in een glas water blijft drijven als hij klaar is.'],
         ['Mengen','5 min + 30 min rust','Meng het <b>lauwe water ('+(300*n)+' ml)</b> met de <b>bloem</b>, <b>starter</b> en het <b>zout</b>. Kneed 5 minuten met de deeghaken op de middelste stand tot een soepel deeg. Dek af met een vochtige theedoek en laat 30 minuten staan.'],
         ['Vouwen','5 min','Maak je handen nat. Rek een stuk deeg aan de rand voorzichtig uit en vouw het naar binnen. Ga rondom tot de hele rand naar binnen is gevouwen. Leg het deeg in een licht ingevette kom en dek af met een vochtige theedoek.'],
-        koel?['Koude rijs','12 uur','Zet de kom 12 uur in de koelkast. De koude rijs geeft een vollere, zuurdere smaak en het deeg is daarna makkelijker te vormen.']
-            :['Rijzen','3 uur','Laat het deeg 3 uur rijzen op een warme plek. Hoe warmer de keuken, hoe sneller.'],
+        koel?['Rijzen & koude rijs','2 uur + 12 uur','Laat het deeg eerst 2 uur op het aanrecht rijzen, tot het zichtbaar luchtiger en ±50% gegroeid is. Zet de kom daarna 12 uur in de koelkast. De koude rijs geeft een vollere, zuurdere smaak en het deeg is daarna makkelijker te vormen.','Gaat het deeg meteen de koelkast in, dan heeft het te weinig tijd om te rijzen en wordt het brood compact.']
+            :['Rijzen','3 uur','Laat het deeg 3 uur rijzen op een warme plek. Hoe warmer de keuken, hoe sneller.','Op 24–26°C is 3 uur genoeg, bij 20°C duurt het eerder 4–5 uur. Kijk naar het deeg, niet naar de klok: het moet ±50% gegroeid zijn, met bubbels aan de zijkant.'],
         ['Vormen & rijsmand','1,5 uur','Leg het deeg op een licht bebloemd werkblad'+(n>1?' en verdeel het in <b>'+n+' gelijke stukken</b>':'')+'. Vorm een bol door de onderkant met draaiende bewegingen naar binnen te duwen. Leg hem met de naad naar boven in een bebloemde rijsmand en druk de naad dicht. Laat 1,5 uur rijzen op een warme plek.','Geen rijsmand? Een schone, bebloemde theedoek in een vergiet of kom werkt ook. Het deeg is klaar als het na licht indrukken langzaam terugveert.'],
         ['Bakken','40–45 min',(K()?'Stook de kamado op tot <b>230°C</b> met de <b>gietijzeren pan en deksel</b> op de pizzasteen.':'Verwarm de oven met de <b>gietijzeren pan en deksel</b> erin voor op <b>240°C</b>.')+' Keer het deeg op bakpapier, gladde kant boven, en maak met een scherp mesje één snede over het midden. Til het met het bakpapier in de hete pan. Bak <b>25 minuten met deksel</b> en daarna <b>15–20 minuten zonder</b>, tot het brood goudbruin is.','Laat het brood helemaal afkoelen voordat je het aansnijdt. Binnenin bakt het nog na.']];
       var bake=45*n;
-      var blocks=[['Mengen + rust',35],['Vouwen',10],[koel?'Koude rijs (koelkast)':'Rijzen',koel?720:180],['Vormen',10],['Rijzen in rijsmand',90],['Bakken'+(n>1?' ('+n+' broden na elkaar)':''),bake],['Afkoelen',60]];
+      var blocks=[['Mengen + rust',35],['Vouwen',10]].concat(koel?[['Rijzen op het aanrecht',120],['Koude rijs (koelkast)',720]]:[['Rijzen',180]],[['Vormen',10],['Rijzen in rijsmand',90],['Bakken'+(n>1?' ('+n+' broden na elkaar)':''),bake],['Afkoelen',60]]);
       return {rows:rows,total:'Totaal deeg <b>± '+(933*n).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
         marks:[['Starter voeden',-99999],K()?['Kamado aansteken, pan op de steen',-(bake+60+60)]:['Oven + pan voorverwarmen',-(bake+60+45)]],
         foot:'Naar het Allerhande-recept voor <a href="https://www.ah.nl/allerhande/recept/R-R1201850/biologisch-zuurdesembrood-bakken" target="_blank" rel="noopener">biologisch zuurdesembrood</a> · basis 1 brood'};
@@ -368,7 +368,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     planQ:'Wanneer wil je eten?',
     calc:function(st){
       var n=st.count, f=n/3, zd=st.method==='zd', r1=function(x){return Math.round(x)};
-      var per=K()?2:3, batches=Math.ceil(n/per), bake=20*batches;
+      var per=2, batches=Math.ceil(n/per), bake=20*batches;
       var rows, steps, blocks, marks, total;
       var bakeStep=K()
         ?['Insnijden & bakken','± 20 min'+(batches>1?' per ronde':''),'Zet de baguettes met de naad naar beneden op bakpapier op je schep. Snijd elk stokbrood in met één snelle, zekere snede onder <b>45°</b> over de lengte. Besproei ze met de plantenspuit, schuif ze op de pizzasteen en sluit de deksel. Bak <b>± 20 minuten op 240–250°C</b>.'+(batches>1?' Bak in <b>'+batches+' rondes</b> van '+per+'.':''),'Kijk na 16 minuten. Op de steen bakt de onderkant sneller.']
@@ -399,7 +399,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
           ['Koude rijs','15–17 uur','Zet de bak afgedekt in de koelkast. De lange koude rijs geeft de diepe smaak.'],
           ['Delen & voorvormen','30 + 30 min','Laat het deeg 30 minuten op het aanrecht staan. Bestuif de doek met de bloem en rijstbloem. Keer het deeg om, druk het voorzichtig plat en verdeel het in <b>'+n+' '+(n===1?'stuk':'gelijke stukken')+'</b>. Vouw ze als een brief en sluit de naad. Laat ze 30 minuten afgedekt rusten.'],
           shape, bakeStep];
-        blocks=[['Levain voeden',270],['Autolyse',60],['Mengen & kneden',15],['Bulkrijs',195],['Koude rijs (koelkast)',960],['Op het aanrecht',30],['Delen & voorvormen',40],['Vormen & narijzen',70],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
+        blocks=[['Levain voeden',210],['Autolyse',60],['Mengen & kneden',15],['Bulkrijs',195],['Koude rijs (koelkast)',960],['Op het aanrecht',30],['Delen & voorvormen',40],['Vormen & narijzen',70],['Bakken'+(batches>1?' ('+batches+' rondes)':''),bake],['Afkoelen op een rooster',25]];
         total='Totaal deeg <b>± '+r1(909*f).toLocaleString(LOC)+' g</b></span><span>Hydratatie <b>74%</b>';
       }
       marks=[K()?['Kamado aansteken + steen opwarmen',-(25+bake+60)]:['Oven + steen + pan voorverwarmen op 260°C',-(25+bake+60)]];
@@ -407,8 +407,8 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         foot:'Naar Erin\'s Cozy Kitchen: <a href="'+(zd?'https://erinscozykitchen.com/recipe/sourdough-baguettes/':'https://erinscozykitchen.com/recipe/french-baguettes/')+'" target="_blank" rel="noopener">'+(zd?'Sourdough Baguettes':'French Baguettes')+'</a> · basis 3 baguettes'};
     },
     oven:function(st){if(K())return HEAD()+BGE('250°','± 20','Maak de baguettes ±30 cm, zodat ze op de steen passen, en bak er 2 tegelijk. Schuif ze op bakpapier op de steen en sluit de deksel. Kijk na 16 minuten.','Een stoombak is niet nodig, want de gesloten BGE houdt vocht vast. Besproei de baguettes vlak voor het bakken met een plantenspuit, dan gaan de sneden mooier open.')+CARE;
-      var b=Math.ceil(st.count/3);return HEAD()+'<h4>Op de steen, met stoom</h4><div class="oven"><div><strong>250°</strong><span>10 min stoom</span></div><div><strong>230°</strong><span>nog ±10 min</span></div><div><strong>¾ kop</strong><span>kokend water</span></div></div>'+
-      '<div class="tip a">Verwarm de oven voor op <b>260°C</b>, met de pizzasteen op het middelste rooster en een gietijzeren pan of bak met lavastenen onderin. Hoe langer je voorverwarmt, hoe krokanter de korst.</div>'+
+      var b=Math.ceil(st.count/2);return HEAD()+'<h4>Op de steen, met stoom</h4><div class="oven"><div><strong>250°</strong><span>10 min stoom</span></div><div><strong>230°</strong><span>nog ±10 min</span></div><div><strong>¾ kop</strong><span>kokend water</span></div></div>'+
+      '<div class="tip a">Verwarm de oven voor op <b>260°C</b>, met de pizzasteen op het middelste rooster en een gietijzeren pan of bak met lavastenen onderin. Hoe langer je voorverwarmt, hoe krokanter de korst. Op een ronde steen passen 2 baguettes van ±30 cm naast elkaar.</div>'+
       '<div class="tip">Heteluchtoven? Zet hem uit vlak voordat je de baguettes erin schuift, anders hardt de ventilator de korst te snel uit. Giet het water erin en bak 8 minuten met de oven uit. Open de deur even, zet de oven weer aan op 250°C en bak nog ±10 minuten.</div>'+
       (b>1?'<div class="tip">'+b+' rondes: zet de volgende baguettes zolang in de koelkast, dan rijzen ze niet te ver door.</div>':'')+CARE;},
     extra:function(){return '<div class="label">Tips &amp; trucs</div><h2>Als het niet lukt</h2>'+
@@ -436,7 +436,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     title:'Pizza<em> dough</em>', sub:'Neapolitan · oven or kamado',
     cTitle:'Number of dough balls', min:1, max:20,
     unit:function(st){return (st.count===1?'ball':'balls')+' of ±270 g'},
-    toggles:[{key:'method',opts:[['snel','Quick','± 1 hour'],['lang','Slow','8-hour rise']]}],
+    toggles:[{key:'method',opts:[['snel','Quick','± 2 hours'],['lang','Slow','8-hour rise']]}],
     planQ:'When do you want to eat?',
     calc:function(st){
       var f=st.count/3, snel=st.method==='snel';
@@ -447,15 +447,15 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
       var mix='In the KitchenAid with the dough hook, stir the <b>water ('+water+' g)</b> and <b>yeast</b> for 1 minute. Add the <b>flour ('+flour+' g)</b> and knead for 3–4 minutes on a low speed. Add the <b>salt</b>'+(snel?' and <b>olive oil</b>':'')+' and knead for 2 more minutes. Stop as soon as the dough is smooth and slightly elastic.';
       var steps=[['Mix','5 min',mix,'It doesn\'t have to be perfect.']];
       if(snel){
-        steps.push(['Quick rise','30 min','Shape it into a ball and put it in a lightly oiled bowl. Cover with a <b>damp tea towel</b> and leave it somewhere warm, 24–28°C, for example in the oven with only the light on. The dough should roughly double.','Below 21°C the dough rises too slowly for this quick method.']);
-        steps.push(['Shape the balls','15 min','Divide into <b>'+st.count+' '+(st.count===1?'ball':'balls')+' of ±270 g</b>. Let them rest, covered, for another 10–15 minutes.']);
+        steps.push(['First rise','60 min','Shape it into a ball and put it in a lightly oiled bowl. Cover with a <b>damp tea towel</b> and leave it somewhere warm, 24–28°C, for example in the oven with only the light on. The dough should roughly double.','Colder than 21°C? Give the dough 75–90 minutes.']);
+        steps.push(['Shape the balls','10 min + 30–45 min rest','Divide into <b>'+st.count+' '+(st.count===1?'ball':'balls')+' of ±270 g</b>. Let them rest, covered, for 30–45 minutes. The dough relaxes and stretches easily without springing back.']);
       }else{
         steps.push(['Long rise','8 hours','Put the dough in a lightly oiled bowl, cover with a <b>damp tea towel</b> and let it rise for 8 hours at room temperature (±20°C). The long rise gives more flavour and a supple dough, without oil.']);
         steps.push(['Shape the balls','1 hour before baking','Divide into <b>'+st.count+' '+(st.count===1?'ball':'balls')+' of ±270 g</b>. Let them proof, covered, for 1 hour before baking.']);
       }
       steps.push(['Stretch & bake','','Dust the worktop with <b>semolina</b> and press the ball out from the centre. Leave the rim thick for an airy crust. Top and bake straight away.','Semolina sticks less than ordinary flour, so the pizza slides off the peel easily.']);
       var bake=st.count*(K()?5:10);
-      var blocks=snel?[['Make the dough',10],['Quick rise',30],['Shape balls + rest',15],['Bake the pizzas',bake]]:[['Make the dough',10],['Long rise',480],['Shape balls + proof',60],['Bake the pizzas',bake]];
+      var blocks=snel?[['Make the dough',10],['First rise',60],['Shape the balls',10],['Rest the balls',40],['Bake the pizzas',bake]]:[['Make the dough',10],['Long rise',480],['Shape balls + proof',60],['Bake the pizzas',bake]];
       return {rows:rows,total:'Total dough <b>± '+Math.round(st.count*270)+' g</b>',flour:flour,steps:steps,blocks:blocks,
         marks:[K()?['Light the kamado + heat the stone',-(bake+60)]:['Preheat oven + pizza stone',-(bake+45)]]};
     },
@@ -515,12 +515,12 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
         ['Feed the starter','4–12 hours ahead','You need <b>'+(125*n)+' g active starter</b>. Feed it in time with equal parts flour and water, so it\'s full of bubbles when you mix.','Quick test: a spoonful of starter in a glass of water floats when it\'s ready.'],
         ['Mix','5 min + 30 min rest','Mix the <b>lukewarm water ('+(300*n)+' ml)</b> with the <b>flour</b>, <b>starter</b> and <b>salt</b>. Knead for 5 minutes with the dough hooks on the middle speed until supple. Cover with a damp tea towel and leave for 30 minutes.'],
         ['Fold','5 min','Wet your hands. Gently stretch a piece of dough at the edge and fold it inwards. Work your way around until the whole edge is folded in. Put the dough in a lightly oiled bowl and cover with a damp tea towel.'],
-        koel?['Cold rise','12 hours','Put the bowl in the fridge for 12 hours. The cold rise gives a fuller, tangier flavour, and the dough is easier to shape afterwards.']
-            :['Rise','3 hours','Let the dough rise for 3 hours somewhere warm. The warmer the kitchen, the faster it goes.'],
+        koel?['Rise & cold rise','2 h + 12 h','First let the dough rise on the counter for 2 hours, until it is visibly airier and has grown by ±50%. Then put the bowl in the fridge for 12 hours. The cold rise gives a fuller, tangier flavour, and the dough is easier to shape afterwards.','If the dough goes straight into the fridge, it doesn\'t get enough time to rise and the loaf turns out dense.']
+            :['Rise','3 hours','Let the dough rise for 3 hours somewhere warm. The warmer the kitchen, the faster it goes.','At 24–26°C 3 hours is enough, at 20°C it takes more like 4–5 hours. Watch the dough, not the clock: it should have grown by ±50%, with bubbles on the sides.'],
         ['Shape & banneton','1.5 hours','Turn the dough onto a lightly floured worktop'+(n>1?' and divide it into <b>'+n+' equal pieces</b>':'')+'. Shape a ball by tucking the bottom inwards with turning movements. Place it seam side up in a floured banneton and pinch the seam closed. Let it rise for 1.5 hours somewhere warm.','No banneton? A clean, floured tea towel in a colander or bowl works too. The dough is ready when it springs back slowly after a gentle poke.'],
         ['Bake','40–45 min',(K()?'Heat the kamado to <b>230°C</b> with the <b>cast-iron pot and lid</b> on the pizza stone.':'Preheat the oven to <b>240°C</b> with the <b>cast-iron pot and lid</b> inside.')+' Turn the dough out onto baking paper, smooth side up, and make one cut across the middle with a sharp blade. Lift it on the paper into the hot pot. Bake <b>25 minutes with the lid on</b>, then <b>15–20 minutes without</b>, until golden brown.','Let the bread cool completely before slicing. It keeps baking on the inside.']];
       var bake=45*n;
-      var blocks=[['Mix + rest',35],['Fold',10],[koel?'Cold rise (fridge)':'Rise',koel?720:180],['Shape',10],['Rise in banneton',90],['Bake'+(n>1?' ('+n+' loaves in turn)':''),bake],['Cool',60]];
+      var blocks=[['Mix + rest',35],['Fold',10]].concat(koel?[['Rise on the counter',120],['Cold rise (fridge)',720]]:[['Rise',180]],[['Shape',10],['Rise in banneton',90],['Bake'+(n>1?' ('+n+' loaves in turn)':''),bake],['Cool',60]]);
       return {rows:rows,total:'Total dough <b>± '+(933*n).toLocaleString(LOC)+' g</b></span><span>Hydration <b>± 64%</b>',flour:500*n,steps:steps,blocks:blocks,
         marks:[['Feed the starter',-99999],K()?['Light the kamado, pot on the stone',-(bake+60+60)]:['Preheat oven + pot',-(bake+60+45)]]};
     },
@@ -545,7 +545,7 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
     planQ:'When do you want to eat?',
     calc:function(st){
       var n=st.count, f=n/3, zd=st.method==='zd', r1=function(x){return Math.round(x)};
-      var per=K()?2:3, batches=Math.ceil(n/per), bake=20*batches;
+      var per=2, batches=Math.ceil(n/per), bake=20*batches;
       var rows, steps, blocks, marks, total;
       var bakeStep=K()
         ?['Score & bake','± 20 min'+(batches>1?' per round':''),'Put the baguettes seam side down on baking paper on your peel. Score each one with a single quick, confident cut at <b>45°</b> along its length. Mist them with the spray bottle, slide them onto the pizza stone and close the dome. Bake for <b>± 20 minutes at 240–250°C</b>.'+(batches>1?' Bake in <b>'+batches+' rounds</b> of '+per+'.':''),'Check after 16 minutes. On the stone the bottoms bake faster.']
@@ -576,15 +576,15 @@ h4{font-family:var(--display);font-size:1.2rem;font-weight:600;margin:1.2rem 0 0
           ['Cold rise','15–17 hours','Put the container in the fridge, covered. The long cold rise gives the deep flavour.'],
           ['Divide & pre-shape','30 + 30 min','Leave the dough on the counter for 30 minutes. Dust the cloth with the flour and rice flour. Turn the dough out, press it gently flat and divide it into <b>'+n+' '+(n===1?'piece':'equal pieces')+'</b>. Fold them like a letter and seal the seam. Rest, covered, for 30 minutes.'],
           shape, bakeStep];
-        blocks=[['Feed the levain',270],['Autolyse',60],['Mix & knead',15],['Bulk rise',195],['Cold rise (fridge)',960],['On the counter',30],['Divide & pre-shape',40],['Shape & proof',70],['Bake'+(batches>1?' ('+batches+' rounds)':''),bake],['Cool on a rack',25]];
+        blocks=[['Feed the levain',210],['Autolyse',60],['Mix & knead',15],['Bulk rise',195],['Cold rise (fridge)',960],['On the counter',30],['Divide & pre-shape',40],['Shape & proof',70],['Bake'+(batches>1?' ('+batches+' rounds)':''),bake],['Cool on a rack',25]];
         total='Total dough <b>± '+r1(909*f).toLocaleString(LOC)+' g</b></span><span>Hydration <b>74%</b>';
       }
       marks=[K()?['Light the kamado + heat the stone',-(25+bake+60)]:['Preheat oven + stone + pan to 260°C',-(25+bake+60)]];
       return {rows:rows,total:total+'</span><span>Rounds <b>'+batches+' × (max '+per+')</b>',flour:zd?r1(450*f):r1(515*f),steps:steps,blocks:blocks,marks:marks};
     },
     oven:function(st){if(K())return HEAD()+BGE('250°','± 20','Make the baguettes ±30 cm so they fit on the stone, and bake 2 at a time. Slide them on baking paper onto the stone and close the dome. Check after 16 minutes.','No steam tray needed, because the closed BGE holds moisture. Mist the baguettes with a spray bottle just before baking so the cuts open up better.')+CARE;
-      var b=Math.ceil(st.count/3);return HEAD()+'<h4>On the stone, with steam</h4><div class="oven"><div><strong>250°</strong><span>10 min steam</span></div><div><strong>230°</strong><span>±10 min more</span></div><div><strong>¾ cup</strong><span>boiling water</span></div></div>'+
-      '<div class="tip a">Preheat the oven to <b>260°C</b>, with the pizza stone on the middle shelf and a cast-iron pan or tray of lava rocks at the bottom. The longer you preheat, the crispier the crust.</div>'+
+      var b=Math.ceil(st.count/2);return HEAD()+'<h4>On the stone, with steam</h4><div class="oven"><div><strong>250°</strong><span>10 min steam</span></div><div><strong>230°</strong><span>±10 min more</span></div><div><strong>¾ cup</strong><span>boiling water</span></div></div>'+
+      '<div class="tip a">Preheat the oven to <b>260°C</b>, with the pizza stone on the middle shelf and a cast-iron pan or tray of lava rocks at the bottom. The longer you preheat, the crispier the crust. A round stone fits 2 baguettes of ±30 cm side by side.</div>'+
       '<div class="tip">Fan oven? Switch it off just before you load the baguettes, otherwise the fan sets the crust too early. Pour in the water and bake for 8 minutes with the oven off. Open the door briefly, switch the oven back on at 250°C and bake for another ±10 minutes.</div>'+
       (b>1?'<div class="tip">'+b+' rounds: keep the next baguettes in the fridge meanwhile, so they don\'t over-proof.</div>':'')+CARE;},
     extra:function(){return '<div class="label">Tips &amp; tricks</div><h2>When it doesn\'t work</h2>'+
